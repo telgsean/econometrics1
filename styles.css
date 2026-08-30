@@ -1,0 +1,11 @@
+/* css styles */
+
+.figure {
+  margin: auto;
+  text-align: center;
+}
+
+.smallcaps-roman {
+  font-variant: small-caps;
+  font-family: "Times New Roman", Times, serif;
+}
