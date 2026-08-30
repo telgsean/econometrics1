@@ -1,0 +1,265 @@
+---
+title: "Week 1 - Exercises"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Sean Telg, 2026. All Rights Reserved"
+---
+
+## Quick check of the concepts
+
+### Exercise 1
+
+a. What is the difference between the simple and multiple linear regression model?
+b. What is the difference between the error $u_{i}$ and the residual $e_{i}$?
+c. Which of the following is/are correct?
+    1. $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$
+    2. $y_{i} = b_{1} + b_{2}x_{i} + e_{i}$
+    3. $\widehat{y}_{i} = \beta_{1} + \beta_{2}x_{i} + e_{i}$
+    4. $e_{i} = y_{i} - \widehat{y}_{i}$
+    5. $\widehat{y}_{i}  = b_{1} + b_{2} \widehat{x}_{i}$
+d. How do $R^{2}$ and the SER describe the fit of a regression? What are their units of measurement?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. The word *simple* highlights that there is only one variable in $X$, whereas there are multiple variables contained in $X$ for *multiple* linear regression.
+b. The term $u_{i}$ is the true, unobserved error. For the simple linear regression model, $u_{i} = y_{i} - \beta_{1} - \beta_{2}x_{i}$ and thus it is a function of the unknown $\beta$ coefficients. The residual "attempts to make the error term observable" by computing $e_{i} = y_{i} - b_{1} - b_{2}x_{i}$ instead. Note that they are distinctly different! 
+c. (1) is correct, simple linear regression model. (2) is correct, essentially splitting $y_{i}$ in a part explained by the model and a part not explained by the model: $y_{i} = \widehat{y}_{i} + e_{i}$. (3) is incorrect. (4) is correct for the same reason as (2). Lastly, (5) is incorrect (keep in mind, $x$ should never have a hat!).
+d. $R^{2} = 1 - \frac{RSS}{SST} \in [0,1]$, where the value $0$ means no variation in $y$ is explained by the model, while the value $1$ means that all variation in $y$ is explained by the model. $R^{2}$ is essentially unit-free, but because it lies strictly in the interval $[0,1]$ is can be interpreted as a percentage. We also have $SER = \sqrt{\frac{e'e}{n-k}}$, where $k$ is the number of columns in $X$. It approximates the standard error of the error term. A low SER means that a lot of variation in $y$ is captured by the model. A high SER, i.e. close to the standard deviation of $y$, means that almost no variation in $y$ is explained by the model. The unit of measurement is the same as the one of the dependent variable (the residual is the vertical distance, while the SER considers a squared version of the residuals but then takes the square root). 
+
+:::
+
+### Exercise 2
+
+We have seen two methods of measuring closeness: least squares (LS) and least absolute deviations (LAD). Determine for which method the following statements are true. Indicate why it is not true for the other method.
+a. The method is robust against outliers.
+b. The method has a unique solution.
+c. The method has a closed-form solution.
+d. The method is non-differentiable.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. LAD. Note that LS puts more weight on outliers, because they enter the objective function in squared form.
+b. LS. Note that LAD generally has multiple solutions (the objective function is not strictly convex like LS).
+c. LS. We computed $b = (X'X)^{-1}X'y$ as the closed-form solution for LS, but for LAD such a "formula" cannot be computed.
+d. LAD. The absolute value sign in the objective function makes LAD not differentiable anywhere, whereas the square of LS allows us to compute the unique minimum using standard algebraic results.
+
+:::
+
+## Least-squares approximation
+In these exercises, the goal is to make you familiar with deriving the least-squares approximator using both *unit-specific* and *matrix notation*.
+
+### Exercise 3
+Consider the intercept-only model
+$$
+y_{i} = \beta + u_{i}, \qquad (i=1,\ldots, n),
+$$
+where $\beta$ is a scalar.
+
+a. Show that the least-squares solution is given by $b = \overline{y}$ by minimizing $\phi(\beta) = \sum_{i=1}^{n} u_{i}^{2}$.
+b. Write the model in the form $y = X\beta + u$ using vector and matrix notation. What are the dimensions of $y$, $X$, $\beta$ and $u$?
+c. We derived that the least-squares solution is given by $b = (X'X)^{-1}X'y$ for the general model $y = X\beta + u$. Show that this expression reduces to $b = \overline{y}$ for the intercept-only model.
+d. Suppose we pretend that we do not know the least-squares solution for the general model. Use matrix notation to derive the least-squares approximator for the intercept only model by minimizing $\phi(\beta) = u'u$.
+e. Show that the objective function $\phi(\beta) = u'u$ attains a minimum at the found solution.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. We minimize
+$$
+\phi(\beta) = \sum_{i=1}^{n} (y_i - \beta)^{2}.
+$$
+The first derivative is given by
+$$
+\frac{d \phi(\beta)}{d \beta}  = -2 \sum_{i=1}^{n} (y_i - \beta),
+$$
+where we used the chain rule. Setting the first derivative equal to zero and rearranging terms yields:
+$$
+\frac{d \phi(\beta)}{d \beta}  = 0 \implies \sum_{i=1}^{n} y_i   =  n  \beta.
+$$
+So, $b = \frac{1}{n} \sum_{i=1}^{n} y_i = \overline{y}$.
+
+b. We can write
+$$
+\begin{pmatrix}
+y_{1} \\ \vdots \\ y_{n}
+\end{pmatrix} =
+\begin{pmatrix}
+1 \\ \vdots \\ 1
+\end{pmatrix}
+\beta +
+\begin{pmatrix}
+u_{1} \\ \vdots \\ u_{n}
+\end{pmatrix},
+$$
+so $y$ and $u$ are $n \times 1$ vector, $X$ reduces to a $n \times 1$ vector in this case and $\beta$ is a scalar (as was given already).
+
+c. $X$ is a vector of ones, so we have $X = \imath$. Filling this into the formula of $b$ yields
+$$
+b = (\imath'\imath)^{-1}\imath'y.
+$$
+Notice that $\imath'\imath = \sum_{i=1}^{n} 1 = n$ and $\imath'y = \sum_{i=1}^{n} y_{i}$ such that we obtain $b = n^{-1}\sum_{i=1}^{n} y_{i} = \overline{y}$.
+
+d. The objective function is now
+$$
+\phi(\beta) = (y - \beta \imath)'(y - \beta \imath) = y'y - 2\beta \imath'y - n\beta^{2},
+$$
+where we can use simple calculus rules as $\beta$ is a scalar. Thus,
+$$
+\frac{d \phi(\beta)}{d \beta} = -2\imath'y + 2n\beta.
+$$
+Setting this equal to zero and solving for $\beta$ yields $b= \frac{1}{n}\imath'y = \overline{y}$.
+
+e. To see if we attain a minimum, we have to take a second derivative
+$$
+\frac{d^{2} \phi(\beta)}{d \beta^{2}} = 2n > 0,
+$$
+which is strictly larger than zero. This means that the extreme point found at d. indeed constitutes a minimum.
+
+:::
+
+
+### Exercise 4
+Consider the no-intercept model
+$$
+y_{i} = \beta x_{i} + u_{i}, \qquad (i=1,\ldots, n),
+$$
+where $\beta$ is a scalar.
+
+a. Show that the least-squares approximator is given by $b_{2} = \frac{\sum_{i=1}^{n} x_{i}y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}$ by minimizing $\phi(\beta) = \sum_{i=1}^{n} u_{i}^{2}$.
+b. Write the model in the form $y = X\beta + u$ using vector and matrix notation. 
+c. We derived that the least-squares approximator is given by $b = (X'X)^{-1}X'y$ for the general model $y = X\beta + u$. Show that this expression reduces to $b = \frac{\sum_{i=1}^{n} x_{i}y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}$ for the no-intercept model.
+d. Suppose we pretend that we do not know the least-squares solution for the general model. Use matrix notation to derive the least-squares approximator for the intercept only model by minimizing $\phi(\beta) = u'u$.
+e. Show that the objective function $\phi(\beta) = u'u$ attains a minimum at the found solution.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+This exercise can be solved analogously to Exercise 1.
+
+:::
+
+### Exercise 5
+Consider the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}, \qquad (i=1, \ldots, n).
+$$
+Show that the least-squares approximator of $\beta_{2}$ can be written as
+$$
+b_{2} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^{2} - \overline{x}^{2}} = \frac{s_{xy}}{s_{x}^{2}},
+$$
+where $s_{xy}$ is the sample covariance of $x$ and $y$, and $s^{2}_{x}$ is the sample variance of $x$.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+The following strategy could be useful:
+
+- Write down the formulas for $s_{xy}$ and $s_{x}^{2}$, such that you know what to work towards.
+- Start by showing $\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y} = \frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})$.
+- In an analogous way, you can show $\frac{1}{n}\sum_{i=1}^{n} x_{i}^{2} - \overline{x}^{2} = \frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}$.
+- Combine the results and make sure you have the correct scaling.
+
+*Remark and hint*: If you want to write $\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}$ as $\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})$, you might want to make use of a technique called **telescoping**. That is, you may want to add and subtract the same term. In this case, the term would be $\overline{x} \ \overline{y}$. Try to understand why it is useful to do this.  
+
+:::
+
+### Exercise 6
+
+a. For the simple linear regression model, show that the least-squares approximation yields $\overline{y} = \overline{\widehat{y}}$, where $\overline{y}$ is the sample average of $y$ and $\overline{\widehat{y}}$ the average of the predicted values.
+b. Show that this result extends to the general linear regression model with $k$ regressors.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Least-squares approximation leads to two first-order conditions: $\sum_{i=1}^{n} e_{i} = 0$ and $\sum_{i=1}^{n} x_{i}e_{i} = 0$. The first one is crucial to show this result. Note that we have
+$$
+y_{i} = \underbrace{b_{1} + b_{2}x_{i}}_{:= \widehat{y}_{i}} + e_{i},
+$$
+i.e. we can write $y_{i}$ as its fitted/predicted value $\widehat{y}_{i}$ (part explained by the model) plus the residual $e_{i}$ (part not explained by the model). If we sum over all $i=1,\ldots, n$ and multiply by $\frac{1}{n}$, we obtain:
+$$
+\frac{1}{n}\sum_{i=1}^{n} y_{i} = \frac{1}{n}\sum_{i=1}^{n} \widehat{y}_{i} + \frac{1}{n}\sum_{i=1}^{n} e_{i}.
+$$
+The last term equals zero by the first-order condition, thus $\overline{y} = \overline{\widehat{y}}$.
+
+b. Similarly, we have $y = Xb + e$ for the general model with $k$ regressors. This translates to $y = \widehat{y} + e$. To obtain sample means, we can write
+$$
+\frac{1}{n}\imath'y = \frac{1}{n}\imath'\widehat{y} + \frac{1}{n} \imath'e,
+$$
+where $\imath$ is a $n \times 1$ vector of ones. We note that $\imath'e = 0$ by the first-order conditions (i.e., the constant term is ortogonal to the residual vector $e$. In fact, all regressors $X$ are orthogonal to $e$). Thus, $\frac{1}{n}\imath'y = \frac{1}{n}\imath'\widehat{y}$.
+
+:::
+
+## Matrix algebra
+
+### Exercise 7
+
+a. Show that the matrix $M = I_{n} - X(X'X)^{-1}X'$ is idempotent.
+b. Show that the matrix $A = I_{n} - \frac{1}{n}\imath\imath'$ is a special case of the matrix $M$.
+c. Show that
+$$
+Ax = x - \overline{x}\iota, \qquad x'Ax = \sum_{i=1}^{n} (x_{i} - \overline{x})^{2}.
+$$
+*Hint*: Use idempotency and symmetry of $A$.
+d. Suppose $f(x) = Ax$ and $g(x) = x'Ax$, where $A$ is symmetric and idempotent. Compute $\frac{\partial f(x)}{\partial x'}$, $\frac{\partial g(x)}{\partial x'}$, and $\frac{\partial^{2} g(x)}{\partial x \partial x'}$.
+e. Explain intuitively why we write $x'$ in $\frac{\partial f(x)}{\partial x'}$ even though we take the derivative with respect to $x$.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. Show that $MM = M$ by writing out the product.
+b. Take $X = \imath$ and simplify.
+c. Note that $x'Ax = x'AAx = x'A'Ax = (Ax)'Ax$ using idempotency and symmetry. Write out the expression to find the result.
+d. $\frac{\partial f(x)}{\partial x'} = A$, $\frac{\partial g(x)}{\partial x'} = 2x'A$ and $\frac{\partial^{2} g(x)}{\partial x \partial x'} = 2A$. Follow the differentation rules in Section A.11.
+e. The notation is chosen for convenience. Consider for example, $\frac{\partial f(x)}{\partial x'}$, the numerator contains 
+$f(x) = Ax$ which is of order $n \times 1$. The denominator has $x'$ which is of order $1 \times n$. The convenience lays in the fact that we can now multiply the dimensions of the two objects ($n \times 1$ multiplied by $1 \times n$) which yields an $n \times n$ object. The outcome should have exactly that dimension and indeed, $A$ is of order $n \times n$.
+
+:::
+
+### Exercise 8
+
+Suppose we are given a vector $y$ and a matrix $X$. We create a new matrix $X_{*} = XP$, so that each column of $X_{*}$ is a linear combination of the columns of $X$. If P is nonsingular, then show that the residual vectors in the regressions of $y$ on $X$ (denoted $e$) and $y$ on $X_{*}$ (denoted $e_{*}$) are identical. What is the relevance of this result?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The solution can be found in the book *Mastering Econometrics*, Exercise 1.8.
+
+*Hint:* Do not immediately jump to the solution. Try to express $b_{*}$, i.e. the LS solution using $X_{*}$, in terms of $b$. Afterwards, write the corresponding residuals $e_{*}$ in terms of $e$. It is important that you understand why $P$ being nonsingular (has full rank) is crucial here.
+
+:::
+
+## The fit
+
+### Exercise 9
+
+The sample correlation coefficient between two $n \times 1$ vectors $y$ and $z$ is defined as
+$$
+r(y,z) = \frac{\sum_{i=1}^{n} (y_{i} - \overline{y})(z_{i} - \overline{z})}{\sqrt{\sum_{i=1}^{n} (y_{i} - \overline{y})^{2}}\sqrt{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}}}.
+$$
+Show that $R^2$ is the square of the sample correlation coefficient between $y$ and $\widehat{y} = Xb$ in the model with a constant term. *Hint:* Use the matrix $A = I_{n} - \frac{1}{n}\imath\imath'$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The solution can be found in the book *Mastering Econometrics*, Exercise 1.7.
+
+:::
+
+### Exercise 10
+
+Consider the intercept-only model $y = \beta \imath + u$, where we regress $y$ on only one regressor $\imath$ (the vector of ones). Show that:
+
+a. $b = \overline{y}$.
+b. $\text{SSR} = y_{*}'y_{*}$, where $y_{*} = Ay$ and $A = I_{n} - \imath\imath'/n$.
+c. What is the value of $R^{2}$? Explain why this result makes sense intuitively.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The solution can be found in the book *Mastering Econometrics*, Exercise 1.20.
+
+:::
+
+::: {.callout-note title="Want to practice more?"}
+
+Due to the limited number of contact hours, we cannot discuss all exercises in detail. There is, however, plenty of opportunity to practice more if you want. Note that
+
+- During the classes, you will encounter more (difficult) exercises.
+- In the book *Mastering Econometrics*, you can find plenty of exercises to practice. This week, good choices are the exercises of Chapter 1 and Appendix A (properties of matrix [such as nonsingularity, idempotency and symmetry] and differentiability).
+
+At the end of week 3 and 6, an extra online question hour is planned in which we could discuss some additional exercises that you practiced. 
+
+:::

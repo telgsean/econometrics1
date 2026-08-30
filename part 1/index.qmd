@@ -1,0 +1,41 @@
+---
+title: "Short introduction"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Sean Telg, 2026. All Rights Reserved"
+---
+
+# How does this course fit in the curriculum?
+
+In econometrics and data science, we are often interested in supervised learning problems such as
+$$
+y = f(x_{1}, \ldots, x_{k}) + u,
+$$ {#eq-supervised}
+where $f$ describes a relationship between the predictors $(x_{1}, \ldots, x_{k})$ and the outcome variable $y$, while $u$ captures random deviations from this relationship.
+The general problem posed in (@eq-supervised) is to learn the unknown function $f$. However, estimating a completely unrestricted function $f$ is often a very complicated task that may require a large amount of data. Moreover, the resulting relationship can be difficult to interpret. 
+
+Therefore, we take a more structured approach in this course. First, we assume that the relationship can be summarized by a finite number of unknown parameters, which we denote $\beta_0, \beta_1, \ldots, \beta_k$. Second, we make the simplifying assumption that the systematic relationship is linear. That is, $f(x_{1},\ldots, x_{k}) = \beta_{0} + \beta_{1}x_{1} + \ldots + \beta_{k} x_{k}$. This leads to the linear regression model
+$$
+y = \beta_{0} + \beta_{1}x_{1} + \ldots + \beta_{k} x_{k} + u.
+$$ {#eq-linreg}
+This course will evolve completely around the model in (@eq-linreg). How can we estimate its parameters? How can we test hypotheses on these parameters? What properties do our estimators and tests have when sample size is very small or large? Why are assumptions on the model needed, and what action should we take whenever an assumption does not hold true? These are some of the questions that we will be answering in this course.
+
+Maybe you now have the following thought: *did we not simplify the problem too much?* and rightfully so. Restricting ourselves to a linear model feels quite strong, does it not? This is where the good news comes in. You will see that the linear regression model is an extremely powerful tool. The imposed linearity ensures a high degree of interpretability and is thus intuitive to work with. On top of that, it is often a difficult-to-beat benchmark for prediction problems. Why exactly? You will also learn more about this in the upcoming weeks! 
+
+# Notation
+
+Before we get started, we need to clarify notation. Econometrics is at the intersection of various fields, which inherently means that there will be clashes in notation compared to some of your previous courses. For example, in statistics courses random quantities are often denoted by capital letters and their realizations by lowercase letters. However, courses on algebra typically use lowercase letters for scalars and vectors, while matrices are denoted by uppercase letters. *In this course, we remain closest to the linear algebra conventions.* 
+
+Of course, we wish to be as concise as possible, but there will be instances where a trade-off in notation has to be made. Unfortunately, this will not be to everyone's pleasing as we all have different preferences. Let me provide a simple example.
+
+::: {.callout-note title="Presenting the linear regression model"}
+
+In (@eq-linreg), I decided to include an intercept $\beta_{0}$ in the model because that is probably how you have seen it before. However, since we have $k$ predictors, we now have $k+1$ coefficients. Consequently, the term $k+1$ will show up in a lot of formulas (e.g., measures of fit, test statistics). Alternatively, we could have taken $\beta_{1}$ to be the intercept by defining $x_{1} = 1$, such that it is no longer a random variable. In that case we only have $k$ coefficients, which makes most expressions look nicer. This is how it is done in the book *Introduction to the Theory of Econometrics* that we follow in this course. In what follows, we will call it *ITE*.
+
+:::
+
+In conclusion, the main intention is to keep expressions and derivations understandable and not cluttered with unnecessary complicated notation. More explanation about this is also included in the ITE book. In case of any ambiguity, clarification will always be offered. 
+
+Anything unclear? Please ask it during the classes! We always try our utmost best to prevent it from happening, but typos can sometimes emerge unfortunately. It is very much appreciated if you inform us about those too!
+

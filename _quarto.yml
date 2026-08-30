@@ -1,0 +1,91 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Econometrics I"
+  sidebar:
+    style: "docked"
+    collapse-level: 1
+    search: true
+    contents:
+      - href: index.qmd
+        text: "Why this online book?"
+      - href: syllabus.qmd
+        text: "Course information"
+      - href: econometrics.qmd
+        text: "Before we start..."
+      - section: "Part 1"
+        contents:
+        - href: ./part 1/index.qmd
+          text: "Short introduction"
+        - href: ./part 1/week1.qmd
+          text: "Week 1"
+        - href: ./part 1/exercises-week1.qmd
+          text: "Exercises Week 1"
+        - href: ./part 1/week2.qmd
+          text: "Week 2"
+        - href: ./part 1/exercises-week2.qmd
+          text: "Exercises Week 2"  
+        - href: ./part 1/week3.qmd
+          text: "Week 3"
+        - href: ./part 1/exercises-week3.qmd
+          text: "Exercises Week 3"
+        - href: ./part 1/week4.qmd
+          text: "Week 4"
+        - href: ./part 1/exercises-week4.qmd
+          text: "Exercises Week 4"
+        - href: ./part 1/week5.qmd
+          text: "Week 5"
+        - href: ./part 1/exercises-week5.qmd
+          text: "Exercises Week 5"
+        - href: ./part 1/week6.qmd
+          text: "Week 6"
+        - href: ./part 1/exercises-week6.qmd
+          text: "Exercises Week 6"
+      - section: "Part 2"
+        href: ./part 2/index.qmd
+        contents:
+        - href: ./part 2/index.qmd
+          text: "Introduction to Part 2"
+        - href: ./part 2/week1.qmd
+          text: "Week 1"
+        - href: ./part 2/exercises-week1.qmd
+          text: "Exercises Week 1"
+        - href: ./part 2/week2.qmd
+          text: "Week 2"
+        - href: ./part 2/exercises-week2.qmd
+          text: "Exercises Week 2"
+        - href: ./part 2/week3.qmd
+          text: "Week 3"
+        - href: ./part 2/exercises-week3.qmd
+          text: "Exercises Week 3"
+        - href: ./part 2/week4.qmd
+          text: "Week 4"
+        - href: ./part 2/exercises-week4.qmd
+          text: "Exercises Week 4"
+        - href: ./part 2/week5.qmd
+          text: "Week 5"
+        - href: ./part 2/exercises-week5.qmd
+          text: "Exercises Week 5"
+        - href: ./part 2/week6.qmd
+          text: "Week 6"
+        - href: ./part 2/exercises-week6.qmd
+          text: "Exercises Week 6"       
+
+format:
+  html:
+    include-in-header: mathjax-macros.html
+    theme:
+      light: cosmo
+      dark: [cosmo, theme-dark.scss]
+    css: styles.css
+    toc: true
+    from: "markdown+emoji"
+    
+
+crossref:
+  eq-prefix: ""
+
+
+    

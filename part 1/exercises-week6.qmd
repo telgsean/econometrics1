@@ -1,0 +1,7 @@
+---
+title: "Week 6 - Exercises"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Sean Telg, 2026. All Rights Reserved"
+---

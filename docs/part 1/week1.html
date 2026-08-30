@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sean Telg">
+
+<title>Week 1 - Approximation – Econometrics I</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-787e033c7b6f65c9dfccb6078e5d2d34.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-a3f9cb8af720a2e54c76fd7b4321138d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-787e033c7b6f65c9dfccb6078e5d2d34.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+window.MathJax = {
+
+  tex: {
+
+    macros: {
+
+
+
+      /* =========================
+
+         Probability and statistics
+
+         ========================= */
+
+
+
+      E:   "\\operatorname{E}",
+
+      Var: "\\operatorname{Var}",
+
+      Cov: "\\operatorname{Cov}",
+
+      Corr: "\\operatorname{Corr}",
+
+      SD:  "\\operatorname{SD}",
+
+
+
+      Pr: "\\operatorname{P}",
+
+
+
+      /* =========================
+
+         Asymptotics
+
+         ========================= */
+
+
+
+      plim: "\\operatorname{plim}",
+
+      asy: "\\operatorname{asymptotic}",
+
+
+
+      /* =========================
+
+         Optimization
+
+         ========================= */
+
+
+
+      argmin: "\\operatorname*{arg\\,min}",
+
+      argmax: "\\operatorname*{arg\\,max}",
+
+
+
+      /* =========================
+
+         Econometrics
+
+         ========================= */
+
+
+
+      OLS: "\\operatorname{OLS}",
+
+      MLE: "\\operatorname{MLE}",
+
+      BLUE: "\\operatorname{BLUE}",
+
+
+
+      /* =========================
+
+         Distributions
+
+         ========================= */
+
+
+
+      N: "\\mathcal{N}",
+
+
+
+      /* =========================
+
+         Common notation
+
+         ========================= */
+
+
+
+      iid: "\\overset{\\mathrm{iid}}{\\sim}",
+
+      ind: "\\perp\\!\\!\\!\\perp",
+
+
+
+      /* =========================
+
+         Vectors and matrices
+
+         ========================= */
+
+
+
+      R: "\\mathbb{R}",
+
+      Rn: "\\mathbb{R}^n",
+
+      Rp: "\\mathbb{R}^p",
+
+
+
+      /* =========================
+
+         Estimators
+
+         ========================= */
+
+
+
+      betaHat: "\\hat{\\beta}",
+
+      thetaHat: "\\hat{\\theta}",
+
+
+
+      /* =========================
+
+         Derivatives
+
+         ========================= */
+
+
+
+      d: "\\mathrm{d}",
+
+
+
+      /* =========================
+
+         Miscellaneous
+
+         ========================= */
+
+
+
+      diag: "\\operatorname{diag}",
+
+      tr: "\\operatorname{tr}",
+
+      rank: "\\operatorname{rank}"
+
+    }
+
+  }
+
+};
+
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part 1/index.html">Part 1</a></li><li class="breadcrumb-item"><a href="../part 1/week1.html">Week 1</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Econometrics I</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Why this online book?</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../econometrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Before we start…</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Short introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/week6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exercises-week6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 6</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../part 2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Part 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/week6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exercises-week6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises Week 6</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#a-simplified-setting" id="toc-a-simplified-setting" class="nav-link" data-scroll-target="#a-simplified-setting">A simplified setting</a></li>
+  <li><a href="#mathematical-representation" id="toc-mathematical-representation" class="nav-link" data-scroll-target="#mathematical-representation">Mathematical representation</a></li>
+  <li><a href="#deriving-the-least-squares-approximator" id="toc-deriving-the-least-squares-approximator" class="nav-link" data-scroll-target="#deriving-the-least-squares-approximator">Deriving the least-squares approximator</a>
+  <ul class="collapse">
+  <li><a href="#residuals-and-fitted-values" id="toc-residuals-and-fitted-values" class="nav-link" data-scroll-target="#residuals-and-fitted-values">Residuals and fitted values</a></li>
+  <li><a href="#generalizing-these-results" id="toc-generalizing-these-results" class="nav-link" data-scroll-target="#generalizing-these-results">Generalizing these results</a></li>
+  </ul></li>
+  <li><a href="#the-fit" id="toc-the-fit" class="nav-link" data-scroll-target="#the-fit">The fit</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part 1/index.html">Part 1</a></li><li class="breadcrumb-item"><a href="../part 1/week1.html">Week 1</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Week 1 - Approximation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://research.vu.nl/en/persons/sean-telg/">Sean Telg</a> </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 This week’s roadmap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Least squares in the simple linear model</li>
+<li>Chapter 1</li>
+</ul>
+</div>
+</div>
+<section id="contents" class="level2">
+<h2 class="anchored" data-anchor-id="contents">Contents</h2>
+<p>Note that <em>we consider a simplified setting first</em>. That is, we do not yet deal with random events and in fact, we answer the following (simple) question: given a collection of points, how can we draw the best line through them? Thus, we are dealing with a problem of <em>approximation</em> rather than <em>estimation</em>. Two methods that define distance differently are studied: least squares and least absolute deviations. To assess how well the line fits the points in the graph, we study measures of fit. Lastly, we study how the fit is affected whenever we add or omit variables.</p>
+</section>
+<section id="a-simplified-setting" class="level2">
+<h2 class="anchored" data-anchor-id="a-simplified-setting">A simplified setting</h2>
+<p>Before we define the linear regression model in its typical form, we take a step back by assuming that <strong>nothing is uncertain</strong>. That is, we have <span class="math inline">\(n\)</span> points <span class="math inline">\((x_{i}, y_{i})\)</span> but these should not be seen as outcomes of a random process. An example with <span class="math inline">\(n=100\)</span> points can be found in Figure 1(a). You should view the problem as someone drawing <span class="math inline">\(n\)</span> points on a piece of paper and then asking you: what is the best-fitting line through all these points? This is a problem of <strong>approximation</strong> instead of estimation. The difference might not be clear to you just yet, but throughout discussing Chapter 1 and 2 of ITE you should get an intuition why this distinction matters.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week1-approximation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 1a shows a scatter plot with <span class="math inline">\(n=100\)</span> points. Figure 1b shows possible best-fitting lines.</figcaption>
+</figure>
+</div>
+<p>From looking at Figure 1a, we can imagine that if a so-called “best-fitting line” exists, that it is probably upward-sloping as higher values of <span class="math inline">\(x\)</span> are typically also accompanied with higher values of <span class="math inline">\(y\)</span>. But how should the “best-fitting line” look like? Figure 1b shows three plausible candidates depicted in blue, red and purple. They reveal that it is complicated to determine a “best-fitting line” with the naked eye. In order to find such a line, we have to model the problem mathematically and define an objective function specifying what “best fit” actually means.</p>
+</section>
+<section id="mathematical-representation" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-representation">Mathematical representation</h2>
+<p>If all points were located on a line, we could represent every point by <span class="math inline">\(y= a + bx\)</span>, where <span class="math inline">\(a\)</span> denotes the intercept and <span class="math inline">\(b\)</span> the slope. However, since the points are scattered around, we need something extra. That is, we can define every point <span class="math inline">\((x_{i},y_{i})\)</span> as <span id="eq-linreg"><span class="math display">\[
+y_{i} = \beta_1 + \beta_2 x_{i} + u_{i}, \qquad (i = 1, \ldots, n),
+\tag{1}\]</span></span> where the <span class="math inline">\(u_{i}\)</span> are vertical deviations from the line and <span class="math inline">\(n\)</span> denotes the number of observations. The only reason that we replaced our <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> by <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> is because we need more <span class="math inline">\(\beta\)</span>s when we generalize the problem. In other words, it is just a notational convenience as you will find out soon.</p>
+<p>Now that we have modelled every point <span class="math inline">\((x_{i},y_{i})\)</span> for <span class="math inline">\(i = 1,\ldots, n\)</span>, we have to think about what properties the best-fitting line should have. Intuitively, the line should probably lie close to the points. It is impossible to lie near all the points, but overall, it should probably go somewhat “through the middle of the cloud of dots”. We need to formalize this notion mathematically:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Distance">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Distance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Choose <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> in such a way that the distance from the line to the observations is as small as possible (or equivalently, make the deviations as small as possible).</p>
+</div>
+</div>
+<p>The previous quote is still not formal enough, because we need to define distance. If we were to add up all the <span class="math inline">\(u_{i}\)</span> values, we would also include negative values in our distance measure, which does not seem right. There are various ways to define distance, but we consider the following function <span id="eq-ols"><span class="math display">\[
+\phi(\beta_{1},\beta_{2}) = \sum_{i=1}^{n} u_{i}^{2} = \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2},
+\tag{2}\]</span></span> and minimize this function with respect to <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>.</p>
+<p>We can see that our original problem can be formulated as an optimization problem. Because there is no randomness involved (remember: all points <span class="math inline">\((x,y)\)</span> are simply fixed), we call the solution to the minimization problem <strong>the least squares approximator</strong> (so not estimator!).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What we did so far is very close to Section 1.1 and 1.2 of ITE, so you might want to have a look at those sections before we continue.</p>
+<p>We are now going to derive the least squares approximator using results from calculus that you are familiar with (not included in the book). Afterwards, we continue in ITE where we use vector and matrix to derive the same result and generalize to more variables.</p>
+</div>
+</div>
+</section>
+<section id="deriving-the-least-squares-approximator" class="level2">
+<h2 class="anchored" data-anchor-id="deriving-the-least-squares-approximator">Deriving the least-squares approximator</h2>
+<p>We can minimize the function <span class="math inline">\(\phi(\beta_{1},\beta_{2})\)</span> by taking partial derivatives of <span class="math inline">\(\phi(\beta)\)</span> with respect to <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>, setting them equal to zero and solving the system of equations.</p>
+<p><span id="eq-foc1"><span class="math display">\[
+\begin{aligned}
+\frac{\partial \phi(\beta_1,\beta_2)}{\partial \beta_1}
+&amp;=
+\sum_{i=1}^{n} \frac{\partial (y_i - \beta_1 - \beta_2 x_i )^{2}}{\partial \beta_1} \notag \\
+&amp;=
+\sum_{i=1}^{n} \frac{\partial ( y_i - \beta_1 - \beta_2 x_i )^{2}}{\partial (y_i - \beta_1 - \beta_2 x_i )} \;
+\frac{\partial (y_i - \beta_1 - \beta_2 x_i )}{\partial \beta_1} \notag \\
+&amp; =  \sum_{i=1}^{n} 2 (y_i - \beta_1 - \beta_2 x_i) \times (-1) \notag \\
+&amp; =  -2 \sum_{i=1}^{n} (y_i - \beta_1 - \beta_2 x_i).
+\end{aligned}
+\tag{3}\]</span></span> It is a good exercise to check that the second partial derivative is given by <span id="eq-foc2"><span class="math display">\[
+\frac{\partial \phi(\beta_1,\beta_2)}{\partial \beta_2} =  -2 \sum_{i=1}^{n} (x_{i}y_{i} - \beta_{1}x_{i} - \beta_{2}x_{i}^{2}).
+\tag{4}\]</span></span> The optimal <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are the values for which (<a href="#eq-foc1" class="quarto-xref">3</a>) and (<a href="#eq-foc2" class="quarto-xref">4</a>) are equal to zero. These are called the <strong>first-order conditions</strong>.</p>
+<p>We continue by setting both equations equal to zero and multiplying them by <span class="math inline">\(-\frac{1}{2n}\)</span>. In addition, we multiply (<a href="#eq-foc1" class="quarto-xref">3</a>) by <span class="math inline">\(\overline{x}\)</span> to obtain: <span id="eq-foc11"><span class="math display">\[
+\overline{x} \ \overline{y} - \beta_{1} \overline{x} - \beta_{2}\overline{x}^{2} = 0,
+\tag{5}\]</span></span> <span id="eq-foc21"><span class="math display">\[
+\overline{xy} - \beta_{1} \overline{x} - \beta_{2} \overline{x^2} = 0,
+\tag{6}\]</span></span> where <span class="math inline">\(\overline{x} = \frac{1}{n}\sum_{i=1}^{n} x_{i}\)</span> and <span class="math inline">\(\overline{y} = \frac{1}{n}\sum_{i=1}^{n} x_{i}\)</span> represent the sample mean of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, respectively, <span class="math inline">\(\overline{xy} = \frac{1}{n} \sum_{i=1}^{n} x_{i}y_{i}\)</span> is the sample mean of the variable <span class="math inline">\(xy\)</span> and <span class="math inline">\(\overline{x^{2}} = \frac{1}{n} \sum_{i=1}^{n} x_{i}^{2}\)</span> is the sample mean corresponding to the variable <span class="math inline">\(x^{2}\)</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Be careful!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Be careful!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that generally <span class="math inline">\(\overline{xy} = \frac{1}{n} \sum_{i=1}^{n} x_{i}y_{i} \neq \overline{x} \ \overline{y}\)</span> and similarly, <span class="math inline">\(\overline{x}^{2} \neq \overline{x^{2}}\)</span>.</p>
+<p>Not convinced? Try out a simple numerical example and you will see it!</p>
+</div>
+</div>
+<p>Subtracting (<a href="#eq-foc11" class="quarto-xref">5</a>) from (<a href="#eq-foc21" class="quarto-xref">6</a>) results in <span class="math display">\[
+[\overline{xy} - \overline{x} \ \overline{y}] - \beta_{2}[\overline{x^2} - \overline{x}^{2}] = 0,
+\]</span> from which we can find the least-squares approximator <span id="eq-olsb"><span class="math display">\[
+b_{2} = \frac{\overline{xy} - \overline{x} \ \overline{y}}{\overline{x^2} - \overline{x}^{2}} = \frac{\frac{1}{n} \sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}}{\frac{1}{n} \sum_{i=1}^{n} x_{i}^{2} - \overline{x}^{2}}.
+\tag{7}\]</span></span> Given <span class="math inline">\(b_{2}\)</span>, we can easily find an expression for <span class="math inline">\(b_{1}\)</span>, as setting (<a href="#eq-foc1" class="quarto-xref">3</a>) equal to zero, multiplying it by <span class="math inline">\(-\frac{1}{2n}\)</span> and evaluating it at the optimal solution yields the relation <span class="math display">\[
+\overline{y} - b_{1} - b_{2}\overline{x} = 0 \implies b_{1} = \overline{y} - b_{2}\overline{x}.
+\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Least squares derivation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Least squares derivation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Any econometrician should know how to derive the least squares estimator in the simple linear model. The derivations on this page are kept short. It is a good exercise to do the derivations by yourself step-by-step.</p>
+</div>
+</div>
+<p>Whereas the expression for <span class="math inline">\(b_{2}\)</span> in (<a href="#eq-olsb" class="quarto-xref">7</a>) is of course perfectly valid, the estimator for the slope coefficient is often presented in the following way <span id="eq-olsb2"><span class="math display">\[
+b_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} = \frac{s_{xy}}{s_{x}^{2}} = r_{xy} \frac{s_{y}}{s_{x}},
+\tag{8}\]</span></span> because it clearly shows that <span class="math inline">\(b_{2}\)</span> can be represented in terms of the sample covariance (<span class="math inline">\(s_{xy}\)</span>) and sample correlation (<span class="math inline">\(r_{xy}\)</span>) between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> as well as the sample variance of <span class="math inline">\(x\)</span> (<span class="math inline">\(s^{2}_{x}\)</span>) and sample variance of <span class="math inline">\(y\)</span> (<span class="math inline">\(s^{2}_{y}\)</span>). Even though we are dealing with two equal expressions for <span class="math inline">\(b_{2}\)</span>, it is important that you can show the result in two directions: i.e, going from (<a href="#eq-olsb" class="quarto-xref">7</a>) as starting point to (<a href="#eq-olsb2" class="quarto-xref">8</a>) and vice versa (from <a href="#eq-olsb2" class="quarto-xref">8</a> to <a href="#eq-olsb" class="quarto-xref">7</a>). We leave these derivations as one of the exercises.</p>
+<section id="residuals-and-fitted-values" class="level3">
+<h3 class="anchored" data-anchor-id="residuals-and-fitted-values">Residuals and fitted values</h3>
+<p>Now that we have found the least-squares approximation, we can define some useful terms. Make sure that you do not mix them up. Previously, we defined the deviations <span class="math inline">\(u_{i}\)</span>, which we can also present in the following way <span class="math display">\[
+u_{i} = y_{i} - \beta_{1} - \beta_{2}x = y_{i} - (\beta_{1} + \beta_{2}x_{i}), \qquad (i = 1,\ldots, n).
+\]</span> In other words, a deviation <span class="math inline">\(u_{i}\)</span> is the difference between the point <span class="math inline">\(y_{i}\)</span> and the line <span class="math inline">\(\beta_{1} + \beta_{2}x\)</span>. Because the <span class="math inline">\(\beta\)</span>s are unknown to us, this represents the true line. We can approximate this true line by replacing the <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> by the least-squares approximators that we just derived. This way, we get <span class="math display">\[
+e_{i} = y_{i} - b_{1} - b_{2}x = y_{i} - (b_{1} + b_{2}x_{i}), \qquad (i = 1,\ldots, n),
+\]</span> where <span class="math inline">\(e_{i}\)</span> is called a <strong>residual</strong>. The residual can thus be seen as “the part that remains” after approximating the line and subtracting it from <span class="math inline">\(y_{i}\)</span>. Thus, <em>do not forget</em>: the deviation <span class="math inline">\(u_{i}\)</span> is formed based on the true parameters <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>, while the residual is based on the approximated parameters <span class="math inline">\(b_{1}\)</span> and <span class="math inline">\(b_{2}\)</span>. Even though this might only seem a subtle difference, it is crucial in understanding linear regression.</p>
+<p>After defining residuals, we can revisit the first-order conditions that we obtained by setting (<a href="#eq-foc1" class="quarto-xref">3</a>) and (<a href="#eq-foc2" class="quarto-xref">4</a>) equal to zero. Since these two equations hold for any admissible combination of (<span class="math inline">\(\beta_{1},\beta_{2}\)</span>), they also hold when evaluated at the optimal solution (<span class="math inline">\(b_{1},b_{2}\)</span>). They lead to the following two conditions holding true: <span class="math display">\[
+\text{F.O.C. 1: } \quad \sum_{i=1}^{n} e_{i} = 0, \qquad \text{F.O.C. 2: } \quad \sum_{i=1}^{n} e_{i}x_{i} = 0,
+\]</span> which means that the residuals are orthogonal to the intercept (F.O.C. 1) and to the regressor <span class="math inline">\(x\)</span> (F.O.C. 2). At this point, it is important to understand that least squares <em>imposes</em> these conditions.</p>
+<p>Besides the residuals, we can also define <strong>fitted values</strong> or the <strong>predictor</strong> as <span class="math display">\[
+\hat{y}_{i} = b_{1} + b_{2}x_{i}, \qquad (i = 1,\ldots, n),
+\]</span> because for a given value of <span class="math inline">\(x_{i}\)</span>, this is what the line ‘predicts’ the value of <span class="math inline">\(y_{i}\)</span> to be. The difference between <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(\hat{y}_{i}\)</span> is, as we saw before, the residual <span class="math inline">\(e_{i}\)</span>.</p>
+</section>
+<section id="generalizing-these-results" class="level3">
+<h3 class="anchored" data-anchor-id="generalizing-these-results">Generalizing these results</h3>
+<p>Deriving the least-squares approximator is rather straightforward when we have only one variable <span class="math inline">\(x\)</span>, because the problem boils down to solving a system of two unknowns (<span class="math inline">\(\beta_{1},\beta_{2}\)</span>). If we have <span class="math inline">\(k\)</span> parameters to estimate, then we would have to take <span class="math inline">\(k\)</span> partial derivates, set them equal to zero, and continue to solve the system of equations. We can circumvent this problem using vector and matrix calculus.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read Section 1.3 - 1.7.</p>
+<p>These sections focus on the same derivations that we have done so far, but then based on multiple variables. In short:</p>
+<ul>
+<li>Section 1.3 shows how to derive the least-squares approximation by writing (<a href="#eq-linreg" class="quarto-xref">1</a>) in matrix form. In fact, the found solution <span class="math inline">\(b = (X'X)^{-1}X'y\)</span> is shown not to depend on the number of variables contained in <span class="math inline">\(X\)</span>.</li>
+<li>Section 1.4 consists of an alternative derivation, but one needs to know the solution of the optimization problem in advance for this proof to work.</li>
+<li>Section 1.5 defines residuals and discusses their main properties.</li>
+<li>Section 1.6 provides a geometric interpretation of least squares and the first-order conditions.</li>
+<li>Section 1.7 discusses an alternative method <em>Least Absolute Deviations</em> (LAD) to approximate the parameteres and makes the comparison with least squares.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="the-fit" class="level2">
+<h2 class="anchored" data-anchor-id="the-fit">The fit</h2>
+<p>We determined how to approximate the parameters in the model, but this does not tell us whether the approximation is ‘good’. We are going to define two <strong>measures of fit</strong> to make such a judgement. But first, we will introduce three important quantities: <span id="eq-sst"><span class="math display">\[
+\text{Total sum of squares: } \quad \text{SST} = \sum_{i=1}^{n} (y_{i} - \overline{y})^{2} = y'Ay,
+\tag{9}\]</span></span> <span id="eq-ssr"><span class="math display">\[
+\text{Sum of squared residuals: } \quad \text{SSR} = \sum_{i=1}^{n} e_{i}^{2} = e'e,
+\tag{10}\]</span></span> <span id="eq-sse"><span class="math display">\[
+\text{Explained sum of squared: } \quad \text{SSE} = \sum_{i=1}^{n} (\hat{y}_{i} - \overline{y})^{2} = \hat{y}'A\hat{y},
+\tag{11}\]</span></span> where (<a href="#eq-sst" class="quarto-xref">9</a>) represents the total variation in the dependent variable <span class="math inline">\(y\)</span>, (<a href="#eq-ssr" class="quarto-xref">10</a>) the total unexplained variation in <span class="math inline">\(y\)</span> and (<a href="#eq-sse" class="quarto-xref">11</a>) the total variation in the predicted value <span class="math inline">\(\hat{y}\)</span>. Note that all sums are build up in a similar way as a sample variance by considering the variable minus its sample mean. This is clearly seen in the definition of SST. The other two need some further inspection. As exercises, we will show that <span class="math inline">\(\frac{1}{n}\sum_{i=1}^{n} e_{i} = 0\)</span> generally and that <span class="math inline">\(\overline{y} = \overline{\hat{y}}\)</span>. This explains why SSR and SSE are defined “differently”.</p>
+<p>Based on the definitions above, we can now introduce the <strong>coefficient of determination</strong> or often just called <strong>R squared</strong>: <span class="math display">\[
+R^{2} = 1 - \frac{\text{SSR}}{\text{SST}}.
+\]</span> Provided there is a constant term among the regressors, the value of <span class="math inline">\(R^{2}\)</span> lies in the interval <span class="math inline">\([0,1]\)</span> and can therefore be interpreted as the percentage of variation in the dependent variable explained by the independent variables. Its popularity stems from this easy interpretation.</p>
+<p>Another measure of fit that is often reported is the <strong>standard error of the regression</strong> (SER) and is defined as <span class="math display">\[
+\text{SER } = \sqrt{\frac{\text{SSR}}{n-k}},
+\]</span> where <span class="math inline">\(k\)</span> denotes the number of regressors (number of columns in <span class="math inline">\(X\)</span>). It approximates the standard deviation of <span class="math inline">\(u\)</span> (denoted by <span class="math inline">\(\sigma_{u}\)</span>) and can thus be compared to the sample standard deviation of <span class="math inline">\(y\)</span> (denoted by <span class="math inline">\(s_{y}\)</span>). If the value of the SER is low compared to <span class="math inline">\(s_{y}\)</span> it indicates that the model explains a lot of the variation in the dependent variable <span class="math inline">\(y\)</span>.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read Section 1.8 and 1.9.</p>
+<ul>
+<li>Section 1.8 shows how to derive <span class="math inline">\(R^{2}\)</span> using SST, SSR, SSE and the matrix <span class="math inline">\(A\)</span> and the importance of the first-order conditions.</li>
+<li>Section 1.9 centers around the questions <strong>How many variables should we include in the model? And which ones should we pick?</strong>. This is important for model selection, a key issue in econometrics.</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

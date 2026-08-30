@@ -1,0 +1,77 @@
+---
+title: "What is econometrics?"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Sean Telg, 2026. All Rights Reserved"
+---
+
+Before we get started and dig into all types of mathematics and statistics, it is good to get a feeling of what econometrics is all about and how it came into existence.
+
+# Definition
+Econometrics is defined as the application of mathematics and statistical methods to the empirical analysis of economic data. Christ (1966) describes it as producing economic statements that either explain the behavior of variables we have already seen, or forecast behavior that we have not seen, or both. Alternatively, Chow (1983) calls it the art and science of using statistical methods for the measurement of economic relations.
+
+Christ's definition is nice in the sense that it focuses on two main aspects of econometrics: finding relationships between variables on the one hand, and prediction on the other hand. However, Chow's phrasing points out another crucial aspect: measurement. It is a quantitative exercise to express these relationships and they always involve some sense of uncertainty. Moreover, models are defined by assumptions and it is important to realize what our goal is. For example, if we want to identify causal relationships between variables, strict conditions have to be met (causality is arguably one of the most difficult tasks in econometrics), while this is less so the case when we want to perform prediction.
+
+# Short history
+Ragnar Frisch (1895 - 1973) coined the term econometrics in 1926 and established it as a subject in the sense in which it is known today. Together with Jan Tinbergen (1903 - 1994), he won the first Nobel Prize in Economics in 1969 for having developed and applied dynamic models for the analysis of economic processes. 
+
+In his honor, the Tinbergen institute was founded in 1987. It is the graduate school and research institute for Economics and Business operated jointly by the Schools of Economics and Econometrics of Erasmus University Rotterdam (EUR), University of Amsterdam (UvA) and Vrije Universiteit Amsterdam (VU).
+
+# Purposes
+Let us consider some examples how econometrics can be used.
+
+::: {.callout-tip title="Example 1: The consumption function" collapse="true"}
+In macroeconomics, consumption $C$ is often represented as a linear function output $Y$: $C = c_{0} + c_{1}Y$, where the $c_{1}$ is the propensity to consume. For economists, it is important to know how the fraction of disposable income that househould are willing to spend on consumption remains fixed or changes over time.
+
+:::
+
+::: {.callout-tip title="Example 2: The Cobb-Douglas production function" collapse="true"}
+In microeconomics, the production function is often represented as $Y = A K^{\alpha}L^{\beta}$, where $K$ denotes capital, $L$ labour and $A$ is total factor productivity. The $\alpha$ and $\beta$ are parameters that provide important information (output elasticities). More precisely, they determine the so-called returns to scale. If $\alpha + \beta = 1$, there are constant returns to scale. If the sum falls below one, returns are decreasing; if the sum is greater than one, returns are increasing. It is good to know whether doubling the inputs indeed leads to at least twice the input, and econometrics can be used to estimate the parameters $\alpha$ and $\beta$.    
+
+:::
+
+::: {.callout-tip title="Example 3: Investments and the interest rate" collapse="true"}
+In economics, it is well-known that there is a negative relationship between investments ($I$) and the interest rate ($r$). The rationale behind is that if the interest rate is high, it costs a lot to borrow money and investments stay low. However, is the effect of a unit-increase in the interest rate on investments the same from $1\%$ to $2\%$ compared to $6\%$ to $7\%$? If this is not the case, one may need a nonlinear model or include a nonlinear term in a linear model, e.g. $I = \beta_{0} + \beta_{1}r + \beta_{2} r^{2} + u$, where $u$ is the error term (still to come!)
+
+:::
+
+::: {.callout-tip title="Example 4: The Central Bank" collapse="true"}
+Central banks determine the interest rates and therefore they want to see how a change impacts the economic system. From economics, it is expected that interest ($r$) going up results in less investments ($I$). This in turn decreases capital ($K$) as no more new machines are acquired, which translates in overall economic output ($Y$) going down. Using historical data, econometricians can perform so-called impulse-response analyses to investigate how variables change over time for different changes in the interest rate. This way, one can analyze different scenarios of interest (pun intended). 
+
+:::
+
+::: {.callout-tip title="Example 5: Forecasting prices" collapse="true"}
+Should you buy a new house or car now or should you still wait? Using historical data, econometricians can make forecasts of prices. In the current era, econometric models and other data science methods (such as neural networks, support vector machines, etc.) are often competing to provide "the best" forecasts. Which methods performs best depends completely on the properties of the data.
+
+:::
+
+# How can we do this?
+Suppose we are interested in a random variable $y$ and hypothesize that a set of $k$ variables $X = (x_{1}, x_{2}, \ldots, x_{k})$ provide information about $Y$. Then we can relate $X$ and $y$ in the following way:
+$$
+y = f(X) + u.
+$$
+The choice of $f(\cdot)$ determines the type of model, whereas $u$ allows for possible deviations since the relation between $X$ and $y$ is probably not perfect.
+
+In this course, we restrict our attention to the linear regression model
+$$
+y = \underbrace{\beta_{1}x_{1} + \beta_{2}x_{2} + \ldots + \beta_{k}x_{k}}_{:= f(X)} + u,
+$$
+which is the main workhorse in economics. This is mostly for the following reasons:
+
+- interpretability is high, as complexity is low;  
+- instead of estimating a function, we have to estimate a low number of parameters; 
+- it is a solid benchmark that is difficult to beat.
+
+
+
+# Types of data
+To run analyses, we collect realizations of our random variables, which we call data. We distinguish three main categories of data:
+
+1. Cross sections: data on different units at a single time period. **Example**: GDP of several EU countries in 2026.
+
+2. Time series: data for a single entity collected at multiple time periods. **Example**: GDP of the Netherlands from 1980 to 2026.
+
+3. Panel: data for multiple entities in which each entity is observed at two or more time period. **Example**: GDP of several EU countries from 1980 to 2026.
+
+In this course, we only consider cross-sectional data.

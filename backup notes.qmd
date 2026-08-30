@@ -1,0 +1,71 @@
+---
+title: "Untitled"
+format: html
+---
+
+## Is this material useful for *me*?
+Even if you feel your basic math skills are up for the scrap of studying *Econometrics and Operations Research* or *Econometrics and Data Science*, we believe these materials are still very much worhtwhile studying, especially since (1) each theoretical section is complemented by multiple exercises as well as extensive Canvas quizzes and (2) similar questions will come up in the **exam at the end of Week 2 of Period 1**.
+
+## How is the material organised?
+The material is organised by the six chapters below, where each chapter comprises several sections:
+
+
+## How can I can learn the most?
+The strategy is fairly simple. In the first week of your study, for each section do the following: (1) read the section and work on the exercises contained therein, and (2) take the corresponding Canvas quiz.
+
+In addition to these general guidelines, we have a few tips that we offer below.
+
+::: {.callout-tip title="Use pen and paper"}
+
+While answering the quiz questions, have pen and paper ready, to write down your steps, derivations, manipulations of equations, and so on, in order to find the correct answer. Most of these quiz questions cannot be reasonably be solved by head, but they can be solved by hand; so you have to sit down with pen and paper, and write down what is necessary to get at the correct answer.
+
+:::
+
+::: {.callout-note title="Do not use a calculator"}
+
+For most exercises and quiz questions, pen and paper will suffice. So in principle, you do not have to use a calculator, unless otherwise stated in particular exercise or question.
+
+:::
+
+::: {.callout-important title="Solve exercises yourself before checking the answers"}
+
+We strongly recommend you solve the exercises before checking their .. However, the examples treated in this book offer ample opportunity to figure out the correct steps.
+
+:::
+
+::: {.callout-warning title="Take your time"}
+
+Try to take the time you need to consider the questions and their answer carefully; the goal of the exercises and quizzes is not obtain a high-score as soon as possible, but rather to develop a deep understanding of the manipulations and derivations you are carrying out.
+
+:::
+
+::: {.callout-caution title="Ignore AI at this stage"}
+
+AI has a role to play in modern society and in the job market. However, basic skills are acquired through practice, effort, and friction, and not by smoothly interfacing with a chat bot.
+
+:::
+
+## Where can I report a mistake?
+
+Since this is entirely new material (written in spring 2026), there are bound to be typos and mistakes. If you have found one (or think you have), please send an e-mail to [r.devlaming@vu.nl](mailto:r.devlaming@vu.nl) with "BRIDGE" as topic of your e-mail. Please try to be specific about where the mistake occurs and what the nature of the mistake is.
+
+Thanks in advance for your understanding and also for your input! Top contributors will get an honourable mention in the acknowledgements below.
+
+We would like to thank [...] for their feedback to make this material more accurate.
+
+## From statistics to econometrics
+If you are a student in the BSc EOR or EDS, you followed year a course in statistics during the second semester. In a lot of cases, your goal was to infer information on a random variable, say $X$. Using a sample $(X_{1},\ldots, X_{n})$, various characteristics of the underlying population distribution were unraveled. Let's have a look at a simple example.
+
+::: {.callout-caution title="Example" collapse = "true"}
+
+Suppose $X_{1}, \ldots, X_{n} \overset{i.i.d.}{\sim} \text{Bernoulli}(p)$. Our goal is to estimate the probability of success $P(X_{i} = 1) = p$. In this case, we can show that the least squares and maximum likelihood estimator of $p$ is given by $p = \frac{1}{n} \sum_{i=1}^{n} X_{i} = \overline{X}$.
+
+:::
+
+::: {.callout-note title="Check your intuition" collapse="true"}
+
+We chose to define distance as the sum of **squared** deviations. Why do you think we did not choose $\phi(\beta_{1},\beta_{2}) = \sum_{i=1}^{n} u_{i}$ or $\phi(\beta_{1}, \beta_{2}) = \sum_{i=1}^{n} |u_{i}|$ instead?
+
+Use your knowledge of calculus and analysis. Drawing some simple examples based on a very small $n$ might also be insightful!
+
+:::

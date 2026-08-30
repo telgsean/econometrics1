@@ -1,0 +1,9 @@
+---
+title: "Why this online book?"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Ronald de Vlaming and Sean Telg, 2026. All Rights Reserved"
+---
+
+# Preface

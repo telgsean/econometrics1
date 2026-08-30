@@ -1,0 +1,117 @@
+---
+title: "Course information"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+copyright: "Sean Telg, 2026. All Rights Reserved"
+---
+
+# Course contents
+In this course, we are going to study the linear regression model and we use two different sources for this. Magnus (2017) studies the multiple linear regression model using vector and matrix notation. The contents of this website instead focus on the simple linear regression model using unit-specific notation. The case with only one explanatory variable is important to understand regression models in more detail. Moreover, it highlights the usefulness of analyzing models, estimators and tests using different types of notations. These are very important skils for an econometrician.
+
+::: {.callout-tip icon="false"}
+## 📚 Literature
+
+- Magnus, J.R. (2017). *Introduction to the Theory of Econometrics*. Sixth printing onwards. VU University Press.
+- The contents of this website.
+
+:::
+
+The course is mostly theoretical of nature but also considers empirical aspects of econometric modelling. In period 1, we focus on the following main topics: 
+
+- **Estimation**: how can we estimate the parameters in the model and what are the properties of these estimators?
+- **The fit**: even if we are able to estimate the parameters, we still do not know how well the model fits the data. 
+- **Prediction**: based on our estimated model, how can we predict the dependent variable if we have values for the independent variables?
+- **Inference**: we want to be able to test hypotheses, construct confidence and prediction intervals.
+
+In period 2, we dig a bit deeper and consider three themes:
+
+- **Estimation**: a new estimation method (maximum likelihood), adapting an existing estimation technique (weighted least sqauares) and estimation under restrictions.
+- **Asymptotics**: we study the properties of our estimators for sample size going to infinity. The latter never happens in practice, but it provides a good approximation of the sampling distribution in case of a large number of observations. Moreover, we can use the results for hypothesis testing.
+- **Assumptions**: how can we check or test whether the assumptions underlying the linear regression model hold true? We consider functional misspecification, multicollinearity, non-normality and heteroskedasticity. We give extra attention to the last topic and discuss remedies, because it often occurs in applications.  
+
+# Course schedule
+
+## PERIOD 1
+
+### [Week 1 - Approximation](part%201/week1.qmd)
+- Solving an optimization problem, best fitting line
+- Increasing the number of variables
+- Least squares, residuals, least absolute deviations
+- The fit
+
+### [Week 2 - The linear regression model](part%201/week2.qmd)
+- Introducing randomness
+- Simple and multiple linear regression
+- Ideal conditions (assumptions)
+- Model and data-generation process
+
+### [Week 3 - Best unbiased estimation](part%201/week3.qmd)
+- For a single parameter
+- For a parameter vector
+- Gauss-Markov theorem (BLUE)
+- Estimation of the error variance
+- The role of degrees of freedom
+
+### [Week 4 - Prediction](part%201/week4.qmd)
+- Defining the prediction problem
+- Restricted versus unrestricted model
+- Significance and importance
+
+### [Week 5 - Inference](part%201/week5.qmd)
+- Sampling distribution (simple linear regression)
+- A feasible test statistic
+- Generalization to multiple linear regression
+- The $t$-ratio and $t$-test
+- Power and size of a test
+
+### [Week 6 - Inference (cont'd)](part%201/week6.qmd)
+- Confidence and prediction intervals
+- Testing restrictions
+- The partial $F$-test
+- Adjusted $R^2$
+- A brief note on pretesting and model averaging
+
+## PERIOD 2
+
+### [Week 1 - Maximum likelihood estimation](part%202/week1.qmd)
+- Simple linear regression model
+- Generalization to multiple linear regression
+- First-order and second-order regularity
+- Cram\'er-Rao inequality
+
+### [Week 2 - Restricted estimation and testing](part%202/week2.qmd)
+- Restricted least squares and maximum likelihood
+- Wald, Lagrange Multiplier (LM) and Likelihood-Ratio (LR) tests
+- Revisiting assumptions and sampling distributions
+
+### [Week 3 - Asymptotics](part%202/week3.qmd)
+- Why asymptotics?
+- Asymptotic concepts
+- Simple linear regression: consistency of the slope estimator (and the sample variance)
+
+### [Week 4 - Asymptotics (cont'd)](part%202/week4.qmd)
+- Asymptotic normality of the slope estimator
+- Multiple linear regression: consistency and asymptotic normality
+
+### [Week 5 - Revisiting the assumptions](part%202/week5.qmd)
+- Diagnostic testing
+- Conditioning
+- Application to the linear model
+- Homo- versus heteroskedasticity
+
+### [Week 6 - Heteroskedasticity](part%202/week6.qmd)
+- Consequences of heteroskedasticity
+- Weighted least squares
+- Heteroskedasticity robust standard errors
+- Small versus large sample considerations
+
+# Background knowledge
+
+The course Econometrics I builds heavily on previous mathematics and statistics courses of the first year. Let me demonstrate why.
+
+The statistics course in year 1 of the BSc EOR and EDS focuses on statistical inference. Using a sample, conclusions about unknown characteristics of the underlying population, such as its mean and variance, were drawn. To do so, several estimation methods including least squares, method of moments, and maximum likelihood estimation, are employed and different hypothesis tests are conducted.
+
+All of this is still very important in this course. The main difference is that our focus is not on a single random variable, but that we will relate different random variables to each other. This means that we now have to infer unknown quantities from a joint probability distribution. Thus, sufficient knowledge in probability theory and statistics is crucial. 
+
+How do calculus, analysis and linear algebra play a role? To study finite-sample and asymptotic properties of estimators and tests, we typically require techniques from calculus and analysis. In particular, we require techniques such as differentation, convergence of sequences and basic (but important!) algebraic manipulations. If we stack the samples of the random variables in vectors and matrices, knowledge of linear algebra makes our lives a lot nicer. We can directly link properties of matrices to characteristics of our data. For example, if the matrix containing the data does not have full rank, we know that one or multiple variables are measuring the same. Finally, your programming skills are important in order to do the actual data analysis or to investigate the behavior of estimators and tests in an experimental setup called a simulation study.
