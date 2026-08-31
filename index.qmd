@@ -26,9 +26,12 @@ Sean Telg
 
 # Frequently asked questions
 
-## Should I still buy the book or is this website sufficient?
-It is important that you still buy the book *Introduction to the Theory of Econometrics*, because it forms the basis of this course. This website provides supporting material and extra explanations. It can by no means be seen as a replacement of the book. 
+### Should I still buy the book or is this website sufficient?
+It is important that you still buy the book *Introduction to the Theory of Econometrics*, because it forms the basis of this course. This website provides supporting material and extra explanations. It can by no means be seen as a replacement of the book.
+
+### Do all exercises come with solutions?
+The majority of the exercises have solutions. The remaining exercises come with short solutions or hints. We will discuss them together in class. Full solutions will not be posted on this website or on Canvas.
 
 # Acknowledgements
 
-I would like to thank Ronald de Vlaming for helping me set up this website and Jan R. Magnus for the several talks about this course that led to writing an exercise book together.
+I want to thank Ronald de Vlaming for helping me set up this website and Jan R. Magnus for the several talks about this course that led to us writing the exercise book *Mastering Econometrics: Exercises and Solutions* as a compendium to his theory book *Introduction to the Theory of Econometrics*.

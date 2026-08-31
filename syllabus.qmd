@@ -44,33 +44,36 @@ In period 2, we dig a bit deeper and consider three themes:
 - Introducing randomness
 - Simple and multiple linear regression
 - Ideal conditions (assumptions)
+- Roles of assumptions
 - Model and data-generation process
+- Unbiasedness
 
 ### [Week 3 - Best unbiased estimation](part%201/week3.qmd)
-- For a single parameter
-- For a parameter vector
+- Best unbiased estimation
 - Gauss-Markov theorem (BLUE)
-- Estimation of the error variance
-- The role of degrees of freedom
-
-### [Week 4 - Prediction](part%201/week4.qmd)
-- Defining the prediction problem
+- Prediction
 - Restricted versus unrestricted model
+- Mean squared error
 - Significance and importance
 
-### [Week 5 - Inference](part%201/week5.qmd)
-- Sampling distribution (simple linear regression)
-- A feasible test statistic
-- Generalization to multiple linear regression
-- The $t$-ratio and $t$-test
+### [Week 4 - Inference](part%201/week4.qmd)
+- Distributions of least-squares estimators
+- *t*-ratio and *t*-test
 - Power and size of a test
 
-### [Week 6 - Inference (cont'd)](part%201/week6.qmd)
+### [Week 5 - Inference (cont'd)](part%201/week5.qmd)
 - Confidence and prediction intervals
-- Testing restrictions
-- The partial $F$-test
+- Testing linear restrictions
+- Overall and partial $F$-test
 - Adjusted $R^2$
-- A brief note on pretesting and model averaging
+- Pretesting and model averaging 
+
+### [Week 6 - Conditioning](part%201/week6.qmd)
+- Conditioning
+- Law of total expectation and total variance
+- Conditional expectation function
+- Mean-independence
+
 
 ## PERIOD 2
 
@@ -96,7 +99,6 @@ In period 2, we dig a bit deeper and consider three themes:
 
 ### [Week 5 - Revisiting the assumptions](part%202/week5.qmd)
 - Diagnostic testing
-- Conditioning
 - Application to the linear model
 - Homo- versus heteroskedasticity
 
