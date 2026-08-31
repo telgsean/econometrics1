@@ -118,4 +118,4 @@ $$
 $$
 Thus, we can see that $\Cov(u_{i}, u_{j}) = 0$ for all $i \neq j$. In words, this means that the error terms of respondents $i$ and $j$ are not correlated. Ideally, we also do not want a relation between two or more respondents. This can be motivated from both a theoretical and practical perspective. If the data is **independent and identically distributed (i.i.d.)**, then this reflects that the respondents come from the same population (they have an identical distribution) but their responses are made independently of one another. 
 
-Another 
+Another important feature is that $\Var(u_{i}) = \sigma^{2}$ for all $i = 1, \ldots, n$. This is a property called **homoskedasticity**. In empirical work, this assumption might fail and that is why we will revisit it towards the end of the course. For now, we assume that there is a constant variance for all the error terms.
