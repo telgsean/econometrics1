@@ -32,6 +32,7 @@ d. $R^{2} = 1 - \frac{RSS}{SST} \in [0,1]$, where the value $0$ means no variati
 ### Exercise 2
 
 We have seen two methods of measuring closeness: least squares (LS) and least absolute deviations (LAD). Determine for which method the following statements are true. Indicate why it is not true for the other method.
+
 a. The method is robust against outliers.
 b. The method has a unique solution.
 c. The method has a closed-form solution.

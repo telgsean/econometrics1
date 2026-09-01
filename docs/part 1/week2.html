@@ -689,6 +689,7 @@ window.Quarto = {
   <li><a href="#assumption-2-the-n-times-k-matrix-x-is-nonrandom-and-has-rank-k" id="toc-assumption-2-the-n-times-k-matrix-x-is-nonrandom-and-has-rank-k" class="nav-link" data-scroll-target="#assumption-2-the-n-times-k-matrix-x-is-nonrandom-and-has-rank-k">Assumption 2: The <span class="math inline">\(n \times k\)</span> matrix <span class="math inline">\(X\)</span> is nonrandom and has rank <span class="math inline">\(k\)</span></a></li>
   <li><a href="#assumption-3-the-n-times-1-vector-u-has-mean-zero-and-variance-sigma2i_n" id="toc-assumption-3-the-n-times-1-vector-u-has-mean-zero-and-variance-sigma2i_n" class="nav-link" data-scroll-target="#assumption-3-the-n-times-1-vector-u-has-mean-zero-and-variance-sigma2i_n">Assumption 3: The <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(u\)</span> has mean zero and variance <span class="math inline">\(\sigma^{2}I_{n}\)</span></a></li>
   <li><a href="#assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution" id="toc-assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution">Assumption 4: The <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(u\)</span> follows a multivariate normal distribution</a></li>
+  <li><a href="#assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix" id="toc-assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix" class="nav-link" data-scroll-target="#assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix">Assumption 5: If we let <span class="math inline">\(Q_{n} = X'X/n\)</span>, then <span class="math inline">\(Q_{n} \to Q\)</span> as <span class="math inline">\(n \to \infty\)</span>, where <span class="math inline">\(Q\)</span> is a finite and positive definite <span class="math inline">\(k \times k\)</span> matrix</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -746,6 +747,19 @@ window.Quarto = {
 <p>The simple linear regression model looks exactly the same as in the approximation framework <span class="math display">\[
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i=1, \ldots, n),
 \]</span> but its interpretation is quite different. In the previous setup, all observations <span class="math inline">\((x_{i}, y_{i})\)</span> for <span class="math inline">\(i = 1, \ldots, n\)</span> were fixed. Thus, they could just be treated as given. The task was then simple: find the best-fitting line based on the criterion that the sum of squared distances from the line to the observations is as small as possible. However, we are now going to assume that <span class="math inline">\(y_{i}\)</span> is a random variable called the <strong>dependent variable</strong> (or <strong>explained variable</strong>, <strong>regressand</strong>). This variable is related to an <strong>explanatory variable</strong> <span class="math inline">\(x_{i}\)</span> (or <strong>indepedent variable</strong>, <strong>regressor</strong>). At first, we are going to assume that <span class="math inline">\(x_{i}\)</span> is nonrandom. The basics of econometric theory do not change if we make this simplifying assumption and the material is easier to grasp. We call <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> the unknown <strong>parameters</strong> or <strong>coefficients</strong> of the model, and <span class="math inline">\(u_{i}\)</span> the <strong>error term</strong> or <strong>disturbance term</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="The least-squares approximator">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The least-squares approximator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression <span class="math inline">\(b = (X'X)^{-1}X'y\)</span> will also be the least-squares <strong>estimator</strong>. You might be under the impression that this is ‘obvious’, but it is actually far from! When we discuss best unbiased estimation next week, it will become clear that we will get to the same expression but by solving a completely different optimization problem!</p>
+</div>
+</div>
 <p>Important to remember: <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(u_{i}\)</span> are random variables, <span class="math inline">\(x_{i}\)</span>, <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are nonrandom. The variables <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(x_{i}\)</span> are observable, while <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span> and <span class="math inline">\(u_{i}\)</span> are unobservable. The generalization to the <strong>multiple linear regression model</strong> can be found in ITE. We also study the ideal conditions (assumptions).</p>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -793,7 +807,7 @@ y = X\beta + u,
 y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 \]</span> we see that this relationship is close to linear. Consequently, the estimated linear regression line (in red) now shows an almost perfect fit. Of course, it is not always possible to recast in a nonlinear relationship into a linear regression model (where the variables are transformed). There are “linear models in disguise”, but sometimes there is need for a nonlinear regression model (not captured in this course). Because linearity is a so-called first-order approximation to the model, it often even forms the basis for nonlinear models (you will see some examples of such models [logit/probit/tobit] in Econometrics II). Main advantage of the linear regression model is its high degree of interpretability.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise: Can we use linear regression?">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -802,7 +816,7 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Determine whether linear regression is warrented for the following models:</p>
 <ol type="a">
@@ -819,7 +833,7 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 <h3 class="anchored" data-anchor-id="assumption-2-the-n-times-k-matrix-x-is-nonrandom-and-has-rank-k">Assumption 2: The <span class="math inline">\(n \times k\)</span> matrix <span class="math inline">\(X\)</span> is nonrandom and has rank <span class="math inline">\(k\)</span></h3>
 <p>This assumption has two parts to it, which we will discuss separately. First, the matrix <span class="math inline">\(X\)</span> is nonrandom. Note that this is a choice that we make for theoretical reasons, because our mathematical derivations are easier if we treat the independent variables as given. This is not something that you can check or test on data. We make this simplifying assumption to make our life easier (we circumvent conditioning, which we discuss in week 6 of the course) but it comes at the cost of a loss in generality.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Relation between $n$ and $k$">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -828,7 +842,7 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>It is also implicit that the number of observations <span class="math inline">\(n\)</span> is always larger than the number of regressors <span class="math inline">\(k\)</span>. If this was not the case, we would not be able to estimate the coefficients in the model. You can draw the analogy with solving a system of equations. If the pieces of information <span class="math inline">\(n\)</span> are smaller than the number of unknowns <span class="math inline">\(k\)</span>, then the system cannot be solved. In case of equality <span class="math inline">\(n=k\)</span>, it is technically possible to find a solution but it is very undesirable in the estimation framework (some measures, such as the SER, could not even be computed) as there are no degrees of freedom left to test or validate the model’s accuracy.</p>
 </div>
@@ -837,7 +851,7 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 <p>Second, we assume that the <span class="math inline">\(n \times k\)</span> matrix <span class="math inline">\(X\)</span> has rank <span class="math inline">\(k\)</span>. The assumption dictates that all <span class="math inline">\(k\)</span> columns are linearly independent. In other words, it is impossible to write a single column as a linear combination of all the other columns. Why is this important? Last week, we saw that the least-squares approximator is given by <span class="math inline">\(b = (X'X)^{-1}X'y\)</span>. In the estimation framework, this formula remains the same as we will prove next week. Note that <span class="math inline">\(X'X\)</span> is a <span class="math inline">\(k \times k\)</span> matrix of full rank <span class="math inline">\(k\)</span> (see Section A.3 in ITE for more details). We can only compute the inverse of <span class="math inline">\(X'X\)</span> if it is nonsingular, i.e., if it has full rank.</p>
 <p>In case we do have columns in <span class="math inline">\(X\)</span> that are linear combinations of each other, we call it <strong>perfect multicollinearity</strong>. The wording is exactly saying what is going on: multiple columns are perfectly collinear. Below you can again find a short exercise in which you have to guess whether <span class="math inline">\(X\)</span> could be collinear.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise: Perfect multicollinearity or not?">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -846,7 +860,7 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For the following models, argue whether it is possible that <span class="math inline">\(X\)</span> is collinear.</p>
 <ol type="a">
@@ -880,6 +894,33 @@ y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 </section>
 <section id="assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution">Assumption 4: The <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(u\)</span> follows a multivariate normal distribution</h3>
+<p>In the book, three main reasons are given for this assumption:</p>
+<ul>
+<li>The normal distribution is easy to work with;</li>
+<li>The normal distribution fits well in the context of measurement errors;</li>
+<li>The normal distribution serves as a second-order approximation to an arbitrary density function (certainly in the center of the distribution).</li>
+</ul>
+<p>During this course, we will benefit a lot from the normal distribution and its characteristics. In particular, Assumption 3 and 4 together imply that the disturbances <span class="math inline">\(u_{i}\)</span> are not only uncorrelated, but in fact independent (a stronger property!). But we will use more properties, and one of the most important ones is that linear combinations of normal variables are again normally distributed. More information about the (multivariate) normal distribution is in Section B.3 of ITE. However, it is important to mention that normality is often seen as a “luxury assumption”. It simplifies a lot of derivations, but it is by no means necessary to show important results such as unbiasedness, consistency, and asymptotic normality of least-squares estimators. In various empirical applications (e.g., financial returns) the assumption of normally distributed error terms is not appropriate. For this reason, we will reconsider this assumption later on in the course.</p>
+</section>
+<section id="assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix">Assumption 5: If we let <span class="math inline">\(Q_{n} = X'X/n\)</span>, then <span class="math inline">\(Q_{n} \to Q\)</span> as <span class="math inline">\(n \to \infty\)</span>, where <span class="math inline">\(Q\)</span> is a finite and positive definite <span class="math inline">\(k \times k\)</span> matrix</h3>
+<p>We will only need this assumption when we discuss asymptotics. However, let us try to get some intuition of what is going on here. Consider the simple linear regression model in matrix form. This means <span class="math inline">\(X = (\imath : x)\)</span> where <span class="math inline">\(\imath\)</span> is an <span class="math inline">\(n \times 1\)</span> vector of ones, and <span class="math inline">\(x\)</span> an <span class="math inline">\(n \times 1\)</span> vector containing <span class="math inline">\(x_{1}, \ldots, x_{n}\)</span> (i.e., <span class="math inline">\(n\)</span> observations on a single regressor). Since <span class="math inline">\(X\)</span> is <span class="math inline">\(n \times 2\)</span>, we know that <span class="math inline">\(X'X\)</span> is a <span class="math inline">\(2 \times 2\)</span> matrix, which looks as follows: <span class="math display">\[
+X'X =
+\begin{pmatrix}
+\imath'\imath &amp; \imath'x \\
+x'\imath &amp; x'x
+\end{pmatrix} =
+\begin{pmatrix}
+n &amp; \sum_{i=1}^{n} x_{i} \\
+\sum_{i=1}^{n} x_{i} &amp; \sum_{i=1}^{n} x_{i}^{2}
+\end{pmatrix}.
+\]</span> Let us have a look at the separate entries of this matrix. When <span class="math inline">\(n \to \infty\)</span>, we do not want any elements ‘to explode’ (i.e., diverge) but also not all shrink to zero (making the matrix singular and thus non-invertible). Note that <span class="math inline">\(\frac{1}{n}\)</span> is exactly the right scaling to ensure that those two situations do not occur. That is, we obtain <span class="math display">\[
+Q_{n} = X'X/ n =
+\begin{pmatrix}
+1 &amp; \frac{1}{n}\sum_{i=1}^{n} x_{i} \\
+\frac{1}{n}\sum_{i=1}^{n} x_{i} &amp; \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}
+\end{pmatrix},
+\]</span> where the element <span class="math inline">\((Q_{n})_{11} = 1\)</span> is now constant (any other scaling would have caused diverging to <span class="math inline">\(\infty\)</span> or convergence to zero), the element <span class="math inline">\((Q_{n})_{12} = (Q_{n})_{21} = \frac{1}{n}\sum_{i=1}^{n} x_{i}\)</span> is the sample mean which converges to the population mean <span class="math inline">\(E(x_{i})\)</span> by the law of large numbers and the element <span class="math inline">\((Q_{n})_{22} = \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}\)</span> does so similarly but then to <span class="math inline">\(E(x_{i}^{2})\)</span>. For now, this intuition suffices. We will discuss the assumption in more detail when we actually need it.</p>
 
 
 </section>

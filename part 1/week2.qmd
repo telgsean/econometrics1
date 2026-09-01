@@ -21,7 +21,12 @@ The simple linear regression model looks exactly the same as in the approximatio
 $$
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i=1, \ldots, n),
 $$
-but its interpretation is quite different. In the previous setup, all observations $(x_{i}, y_{i})$ for $i = 1, \ldots, n$ were fixed. Thus, they could just be treated as given. The task was then simple: find the best-fitting line based on the criterion that the sum of squared distances from the line to the observations is as small as possible. However, we are now going to assume that $y_{i}$ is a random variable called the **dependent variable** (or **explained variable**, **regressand**). This variable is related to an **explanatory variable** $x_{i}$ (or **indepedent variable**, **regressor**). At first, we are going to assume that $x_{i}$ is nonrandom. The basics of econometric theory do not change if we make this simplifying assumption and the material is easier to grasp. We call $\beta_{1}$ and $\beta_{2}$ the unknown **parameters** or **coefficients** of the model, and $u_{i}$ the **error term** or **disturbance term**. 
+but its interpretation is quite different. In the previous setup, all observations $(x_{i}, y_{i})$ for $i = 1, \ldots, n$ were fixed. Thus, they could just be treated as given. The task was then simple: find the best-fitting line based on the criterion that the sum of squared distances from the line to the observations is as small as possible. However, we are now going to assume that $y_{i}$ is a random variable called the **dependent variable** (or **explained variable**, **regressand**). This variable is related to an **explanatory variable** $x_{i}$ (or **indepedent variable**, **regressor**). At first, we are going to assume that $x_{i}$ is nonrandom. The basics of econometric theory do not change if we make this simplifying assumption and the material is easier to grasp. We call $\beta_{1}$ and $\beta_{2}$ the unknown **parameters** or **coefficients** of the model, and $u_{i}$ the **error term** or **disturbance term**.
+
+::: {.callout-important title="The least-squares approximator" }
+Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression $b = (X'X)^{-1}X'y$ will also be the least-squares **estimator**. You might be under the impression that this is 'obvious', but it is actually far from! When we discuss best unbiased estimation next week, it will become clear that we will get to the same expression but by solving a completely different optimization problem!
+
+:::
 
 Important to remember: $y_{i}$ and $u_{i}$ are random variables, $x_{i}$, $\beta_{1}$ and $\beta_{2}$ are nonrandom. The variables $y_{i}$ and $x_{i}$ are observable, while $\beta_{1}$, $\beta_{2}$ and $u_{i}$ are unobservable. The generalization to the **multiple linear regression model** can be found in ITE. We also study the ideal conditions (assumptions). 
 
@@ -121,3 +126,34 @@ Thus, we can see that $\Cov(u_{i}, u_{j}) = 0$ for all $i \neq j$. In words, thi
 Another important feature is that $\Var(u_{i}) = \sigma^{2}$ for all $i = 1, \ldots, n$. This is a property called **homoskedasticity**. In empirical work, this assumption might fail and that is why we will revisit it towards the end of the course. For now, we assume that there is a constant variance for all the error terms.
 
 ### Assumption 4: The $n \times 1$ vector $u$ follows a multivariate normal distribution
+In the book, three main reasons are given for this assumption:
+
+- The normal distribution is easy to work with;
+- The normal distribution fits well in the context of measurement errors;
+- The normal distribution serves as a second-order approximation to an arbitrary density function (certainly in the center of the distribution).
+
+During this course, we will benefit a lot from the normal distribution and its characteristics. In particular, Assumption 3 and 4 together imply that the disturbances $u_{i}$ are not only uncorrelated, but in fact independent (a stronger property!). But we will use more properties, and one of the most important ones is that linear combinations of normal variables are again normally distributed. More information about the (multivariate) normal distribution is in Section B.3 of ITE. However, it is important to mention that normality is often seen as a "luxury assumption". It simplifies a lot of derivations, but it is by no means necessary to show important results such as unbiasedness, consistency, and asymptotic normality of least-squares estimators. In various empirical applications (e.g., financial returns) the assumption of normally distributed error terms is not appropriate. For this reason, we will reconsider this assumption later on in the course.
+
+### Assumption 5: If we let $Q_{n} = X'X/n$, then $Q_{n} \to Q$ as $n \to \infty$, where $Q$ is a finite and positive definite $k \times k$ matrix
+
+We will only need this assumption when we discuss asymptotics. However, let us try to get some intuition of what is going on here. Consider the simple linear regression model in matrix form. This means $X = (\imath : x)$ where $\imath$ is an $n \times 1$ vector of ones, and $x$ an $n \times 1$ vector containing $x_{1}, \ldots, x_{n}$ (i.e., $n$ observations on a single regressor). Since $X$ is $n \times 2$, we know that $X'X$ is a $2 \times 2$ matrix, which looks as follows:
+$$
+X'X =
+\begin{pmatrix}
+\imath'\imath & \imath'x \\
+x'\imath & x'x
+\end{pmatrix} =
+\begin{pmatrix}
+n & \sum_{i=1}^{n} x_{i} \\
+\sum_{i=1}^{n} x_{i} & \sum_{i=1}^{n} x_{i}^{2}
+\end{pmatrix}.
+$$
+Let us have a look at the separate entries of this matrix. When $n \to \infty$, we do not want any elements 'to explode' (i.e., diverge) but also not all shrink to zero (making the matrix singular and thus non-invertible). Note that $\frac{1}{n}$ is exactly the right scaling to ensure that those two situations do not occur. That is, we obtain
+$$
+Q_{n} = X'X/ n = 
+\begin{pmatrix}
+1 & \frac{1}{n}\sum_{i=1}^{n} x_{i} \\
+\frac{1}{n}\sum_{i=1}^{n} x_{i} & \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}
+\end{pmatrix},
+$$
+where the element $(Q_{n})_{11} = 1$ is now constant (any other scaling would have caused diverging to $\infty$ or convergence to zero), the element $(Q_{n})_{12} = (Q_{n})_{21} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$ is the sample mean which converges to the population mean $E(x_{i})$ by the law of large numbers and the element $(Q_{n})_{22} = \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}$ does so similarly but then to $E(x_{i}^{2})$. For now, this intuition suffices. We will discuss the assumption in more detail when we actually need it.
