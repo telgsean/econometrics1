@@ -691,6 +691,12 @@ window.Quarto = {
   <li><a href="#assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution" id="toc-assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#assumption-4-the-n-times-1-vector-u-follows-a-multivariate-normal-distribution">Assumption 4: The <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(u\)</span> follows a multivariate normal distribution</a></li>
   <li><a href="#assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix" id="toc-assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix" class="nav-link" data-scroll-target="#assumption-5-if-we-let-q_n-xxn-then-q_n-to-q-as-n-to-infty-where-q-is-a-finite-and-positive-definite-k-times-k-matrix">Assumption 5: If we let <span class="math inline">\(Q_{n} = X'X/n\)</span>, then <span class="math inline">\(Q_{n} \to Q\)</span> as <span class="math inline">\(n \to \infty\)</span>, where <span class="math inline">\(Q\)</span> is a finite and positive definite <span class="math inline">\(k \times k\)</span> matrix</a></li>
   </ul></li>
+  <li><a href="#model-and-data-generation-process" id="toc-model-and-data-generation-process" class="nav-link" data-scroll-target="#model-and-data-generation-process">Model and data-generation process</a></li>
+  <li><a href="#properties-of-estimators" id="toc-properties-of-estimators" class="nav-link" data-scroll-target="#properties-of-estimators">Properties of estimators</a>
+  <ul class="collapse">
+  <li><a href="#unbiasedness-of-the-least-squares-estimator-in-the-simple-linear-regression-model" id="toc-unbiasedness-of-the-least-squares-estimator-in-the-simple-linear-regression-model" class="nav-link" data-scroll-target="#unbiasedness-of-the-least-squares-estimator-in-the-simple-linear-regression-model">Unbiasedness of the least-squares estimator in the simple linear regression model</a></li>
+  <li><a href="#how-to-continue" id="toc-how-to-continue" class="nav-link" data-scroll-target="#how-to-continue">How to continue?</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -757,7 +763,8 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i=1, \ldots, n),
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression <span class="math inline">\(b = (X'X)^{-1}X'y\)</span> will also be the least-squares <strong>estimator</strong>. You might be under the impression that this is ‘obvious’, but it is actually far from! When we discuss best unbiased estimation next week, it will become clear that we will get to the same expression but by solving a completely different optimization problem!</p>
+<p>Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression <span class="math inline">\(b = (X'X)^{-1}X'y\)</span> will also be the least-squares <strong>estimator</strong>. You might be under the impression that this is ‘obvious’, but it is actually far from! When we discuss best unbiased estimation, it will become clear that we will get to the same expression but by solving a completely different optimization problem!</p>
+<p>Note that we will typically write “hats” on the coefficients to indicate estimators. For example, the least-squares estimator of <span class="math inline">\(\beta\)</span> is denoted <span class="math inline">\(\widehat{\beta}\)</span> (and no longer <span class="math inline">\(b\)</span>).</p>
 </div>
 </div>
 <p>Important to remember: <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(u_{i}\)</span> are random variables, <span class="math inline">\(x_{i}\)</span>, <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are nonrandom. The variables <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(x_{i}\)</span> are observable, while <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span> and <span class="math inline">\(u_{i}\)</span> are unobservable. The generalization to the <strong>multiple linear regression model</strong> can be found in ITE. We also study the ideal conditions (assumptions).</p>
@@ -771,11 +778,14 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i=1, \ldots, n),
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Read Section 2.1 - 2.4.</p>
+<p>Read Section 2.1 - 2.7.</p>
 <ul>
 <li>Section 2.2 contains an introductory text about randomness.</li>
 <li>Section 2.3 explains the difference between a theoretical and a realized observation.</li>
 <li>Section 2.4 introduces the set of ideal conditions for the linear model.</li>
+<li>Section 2.5 makes an important distinction between model and data-generation process.</li>
+<li>Section 2.6 introduces some notational agreements that we make.</li>
+<li>Section 2.7 elaborates on Assumption 2 (<span class="math inline">\(X\)</span> is nonrandom) and why we (for now) choose this simplified setting.</li>
 </ul>
 <p>Afterwards, we continue here to discuss the role of assumptions and how to interpret them.</p>
 </div>
@@ -921,6 +931,63 @@ Q_{n} = X'X/ n =
 \frac{1}{n}\sum_{i=1}^{n} x_{i} &amp; \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}
 \end{pmatrix},
 \]</span> where the element <span class="math inline">\((Q_{n})_{11} = 1\)</span> is now constant (any other scaling would have caused diverging to <span class="math inline">\(\infty\)</span> or convergence to zero), the element <span class="math inline">\((Q_{n})_{12} = (Q_{n})_{21} = \frac{1}{n}\sum_{i=1}^{n} x_{i}\)</span> is the sample mean which converges to the population mean <span class="math inline">\(E(x_{i})\)</span> by the law of large numbers and the element <span class="math inline">\((Q_{n})_{22} = \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}\)</span> does so similarly but then to <span class="math inline">\(E(x_{i}^{2})\)</span>. For now, this intuition suffices. We will discuss the assumption in more detail when we actually need it.</p>
+</section>
+</section>
+<section id="model-and-data-generation-process" class="level2">
+<h2 class="anchored" data-anchor-id="model-and-data-generation-process">Model and data-generation process</h2>
+<p>It is important to understand the difference between a model and a data-generation process (DGP). As explained in the book, the DGP is the true process that generates the data. In reality, we almost never know the DGP (only in very simplified settings, or experimental setups). As econometricians, we use models to approximate the DGP and often we want to ask ourselves: “How well is my model performing for a certain DGP?”.</p>
+<p>This means that, unlike real life, we will often assume that we know the DGP in this course. This way, we have the possibility to assess the performance of the model. Suppose that we are interested in measuring the effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span> as adequate as possible. If we suppose the DGP is given by <span id="eq-DGP"><span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
+\tag{1}\]</span></span> we could ask ourselves the question: “Suppose I misspecify my model by accidentally <strong>excluding the intercept</strong>, am I still able to recover the effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span> adequately?”. Thus, we know <a href="#eq-DGP" class="quarto-xref">1</a> is the truth, but we estimate instead <span id="eq-model"><span class="math display">\[
+y_{i} = \beta_{2}x_{i} + u_{i}.
+\tag{2}\]</span></span> Clearly, <a href="#eq-model" class="quarto-xref">2</a> is a restricted version of <a href="#eq-DGP" class="quarto-xref">1</a> by setting <span class="math inline">\(\beta_{1} = 0\)</span>. Thus, we would actually investigate whether such a restriction is appropriate in this case. How to do that, we will study later (from Section 2.14 onwards)!</p>
+</section>
+<section id="properties-of-estimators" class="level2">
+<h2 class="anchored" data-anchor-id="properties-of-estimators">Properties of estimators</h2>
+<p>As we mentioned before, approximation is very different from estimation. In the approximation context, data is nonrandom and thus it makes no sense to talk about concepts such as unbiasedness. However, if we assume that data are realizations of random variables, it means that every new draw results in a different data set. In other words, suppose two students are going to collect data at the VU, e.g., by asking <span class="math inline">\(n\)</span> students to fill in a survey. The two students each manage to get a sample from the same population, but their samples are different because they asked different students to complete the survey. However, both samples are a valid realization of a random process. Thus, if we were to estimate a linear regression model by least squares on both samples, we expect that the estimator “does well” in both cases.</p>
+<p>Unbiasedness intuitively means that our estimator equal the correct, true value <strong>on average</strong>. In technical terms, for a given parameter <span class="math inline">\(\theta\)</span>, we have <span class="math inline">\(E(\hat{\theta}) = \theta\)</span>. To understand this, imagine that we could repeatedly draw new samples from the population and calculate <span class="math inline">\(\hat{\theta}\)</span> for each sample. The average of these estimates would equal the true value <span class="math inline">\(\theta\)</span>. In other words, the estimator does not systematically overestimate or underestimate the parameter.</p>
+<p>This is an informal way to think about unbiasedness, but it is important to distinguish it from asymptotic concepts such as consistency: unbiasedness concerns the estimator’s average over repeated samples, whereas consistency concerns what happens to the estimator as the sample size grows.</p>
+<section id="unbiasedness-of-the-least-squares-estimator-in-the-simple-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="unbiasedness-of-the-least-squares-estimator-in-the-simple-linear-regression-model">Unbiasedness of the least-squares estimator in the simple linear regression model</h3>
+<p>How can we prove that an estimator is unbiased? Let us characterize this for the least-squares estimator of the slope in the simple linear regression model. We assume that the model and the DGP coincide. The least-squares estimator of <span class="math inline">\(\beta_{2}\)</span> is given by <span class="math display">\[
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\]</span> Based on the DGP, <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}\)</span> and <span class="math inline">\(\overline{y} = \beta_{1} + \beta_{2}\overline{x} + \overline{u}\)</span> by taking the sample average. Plugging these expressions into the estimator, yields <span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{2} &amp;= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{1} + \beta_{2}x_{i} + u_{i}) - (\beta_{1} + \beta_{2}\overline{x} + \overline{u})]}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &amp;= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{2}(x_{i} - \overline{x}) + u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &amp;= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &amp;= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}},
+\end{aligned}
+\]</span> because <span class="math inline">\(\sum_{i=1}^{n} (x_{i} - \overline{x})\overline{u} = \overline{u}\sum_{i=1}^{n} (x_{i} - \overline{x}) = \overline{u} \cdot (n\overline{x} - n\overline{x}) = \overline{u} \cdot 0 = 0\)</span>. If we now take expectations, we obtain <span class="math display">\[
+\begin{aligned}
+E(\widehat{\beta}_{2}) &amp;= E \left(\beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right) \\
+                   &amp;= E(\beta_{2}) + E \left(\frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right) \\
+                   &amp;= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})E(u_{i})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                   &amp; = \beta_{2},
+\end{aligned}
+\]</span> where we used that <span class="math inline">\(X\)</span> is nonrandom (and thus can be taken outside of the expectation operator) by Assumption 2 and <span class="math inline">\(E(u_{i}) = 0\)</span> by Assumption 3. Since <span class="math inline">\(E(\widehat{\beta}_{2}) = \beta_{2}\)</span>, we have shown that the least-squares estimator <span class="math inline">\(\widehat{\beta}_{2}\)</span> is unbiased for the slope coefficient <span class="math inline">\(\beta_{2}\)</span>. Note how the assumption that <span class="math inline">\(X\)</span> is nonrandom simplified the derivation a lot.</p>
+</section>
+<section id="how-to-continue" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-continue">How to continue?</h3>
+<p>We have just shown unbiasedness of the least-squares estimator in the simple linear regression model. It is important that you are able to show unbiasedness of estimators throughout this course. However, we are about to take a different approach in the book. That is, we forget about everything we learnt in the framework of approximation. We don’t know the derived formulas anymore. We are going to continue as follows. Assume we have the linear regression model in general form <span class="math inline">\(y = X\beta + u\)</span> and Assumption 1-5 hold. Our goal is to derive the best linear unbiased estimator (BLUE). This means that we are interested in linear estimators, which are unbiased and have the lowest variance possible. We can find the BLUE by solving a contrained minimization problem. We are going to minimize the variance of a linear estimator, subject to the estimator being unbiased. How this exactly works, is explained in the last sections of this week.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read Section 2.8 and 2.9.</p>
+<ul>
+<li>Section 2.8 motivates unbiased estimation and highlights some strengths and flaws of the concept.</li>
+<li>Section 2.9 focuses on best unbiased estimation of a linear combination of the <span class="math inline">\(\beta\)</span>s.</li>
+</ul>
+<p>Why a linear combination of the <span class="math inline">\(\beta\)</span>s and not just <span class="math inline">\(\beta\)</span> itself? <span class="math inline">\(\beta\)</span> is a parameter vector, while <span class="math inline">\(w'\beta\)</span> is a scalar. We will see that standard methods in calculus can be used for scalar objects. For objects such as vectors and matrices, this is no longer possible and we need to resort to other proving styles. For this, we need the result on the linear combination of the <span class="math inline">\(\beta\)</span>s first!</p>
+</div>
+</div>
 
 
 </section>

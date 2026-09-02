@@ -24,7 +24,10 @@ $$
 but its interpretation is quite different. In the previous setup, all observations $(x_{i}, y_{i})$ for $i = 1, \ldots, n$ were fixed. Thus, they could just be treated as given. The task was then simple: find the best-fitting line based on the criterion that the sum of squared distances from the line to the observations is as small as possible. However, we are now going to assume that $y_{i}$ is a random variable called the **dependent variable** (or **explained variable**, **regressand**). This variable is related to an **explanatory variable** $x_{i}$ (or **indepedent variable**, **regressor**). At first, we are going to assume that $x_{i}$ is nonrandom. The basics of econometric theory do not change if we make this simplifying assumption and the material is easier to grasp. We call $\beta_{1}$ and $\beta_{2}$ the unknown **parameters** or **coefficients** of the model, and $u_{i}$ the **error term** or **disturbance term**.
 
 ::: {.callout-important title="The least-squares approximator" }
-Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression $b = (X'X)^{-1}X'y$ will also be the least-squares **estimator**. You might be under the impression that this is 'obvious', but it is actually far from! When we discuss best unbiased estimation next week, it will become clear that we will get to the same expression but by solving a completely different optimization problem!
+Last week, we derived the least-squares approximator in the non-random context. It turns out that the expression $b = (X'X)^{-1}X'y$ will also be the least-squares **estimator**. You might be under the impression that this is 'obvious', but it is actually far from! When we discuss best unbiased estimation, it will become clear that we will get to the same expression but by solving a completely different optimization problem!
+
+Note that we will typically write "hats" on the coefficients to indicate estimators. For example, the least-squares
+estimator of $\beta$ is denoted $\widehat{\beta}$ (and no longer $b$).
 
 :::
 
@@ -33,11 +36,14 @@ Important to remember: $y_{i}$ and $u_{i}$ are random variables, $x_{i}$, $\beta
 ::: {.callout-tip icon="false"}
 ## 📚 Read in ITE
 
-Read Section 2.1 - 2.4.
+Read Section 2.1 - 2.7.
 
 - Section 2.2 contains an introductory text about randomness.
 - Section 2.3 explains the difference between a theoretical and a realized observation.
 - Section 2.4 introduces the set of ideal conditions for the linear model.
+- Section 2.5 makes an important distinction between model and data-generation process.
+- Section 2.6 introduces some notational agreements that we make.
+- Section 2.7 elaborates on Assumption 2 ($X$ is nonrandom) and why we (for now) choose this simplified setting.
 
 Afterwards, we continue here to discuss the role of assumptions and how to interpret them.
 
@@ -157,3 +163,63 @@ Q_{n} = X'X/ n =
 \end{pmatrix},
 $$
 where the element $(Q_{n})_{11} = 1$ is now constant (any other scaling would have caused diverging to $\infty$ or convergence to zero), the element $(Q_{n})_{12} = (Q_{n})_{21} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$ is the sample mean which converges to the population mean $E(x_{i})$ by the law of large numbers and the element $(Q_{n})_{22} = \frac{1}{n}\sum_{i=1}^{n} x_{i}^{2}$ does so similarly but then to $E(x_{i}^{2})$. For now, this intuition suffices. We will discuss the assumption in more detail when we actually need it.
+
+## Model and data-generation process
+It is important to understand the difference between a model and a data-generation process (DGP). As explained in the book, the DGP is the true process that generates the data. In reality, we almost never know the DGP (only in very simplified settings, or experimental setups). As econometricians, we use models to approximate the DGP and often we want to ask ourselves: "How well is my model performing for a certain DGP?". 
+
+This means that, unlike real life, we will often assume that we know the DGP in this course. This way, we have the possibility to assess the performance of the model. Suppose that we are interested in measuring the effect of $x$ on $y$ as adequate as possible. If we suppose the DGP is given by
+$$
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
+$$ {#eq-DGP}
+we could ask ourselves the question: "Suppose I misspecify my model by accidentally **excluding the intercept**, am I still able to recover the effect of $x$ on $y$ adequately?". Thus, we know @eq-DGP is the truth, but we estimate instead
+$$
+y_{i} = \beta_{2}x_{i} + u_{i}.
+$$ {#eq-model}
+Clearly, @eq-model is a restricted version of @eq-DGP by setting $\beta_{1} = 0$. Thus, we would actually investigate whether such a restriction is appropriate in this case. How to do that, we will study later (from Section 2.14 onwards)!
+
+## Properties of estimators
+As we mentioned before, approximation is very different from estimation. In the approximation context, data is nonrandom and thus it makes no sense to talk about concepts such as unbiasedness. However, if we assume that data are realizations of random variables, it means that every new draw results in a different data set. In other words, suppose two students are going to collect data at the VU, e.g., by asking $n$ students to fill in a survey. The two students each manage to get a sample from the same population, but their samples are different because they asked different students to complete the survey. However, both samples are a valid realization of a random process. Thus, if we were to estimate a linear regression model by least squares on both samples, we expect that the estimator "does well" in both cases.
+
+Unbiasedness intuitively means that our estimator equal the correct, true value **on average**. In technical terms, for a given parameter $\theta$, we have $E(\hat{\theta}) = \theta$. To understand this, imagine that we could repeatedly draw new samples from the population and calculate $\hat{\theta}$ for each sample. The average of these estimates would equal the true value $\theta$. In other words, the estimator does not systematically overestimate or underestimate the parameter.
+
+This is an informal way to think about unbiasedness, but it is important to distinguish it from asymptotic concepts such as consistency: unbiasedness concerns the estimator's average over repeated samples, whereas consistency concerns what happens to the estimator as the sample size grows.
+
+### Unbiasedness of the least-squares estimator in the simple linear regression model
+How can we prove that an estimator is unbiased? Let us characterize this for the least-squares estimator of the slope in the simple linear regression model. We assume that the model and the DGP coincide. The least-squares estimator of $\beta_{2}$ is given by
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+$$
+Based on the DGP, $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$ and $\overline{y} = \beta_{1} + \beta_{2}\overline{x} + \overline{u}$ by taking the sample average. Plugging these expressions into the estimator, yields
+$$
+\begin{aligned}
+\widehat{\beta}_{2} &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{1} + \beta_{2}x_{i} + u_{i}) - (\beta_{1} + \beta_{2}\overline{x} + \overline{u})]}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{2}(x_{i} - \overline{x}) + u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}},
+\end{aligned}
+$$
+because $\sum_{i=1}^{n} (x_{i} - \overline{x})\overline{u} = \overline{u}\sum_{i=1}^{n} (x_{i} - \overline{x}) = \overline{u} \cdot (n\overline{x} - n\overline{x}) = \overline{u} \cdot 0 = 0$. If we now take expectations, we obtain
+$$
+\begin{aligned}
+E(\widehat{\beta}_{2}) &= E \left(\beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right) \\
+                   &= E(\beta_{2}) + E \left(\frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right) \\
+                   &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})E(u_{i})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                   & = \beta_{2},
+\end{aligned}
+$$
+where we used that $X$ is nonrandom (and thus can be taken outside of the expectation operator) by Assumption 2 and $E(u_{i}) = 0$ by Assumption 3. Since $E(\widehat{\beta}_{2}) = \beta_{2}$, we have shown that the least-squares estimator $\widehat{\beta}_{2}$ is unbiased for the slope coefficient $\beta_{2}$. Note how the assumption that $X$ is nonrandom simplified the derivation a lot.
+
+### How to continue?
+We have just shown unbiasedness of the least-squares estimator in the simple linear regression model. It is important that you are able to show unbiasedness of estimators throughout this course. However, we are about to take a different approach in the book. That is, we forget about everything we learnt in the framework of approximation. We don't know the derived formulas anymore. We are going to continue as follows. Assume we have the linear regression model in general form $y = X\beta + u$ and Assumption 1-5 hold. Our goal is to derive the best linear unbiased estimator (BLUE). This means that we are interested in linear estimators, which are unbiased and have the lowest variance possible. We can find the BLUE by solving a contrained minimization problem. We are going to minimize the variance of a linear estimator, subject to the estimator being unbiased. How this exactly works, is explained in the last sections of this week. 
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read Section 2.8 and 2.9.
+
+- Section 2.8 motivates unbiased estimation and highlights some strengths and flaws of the concept.
+- Section 2.9 focuses on best unbiased estimation of a linear combination of the $\beta$s.
+
+Why a linear combination of the $\beta$s and not just $\beta$ itself? $\beta$ is a parameter vector, while $w'\beta$ is a scalar. We will see that standard methods in calculus can be used for scalar objects. For objects such as vectors and matrices, this is no longer possible and we need to resort to other proving styles. For this, we need the result on the linear combination of the $\beta$s first!
+
+:::
