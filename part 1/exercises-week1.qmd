@@ -214,7 +214,7 @@ $f(x) = Ax$ which is of order $n \times 1$. The denominator has $x'$ which is of
 
 ### Exercise 8
 
-Suppose we are given a vector $y$ and a matrix $X$. We create a new matrix $X_{*} = XP$, so that each column of $X_{*}$ is a linear combination of the columns of $X$. If P is nonsingular, then show that the residual vectors in the regressions of $y$ on $X$ (denoted $e$) and $y$ on $X_{*}$ (denoted $e_{*}$) are identical. What is the relevance of this result?
+Suppose we are given a vector $y$ and a matrix $X$. We create a new matrix $X_{*} = XP$, so that each column of $X_{*}$ is a linear combination of the columns of $X$. If $P$ is nonsingular, then show that the residual vectors in the regressions of $y$ on $X$ (denoted $e$) and $y$ on $X_{*}$ (denoted $e_{*}$) are identical. What is the relevance of this result?
 
 ::: {.callout-caution title="Solution" collapse = true}
 
