@@ -73,18 +73,7 @@ Figure 1a shows that linear regression between $x$ and $y$ is not meaningful. Th
 $$
 y_{i} = \beta_{1} + \beta_{2} x^{2}_{i} + u_{i},
 $$
-we see that this relationship is close to linear. Consequently, the estimated linear regression line (in red) now shows an almost perfect fit. Of course, it is not always possible to recast in a nonlinear relationship into a linear regression model (where the variables are transformed). There are "linear models in disguise", but sometimes there is need for a nonlinear regression model (not captured in this course). Because linearity is a so-called first-order approximation to the model, it often even forms the basis for nonlinear models (you will see some examples of such models [logit/probit/tobit] in Econometrics II). Main advantage of the linear regression model is its high degree of interpretability.
-
-::: {.callout-important title="Exercise: Can we use linear regression?" collapse = true}
-
-Determine whether linear regression is warrented for the following models:
-
-a. $y_{i} = \beta_{1}x_{1,i} + \sqrt{\beta_{2}}x_{2,i} + u_{i}$
-b. $y_{i} = \beta_{1}x_{1,i} + \beta_{2} x_{1,i}^{2} + u_{i}$
-c. $y_{i} = \beta_{1}x_{1,i} + \beta_{2}x_{2,i} + \beta_{3}x_{1,i}x_{2,i} + u_{i}$
-d. $y_{i} = \beta_{1} \exp(\beta_{2}x_{1,i})u_{i}$ for $\beta_{1} > 0$, $u_{i} >0$, $y_{i} > 0$ for all $i$.
-
-:::
+we see that this relationship is close to linear. Consequently, the estimated linear regression line (in red) now shows an almost perfect fit. Of course, it is not always possible to recast in a nonlinear relationship into a linear regression model (where the variables are transformed). There are "linear models in disguise", but sometimes there is need for a nonlinear regression model (not captured in this course). Because linearity is a so-called first-order approximation to the model, it often even forms the basis for nonlinear models (you will see some examples of such models [logit/probit/tobit] in Econometrics II). A main advantage of the linear regression model is its high degree of interpretability.
 
 ### Assumption 2: The $n \times k$ matrix $X$ is nonrandom and has rank $k$
 This assumption has two parts to it, which we will discuss separately. First, the matrix $X$ is nonrandom. Note that this is a choice that we make for theoretical reasons, because our mathematical derivations are easier if we treat the independent variables as given. This is not something that you can check or test on data. We make this simplifying assumption to make our life easier (we circumvent conditioning, which we discuss in week 6 of the course) but it comes at the cost of a loss in generality.
@@ -96,18 +85,7 @@ It is also implicit that the number of observations $n$ is always larger than th
 Second, we assume that the $n \times k$ matrix $X$ has rank $k$. 
 The assumption dictates that all $k$ columns are linearly independent. In other words, it is impossible to write a single column as a linear combination of all the other columns. Why is this important? Last week, we saw that the least-squares approximator is given by $b = (X'X)^{-1}X'y$. In the estimation framework, this formula remains the same as we will prove next week. Note that $X'X$ is a $k \times k$ matrix of full rank $k$ (see Section A.3 in ITE for more details). We can only compute the inverse of $X'X$ if it is nonsingular, i.e., if it has full rank.
 
-In case we do have columns in $X$ that are linear combinations of each other, we call it **perfect multicollinearity**. The wording is exactly saying what is going on: multiple columns are perfectly collinear. Below you can again find a short exercise in which you have to guess whether $X$ could be collinear.
-
-::: {.callout-important title="Exercise: Perfect multicollinearity or not?" collapse = true}
-
-For the following models, argue whether it is possible that $X$ is collinear.
-
-a. $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$.
-b. $y_{i} = \beta_{1} + \beta_{2}\text{North}_{i} + \beta_{3}\text{South}_{i} + \beta_{4} \text{West}_{i} + \beta_{5}\text{East}_{i} + u_{i}$, where $y_{i}$ is the wealth in city $i$ and $\text{North}_{i} = 1$ if the city is located in the North, and vice versa for the other regressors. Each city can only belong to one cardinal direction.
-c. $y_{i} = \beta_{1} + \beta_{2}\text{Full-Time}_{i} + \beta_{3}\text{Part-Time}_{i} + u_{i}$, where $y_{i}$ is productivity of employee $i$ who is either a full-time or part-time worker.
-d. $y_{i} = \beta_{1} + \beta_{2}x_{i} + \beta_{3} x_{i}^{2} + u_{i}$.
-
-:::
+In case we do have columns in $X$ that are linear combinations of each other, we call it **perfect multicollinearity**. The wording is exactly saying what is going on: multiple columns are perfectly collinear. 
 
 ### Assumption 3: The $n \times 1$ vector $u$ has mean zero and variance $\sigma^{2}I_{n}$
 

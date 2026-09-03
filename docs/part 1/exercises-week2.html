@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -647,8 +676,35 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#least-squares-and-measures-of-fit" id="toc-least-squares-and-measures-of-fit" class="nav-link active" data-scroll-target="#least-squares-and-measures-of-fit">Least squares and measures of fit</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  </ul></li>
+  <li><a href="#empirical-applications" id="toc-empirical-applications" class="nav-link" data-scroll-target="#empirical-applications">Empirical applications</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
+  <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
+  </ul></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals">Residuals</a></li>
+  <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6">Exercise 6</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#exercise-7" id="toc-exercise-7" class="nav-link" data-scroll-target="#exercise-7">Exercise 7</a></li>
+  <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8">Exercise 8</a></li>
+  </ul></li>
+  <li><a href="#best-unbiased-estimation" id="toc-best-unbiased-estimation" class="nav-link" data-scroll-target="#best-unbiased-estimation">Best unbiased estimation</a>
+  <ul class="collapse">
+  <li><a href="#exercise-9" id="toc-exercise-9" class="nav-link" data-scroll-target="#exercise-9">Exercise 9</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -679,8 +735,352 @@ window.MathJax = {
 </header>
 
 
+<section id="least-squares-and-measures-of-fit" class="level2">
+<h2 class="anchored" data-anchor-id="least-squares-and-measures-of-fit">Least squares and measures of fit</h2>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise 1</h3>
+<p>Let <span class="math inline">\(b = (X'X)^{-1}X'y\)</span>, and let <span class="math inline">\(e = y - Xb\)</span> be the vector of residuals and <span class="math inline">\(\hat{y} = Xb\)</span> the vector of predictors. Show that:</p>
+<ol type="a">
+<li><span class="math inline">\(\widehat{y}\)</span> and <span class="math inline">\(e\)</span> are orthogonal to each other.</li>
+<li><span class="math inline">\(\widehat{y} = Py\)</span> and <span class="math inline">\(e = My\)</span>, where <span class="math inline">\(P\)</span> and <span class="math inline">\(M\)</span> are symmetric idempotent matrices satisfying <span class="math inline">\(MP = 0\)</span>.</li>
+<li><span class="math inline">\(y'y = \widehat{y}'\widehat{y} + e'e\)</span>.</li>
+<li><span class="math inline">\(Ae = e\)</span> if and only if the regression contains a constant term; more precisely, if <span class="math inline">\(\imath\)</span> is a linear combination of the columns of <span class="math inline">\(X\)</span>.</li>
+<li><span class="math inline">\(y'Ay = \hat{y}'A\hat{y} + e'e\)</span>, if the regression contains a constant term, which we usually write as <span class="math inline">\(\text{SST} = \text{SSE} + \text{SSR}\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><span class="math inline">\(\widehat{y} = Xb\)</span>, so <span class="math inline">\(\widehat{y}'e = b'X'e\)</span>, now <span class="math inline">\(X'e = 0\)</span> by first order conditions of least squares. One can see this explicitly by substituting <span class="math inline">\(y - Xb\)</span> for <span class="math inline">\(e\)</span> and writing it out.</li>
+<li><span class="math inline">\(\widehat{y} = Xb = X(X'X)^{-1}X'y\)</span>, so <span class="math inline">\(P = X(X'X)^{-1}X'\)</span> and thus <span class="math inline">\(M = I_{n} - P\)</span>. It is easily verifiable that <span class="math inline">\(P\)</span> is, just like <span class="math inline">\(M\)</span>, symmetric and idempotent (which we already showed in class). Note that <span class="math inline">\(MP = (I_{n} - P)P = P - PP = P - P = 0\)</span>, as <span class="math inline">\(P\)</span> is idempotent.</li>
+<li>Write <span class="math inline">\(y = \widehat{y} + e\)</span> and note that it is a decomposition (that is what you showed in the first subquestion).</li>
+<li>Note that <span class="math inline">\(Ae = e\)</span> if and only if <span class="math inline">\(\imath'e = \imath'My = 0\)</span>, which occurs if and only if <span class="math inline">\(M\imath = 0\)</span>.
+<ul>
+<li>If <span class="math inline">\(\imath\)</span> is a linear combination of columns in <span class="math inline">\(X\)</span>, then <span class="math inline">\(\imath = Xc\)</span> for some <span class="math inline">\(c\)</span> and indeed <span class="math inline">\(MXc = 0\)</span> as <span class="math inline">\(MX=0\)</span>.</li>
+<li>Conversely, if <span class="math inline">\(M\imath = 0\)</span>, then writing out this equation yields <span class="math inline">\(\imath = X(X'X)^{-1}X'\imath\)</span>, which is a linear combination of the columns of <span class="math inline">\(X\)</span>.</li>
+</ul></li>
+<li>Since <span class="math inline">\(Ae = e\)</span> and <span class="math inline">\(\hat{y}'e = 0\)</span> (orthogonality), one immediately gets the desired result in the same way as in c.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="empirical-applications" class="level2">
+<h2 class="anchored" data-anchor-id="empirical-applications">Empirical applications</h2>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise 2</h3>
+<p>Suppose that a researcher, using data on class size (CS) and average test scores from 50 third-grade classes, obtains the following least squares output: <span class="math display">\[
+\widehat{Testscore} = 640.3 - 4.93 \times CS.
+\]</span></p>
+<ol type="a">
+<li>A classroom has <span class="math inline">\(25\)</span> students. What is the prediction for that classroom’s average test score?</li>
+<li>Last year a classroom had <span class="math inline">\(21\)</span> students, and this year it has <span class="math inline">\(24\)</span> students. What is the regression’s prediction for the change in the classroom’s average test score? Is this prediction reliable? Motivate your answer.</li>
+<li>The sample average of the class sizes across the 50 classrooms is <span class="math inline">\(22.8\)</span>. What is the sample average of the test scores across the <span class="math inline">\(50\)</span> classrooms? <em>Hint</em>: Use the least-squares approximator of <span class="math inline">\(\beta_{1}\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><span class="math inline">\(\widehat{Testscore} = 640.3 - 4.93 \times 25 = 517.05\)</span>.</li>
+<li>Similarly as in a., we can compute: <span class="math display">\[
+\begin{aligned}
+&amp;\widehat{Testscore} = 640.3 - 4.93 \times 21 = 536.77, \\
+&amp;\widehat{Testscore} = 640.3 - 4.93 \times 24 = 521.98,
+\end{aligned}
+\]</span> which are the predicted test scores for <span class="math inline">\(CS = 21\)</span> and <span class="math inline">\(CS = 24\)</span>, respectively. The predicted change is then <span class="math inline">\(521.98 - 536.77 = -14.79\)</span>. Note that this predicted change of <span class="math inline">\(-14.79\)</span> in test score is <strong>not reliable</strong>. If the number of students is the only aspect that changes, we want to know the effect of increasing class size from <span class="math inline">\(21\)</span> to <span class="math inline">\(24\)</span>, while <strong>keeping all other relevant factors fixed</strong>. This is the <strong>ceteris paribus</strong> interpretation. Ideally, we would therefore use a model such as <span class="math display">\[
+TestScore = \beta_1 + \beta_2 CS + \beta_3 QualityOfTeacher + \beta_4 QualityOfMaterial + \cdots + u^{*}.
+\]</span> In this model, <span class="math inline">\(\beta_2\)</span> measures the expected change in test score associated with a one-student increase in class size, holding the other factors fixed. Therefore, increasing class size from <span class="math inline">\(21\)</span> to <span class="math inline">\(24\)</span> students corresponds to an estimated change of <span class="math inline">\(3\hat{\beta}_2\)</span>. In the simple regression <span class="math display">\[
+TestScore = \beta_1 + \beta_2 CS + u,
+\]</span> the error term <span class="math inline">\(u\)</span> contains factors such as teacher quality and material quality. If these factors are correlated with class size, then <span class="math inline">\(u\)</span> is correlated with <span class="math inline">\(CS\)</span>. For example, if larger classes tend to have worse teachers and worse materials, the negative relationship between class size and test scores partly reflects these other factors. The simple regression therefore cannot isolate the ceteris paribus effect of class size. Thus, the estimate <span class="math inline">\(-14.79 = 3\hat{\beta}_2\)</span> from the simple regression should not be interpreted as the expected change in test score when an otherwise identical classroom goes from <span class="math inline">\(21\)</span> to <span class="math inline">\(24\)</span> students. It reflects the observed relationship between class size and test scores, which may also capture systematic differences in teacher quality, materials, and other factors between classrooms.</li>
+<li>Note that <span class="math display">\[
+\hat{\beta}_{1} = \overline{y} - \hat{\beta}_{2}\overline{x},
+\]</span> which can be rewritten to <span class="math display">\[
+\begin{aligned}
+\overline{y} &amp;= \hat{\beta}_{1} + \hat{\beta}_{2}\overline{x} \\
+          &amp;= 640.3 - 4.93 \times 22.8 = 527.90.
+\end{aligned}
+\]</span></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">Exercise 3</h3>
+<p>A regression of average weekly earnings (<span class="math inline">\(AWE\)</span>, measured in dollars) on age (measured in years) using a random sample of college-educated full-time workers aged <span class="math inline">\(25-65\)</span> yields the following output: <span class="math display">\[
+\widehat{AWE} = 696.7 + 9.6 \times Age.
+\]</span></p>
+<ol type="a">
+<li>Explain what the coefficient values <span class="math inline">\(696.7\)</span> and <span class="math inline">\(9.6\)</span> mean.</li>
+<li>What does the regression predict will be the earnings for a <span class="math inline">\(25\)</span>-year-old worker? And for a <span class="math inline">\(45\)</span>-year-old worker?</li>
+<li>Will the regression give reliable predictions for a <span class="math inline">\(99\)</span>-year-old worker? Why (not)?</li>
+<li>The sample average of age is <span class="math inline">\(41.6\)</span> years. What is the sample average of <span class="math inline">\(AWE\)</span>?</li>
+<li>What are the unit of measurements for <span class="math inline">\(R^{2}\)</span> and <span class="math inline">\(SER\)</span>?</li>
+<li>Given what you know about the distribution of earnings, do you think it is plausible that the distribution of errors in the regression is normal?</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>The intercept has no intuitive meaning, as there are no workers with age equal to zero years. The estimated slope is the average difference in expected earnings between person <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, where person <span class="math inline">\(A\)</span> is one year older than person <span class="math inline">\(B\)</span>.</li>
+<li><span class="math inline">\(936.7\)</span> and <span class="math inline">\(1128.7\)</span>, respectively.</li>
+<li>No, because the regression model is estimated only including workers aged <span class="math inline">\(25-65\)</span>.</li>
+<li><span class="math inline">\(1096.06\)</span> (can be solved similarly as in Exercise 1).</li>
+<li><span class="math inline">\(R^{2}\)</span> is unit-free (but is often expressed as a percentage, as it is restricted to the <span class="math inline">\([0,1]\)</span> interval). Note that both <span class="math inline">\(SSE\)</span> and <span class="math inline">\(SST\)</span> are measured in <span class="math inline">\(dollar^{2}\)</span>, i.e.&nbsp;the squared unit of the dependent variable <span class="math inline">\(Y\)</span>. The unit of measurement of the <span class="math inline">\(SER\)</span> is dollars; it has the same unit of measurement as the dependent variable <span class="math inline">\(Y\)</span>.</li>
+<li>The errors likely have a right-skewed distribution, because there are some persons with relatively high earnings, whereas no persons have negative earnings (assuming no self-employed persons with large losses). The kurtosis (fatness of the tail) is also expected to be larger than under the normal distribution due to this.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4">Exercise 4</h3>
+<p>In a course on microeconomics, you have seen the Cobb-Douglas production function <span class="math display">\[
+Q = \alpha K^{\beta_{1}}L^{\beta_{2}},
+\]</span> where <span class="math inline">\(Q\)</span> denotes output, <span class="math inline">\(K\)</span> is capital, and <span class="math inline">\(L\)</span> is labor. We wish to estimate <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta_{1}\)</span>, and <span class="math inline">\(\beta_{2}\)</span> based on <span class="math inline">\(n\)</span> observations on <span class="math inline">\((Q_{i}, K_{i}, L_{i})\)</span>. How can this be done?</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Is this nonlinear equation a linear model is disguise? If yes, how can you linearize it?</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5">Exercise 5</h3>
+<p>A researcher wants to estimate the following model <span class="math display">\[
+y = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^{2} + u,
+\]</span> because she believes that <span class="math inline">\(x_{1}\)</span> does not have a constant marginal effect on <span class="math inline">\(y\)</span> but rather a diminishing marginal effect.</p>
+<ol type="a">
+<li>Does the proposed model violate the linearity assumption?</li>
+<li>An advantage of the multiple linear regression model is that it facilitates <em>ceteris paribus</em> analysis. Why is this difficult here?</li>
+<li>In case of diminishing marginal effects, what would be the signs of <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>?</li>
+<li>Determine how a change in <span class="math inline">\(x_{1}\)</span> affects <span class="math inline">\(y\)</span>. At which value of <span class="math inline">\(x_{1}\)</span> does the function take its maximum?</li>
+<li>Given an example of an empirical application where this modeling technique might be appropriate.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>No.</li>
+<li>Can you change <span class="math inline">\(x_{1}\)</span> while controlling (i.e.&nbsp;keeping fixed) <span class="math inline">\(x_{1}^{2}\)</span>?</li>
+<li><span class="math inline">\(\beta_{1} &gt; 0\)</span> and <span class="math inline">\(\beta_{2} &lt; 0\)</span> gives a parabola with inverted <span class="math inline">\(U\)</span>-shape when we plot <span class="math inline">\(y\)</span> against <span class="math inline">\(x_{1}\)</span>.</li>
+<li>Define <span class="math inline">\(g(x_{1}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^{2}\)</span> and proceed to take the appropriate derivative. Set it equal to zero and solve for <span class="math inline">\(x_{1}\)</span>.</li>
+<li>A well-known example is the relationship between experience and salary. Argue why.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="residuals" class="level2">
+<h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
+</section>
+<section id="exercise-6" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
+<p>Consider the standard linear regression model <span class="math inline">\(y = X\beta + u\)</span>, where <span class="math inline">\(y\)</span> and <span class="math inline">\(u\)</span> are of order <span class="math inline">\(n \times 1\)</span>, <span class="math inline">\(\beta\)</span> is of order <span class="math inline">\(k \times 1\)</span>, and <span class="math inline">\(X\)</span> is an <span class="math inline">\(n \times k\)</span> matrix with full column rank. We assume that <span class="math inline">\(E(u) = 0\)</span> and <span class="math inline">\(\Var(u) = \sigma^{2} I_{n}\)</span>.</p>
+<ol type="a">
+<li>Show that the least-squares residuals <span class="math inline">\(e\)</span> are equal to <span class="math inline">\(My\)</span> and <span class="math inline">\(Mu\)</span>.</li>
+<li>Compute the mean and variance of the residuals <span class="math inline">\(e\)</span>.</li>
+<li>Show that the variance matrix of <span class="math inline">\(e\)</span> cannot have full rank and explain why.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>The residuals are defined as <span class="math inline">\(e = y - X\hat{\beta}\)</span> with <span class="math inline">\(\hat{\beta} = (X'X)^{-1}X'y\)</span>. Therefore, <span class="math display">\[
+\begin{aligned}
+e &amp;= y - X(X'X)^{-1}X'y = (I_{n} - X(X'X)^{-1}X')y \\
+  &amp;= My = M(X\beta + u) = Mu,
+\]</span> since <span class="math inline">\(MX = (I_{n} - X(X'X)^{-1}X')X = X - X = 0\)</span>. This also implies that <span class="math inline">\(X'e = X'Mu = 0\)</span>.</li>
+<li>The mean of <span class="math inline">\(e\)</span> is given by <span class="math display">\[   
+E(e)= E(Mu) = ME(u)=0,
+\]</span> and the variance of <span class="math inline">\(e\)</span> can be computed as <span class="math display">\[
+\Var(e) = \Var(Mu) = M \Var(u) M = \sigma^2 M,
+\]</span> where we used the fact that <span class="math inline">\(M\)</span> is symmetric and idempotent.</li>
+<li>There are <span class="math inline">\(k\)</span> linearly independent restrictions on the residuals, namely <span class="math inline">\(X'e = 0\)</span>, as shown in a. Given these constraints, the variance of <span class="math inline">\(e\)</span> cannot have full rank. In fact, the rank is reduced by the number of linearly independent restrictions, as we can also see from <span class="math display">\[
+r(\Var(e))= r(\sigma^2 M) = r(M) = \text{tr}(M) = n-k,
+\]</span> as we have shown before. We like to think of <span class="math inline">\(e\)</span> as a predictor of <span class="math inline">\(u\)</span>, but this is only partly successful, because <span class="math inline">\(\Var(u)\)</span> is nonsingular, while <span class="math inline">\(\Var(e)\)</span> is singular, since <span class="math inline">\(k\)</span> degrees of freedom are lost when we estimate <span class="math inline">\(\beta\)</span>.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
+<section id="exercise-7" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7">Exercise 7</h3>
+<p>Determine whether linear regression is warrented for the following models:</p>
+<ol type="a">
+<li><span class="math inline">\(y_{i} = \beta_{1}x_{1,i} + \sqrt{\beta_{2}}x_{2,i} + u_{i}\)</span></li>
+<li><span class="math inline">\(y_{i} = \beta_{1}x_{1,i} + \beta_{2} x_{1,i}^{2} + u_{i}\)</span></li>
+<li><span class="math inline">\(y_{i} = \beta_{1}x_{1,i} + \beta_{2}x_{2,i} + \beta_{3}x_{1,i}x_{2,i} + u_{i}\)</span></li>
+<li><span class="math inline">\(y_{i} = \beta_{1} \exp(\beta_{2}x_{1,i})u_{i}\)</span> for <span class="math inline">\(\beta_{1} &gt; 0\)</span>, <span class="math inline">\(u_{i} &gt;0\)</span>, <span class="math inline">\(y_{i} &gt; 0\)</span> for all <span class="math inline">\(i\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The model needs to be linear in the parameters. If need and possible, rewrite the model to make it linear.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-8" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8">Exercise 8</h3>
+<p>For the following models, argue whether it is possible that <span class="math inline">\(X\)</span> is collinear.</p>
+<ol type="a">
+<li><span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}\)</span>.</li>
+<li><span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}\text{North}_{i} + \beta_{3}\text{South}_{i} + \beta_{4} \text{West}_{i} + \beta_{5}\text{East}_{i} + u_{i}\)</span>, where <span class="math inline">\(y_{i}\)</span> is the wealth in city <span class="math inline">\(i\)</span> and <span class="math inline">\(\text{North}_{i} = 1\)</span> if the city is located in the North, and vice versa for the other regressors. Each city can only belong to one cardinal direction.</li>
+<li><span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}\text{Full-Time}_{i} + \beta_{3}\text{Part-Time}_{i} + u_{i}\)</span>, where <span class="math inline">\(y_{i}\)</span> is productivity of employee <span class="math inline">\(i\)</span> who is either a full-time or part-time worker.</li>
+<li><span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + \beta_{3} x_{i}^{2} + u_{i}\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It may help to write out how the <span class="math inline">\(X\)</span> matrix would look like (you can make up some data yourself).</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="best-unbiased-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="best-unbiased-estimation">Best unbiased estimation</h2>
+<section id="exercise-9" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9">Exercise 9</h3>
+<p>Let <span class="math inline">\(\widehat{\theta}_{1}\)</span> and <span class="math inline">\(\widehat{\theta}_{2}\)</span> be two uncorrelated unbiased estimators of a parameter <span class="math inline">\(\theta\)</span> with variances <span class="math inline">\(\sigma_{1}^{2}\)</span> and <span class="math inline">\(\sigma_{2}^{2}\)</span>, respectively. What linear combination <span class="math display">\[
+\widehat{\theta} = w_{1} \widehat{\theta}_{1} + w_{2} \widehat{\theta}_{2}
+\]</span> is the best unbiased estimator of <span class="math inline">\(\theta\)</span>?</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Since <span class="math inline">\(\widehat{\theta}_{1}\)</span> and <span class="math inline">\(\widehat{\theta}_{2}\)</span> are unbiased estimators of <span class="math inline">\(\theta\)</span>, we have <span class="math display">\[
+\begin{aligned}
+E(\widehat{\theta}) &amp;= w_{1} E(\widehat{\theta}_{1}) + w_{2} E(\widehat{\theta}_{2}) \\
+&amp;= w_{1}\theta + w_{2}\theta \\
+&amp;= (w_{1} + w_{2})\theta,
+\end{aligned}
+\]</span> and since they are uncorrelated, we have <span class="math display">\[
+\begin{aligned}
+\Var(\widehat{\theta})
+&amp;= w_{1}^{2}\Var(\widehat{\theta}_{1}) + w_{2}^2 \Var(\widehat{\theta}_{2}) \\
+&amp;= w_{1}^{2}\sigma_{1}^2 + w_2^{2}\sigma_{2}^2.
+\end{aligned}
+\]</span> As <span class="math inline">\(\widehat{\theta}\)</span> must be unbiased, we have <span class="math inline">\(w_1 + w_2=1\)</span>. Thus, we need to minimize <span class="math display">\[
+\phi(w_1)=w_{1}^{2}\sigma_{1}^2 + (1-w_1)^{2}\sigma_{2}^2.
+\]</span> Differentiating with respect to <span class="math inline">\(w_1\)</span> gives <span class="math display">\[
+\phi'(w_1)=2w_{1}\sigma_{1}^2 - 2(1-w_{1})\sigma_{2}^2.
+\]</span> Setting the derivative to zero and solving gives <span class="math display">\[
+w_{1}^{*} = \frac{\sigma_{2}^2}{\sigma_{1}^2 + \sigma_{2}^2}.
+\]</span> This is indeed a minimum, because <span class="math inline">\(\phi''(w_1) = 2(\sigma_{1}^2 + \sigma_{2}^2) &gt; 0\)</span>. Hence, the linear combination <span class="math display">\[
+\widehat{\theta} = \frac{\sigma_{2}^2}{\sigma_{1}^2 + \sigma_{2}^2}\widehat{\theta}_{1} + \frac{\sigma_{1}^2}{\sigma_{1}^2 + \sigma_{2}^2}\widehat{\theta}_{2}
+\]</span> is the minimum variance unbiased estimator of <span class="math inline">\(\theta\)</span>. For example, if <span class="math inline">\(\sigma_{1}^2 = 1\)</span> and <span class="math inline">\(\sigma_{2}^2 = 3\)</span>, then <span class="math inline">\(w_{1} = 3/4\)</span> and <span class="math inline">\(w_{2} = 1/4\)</span>, and the variance of <span class="math inline">\(\widehat{\theta}\)</span> is <span class="math inline">\((3/4)^{2} \times 1 + (1/4)^{2} \times 3 = 3/4\)</span>, which is smaller than the variances of <span class="math inline">\(\widehat\theta_1\)</span> and <span class="math inline">\(\widehat\theta_2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Want to practice more?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Want to practice more?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Due to the limited number of contact hours, we cannot discuss all exercises in detail. There is, however, plenty of opportunity to practice more if you want. Note that</p>
+<ul>
+<li>During the classes, you will encounter more (difficult) exercises.</li>
+<li>In the book <em>Mastering Econometrics</em>, you can find plenty of exercises to practice. This week, good choices are the exercises of Chapter 2, Appendix A (properties of matrix [such as rank, trace, the matrix <span class="math inline">\(A\)</span>, the matrix <span class="math inline">\(M\)</span>]) and Appendix B (Section B.1, multivariate mean and variance).</li>
+</ul>
+<p>At the end of week 3 and 6, an extra online question hour is planned in which we could discuss some additional exercises that you practiced.</p>
+</div>
+</div>
 
 
+</section>
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
