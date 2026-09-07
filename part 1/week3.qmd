@@ -12,3 +12,69 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 2, Section 2.9 - 2.18.
 
 :::
+
+## Best unbiased estimation
+To find the best linear unbiased estimator (BLUE) of $\beta$, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of $w'\beta$, i.e., a linear combination of $\beta$ as $w$ is a $k \times 1$ vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of $\beta$ (or even more general, $W'\beta$), where $W$ is now a $k \times m$ matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.
+
+### Linear combination of $\beta$
+Last week, we considered the estimation of a linear combination of the $\beta$s. That is, we consider any linear combination
+$$
+\theta = w'\beta = w_{1}\beta_{1} + \cdots + w_{k}\beta_{k}.
+$$
+We assume that the model coincides with the DGP, and Assumptions 2.1-2.3 hold. Then we took the following strategy:
+
+- We consider a linear estimator of the data, given by $\widehat{\theta} = a'y$, where the $n \times 1$ vector $a$ is to be chosen optimally.
+- We want the estimator to be unbiased, i.e., $E(\widehat{\theta}) = \theta$, which implies $X'a = w$.
+- We want to have the lowest variance possible, thus we want to minimize $\Var(\widehat{\theta}) = \sigma^{2}a'a$ (which is once again a scalar, as it equals $\sigma^{2}\sum_{i=1}^{n} a_{i}^{2}$).
+
+To find the best linear unbiased estimator (BLUE), we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function
+$$
+\psi (a) = a'a/2 - l'(X'a - w),
+$$
+where $l$ is a $k \times 1$ vector of Lagrangian multipliers. Because the objective function is scalar-valued, standard calculus could be used to find the optimal solution $\widehat{\theta} = a'y = w'(X'X)^{-1}X'y$.
+
+::: {.callout-note title="Some examples"}
+Let $\beta = (\beta_{1}, \ldots, \beta_{k})'$ and consider the following examples:
+
+a. $w' = (0, 1, \ldots, 0)$ gives $w'\beta = \beta_{2}$.
+b. $w' = (1, -1, \ldots, 0)$ gives $w'\beta = \beta_{1} - \beta_{2}$.
+c. $w' = (3, 2, \ldots, 0)$ gives $w'\beta = 3\beta_{1} + 2\beta_{2}$.
+
+Note that $w'\beta$ **always** reduces to a scalar in this setting. 
+
+:::
+
+### Estimation of $\beta$
+Note that the steps in this scenario are very similar at first, it is just the dimensions of the objects that differ. That is, the problem reduces to
+
+- We consider a linear estimator of the data, given by $\widehat{\theta} = A'y$, where $A$ is an $n \times m$ matrix to be chosen optimally.
+- We want the estimator to be unbiased, i.e., $E(\widehat{\theta}) = \theta$, which implies $X'A = W$.
+- We want to have the lowest variance possible, thus we want to minimize $\Var(\widehat{\theta}) = \sigma^{2}A'A$ (which is an $m \times m$ matrix).
+
+Even though the problem appears analogous to the previous one, the crucial difference lies in the fact that we are now dealing with matrix functions. Calculus and Lagrangian theory are not applicable in this case. The proving strategy works as follows:
+
+- For $\widehat{\theta} = a'y$, we found that $a = X(X'X)^{-1}w$ constitutes the optimal weight.
+- We now make the following educated guess. For $\widehat{\theta} = A'y$, we **expect** that $A = X(X'X)^{-1}W$.
+- We proceed by defining $D = A - X(X'X)^{-1}W$ and aim at showing $D = 0$ at the optimal solution.
+
+::: {.callout-note title="Multiple linear combinations"}
+Note that $W'\beta$ generally results in an $m \times 1$ vector, which contains $m$ linear combinations of $\beta$.
+
+One of the most interesting cases is $W'= I_{k}$, in which $W'\beta = \beta$. That is, we consider $m = k$ trivial linear combinations because the matrix $W'$ essentially consists of $k$ standard basis vectors (i.e., a vector $e_{i}$ which has zero at every displacement $j \neq i$ and one at displacement $i$).
+
+:::
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Now that the intuition behind the proving techniques has been discussed, you are ready to read
+
+- Section 2.10, which is a proof of the Gauss-Markov theorem.
+- Section 2.11, which highlights a crucial difference between $u$ and $e$, characterized by their respective variance matrices.
+- Section 2.12, in which we construct a quadratic estimator for $\sigma^{2}$ with the property of being unbiased.
+
+For the last section, it is advisable to refresh your knowledge about square matrices (Section A.1), the trace of a matrix (Section A.2), properties of positive definite matrices (Section A.5) and the matrix $M$ (Section A.8).
+
+:::
+
+## Prediction

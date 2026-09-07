@@ -82,7 +82,7 @@ $$ {#eq-foc11}
 $$
 \overline{xy} - \beta_{1} \overline{x} - \beta_{2} \overline{x^2} = 0,
 $$ {#eq-foc21}
-where $\overline{x} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$ and $\overline{y} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$ represent the sample mean of $x$ and $y$, respectively, $\overline{xy} = \frac{1}{n} \sum_{i=1}^{n} x_{i}y_{i}$ is the sample mean of the variable $xy$ and $\overline{x^{2}} = \frac{1}{n} \sum_{i=1}^{n} x_{i}^{2}$ is the sample mean corresponding to the variable $x^{2}$.
+where $\overline{x} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$ and $\overline{y} = \frac{1}{n}\sum_{i=1}^{n} y_{i}$ represent the sample mean of $x$ and $y$, respectively, $\overline{xy} = \frac{1}{n} \sum_{i=1}^{n} x_{i}y_{i}$ is the sample mean of the variable $xy$ and $\overline{x^{2}} = \frac{1}{n} \sum_{i=1}^{n} x_{i}^{2}$ is the sample mean corresponding to the variable $x^{2}$.
 
 ::: {.callout-warning title="Be careful!"}
 

@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -647,8 +676,19 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#best-unbiased-estimation" id="toc-best-unbiased-estimation" class="nav-link active" data-scroll-target="#best-unbiased-estimation">Best unbiased estimation</a>
+  <ul class="collapse">
+  <li><a href="#linear-combination-of-beta" id="toc-linear-combination-of-beta" class="nav-link" data-scroll-target="#linear-combination-of-beta">Linear combination of <span class="math inline">\(\beta\)</span></a></li>
+  <li><a href="#estimation-of-beta" id="toc-estimation-of-beta" class="nav-link" data-scroll-target="#estimation-of-beta">Estimation of <span class="math inline">\(\beta\)</span></a></li>
+  </ul></li>
+  <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -694,8 +734,96 @@ window.MathJax = {
 </ul>
 </div>
 </div>
+<section id="best-unbiased-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="best-unbiased-estimation">Best unbiased estimation</h2>
+<p>To find the best linear unbiased estimator (BLUE) of <span class="math inline">\(\beta\)</span>, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of <span class="math inline">\(w'\beta\)</span>, i.e., a linear combination of <span class="math inline">\(\beta\)</span> as <span class="math inline">\(w\)</span> is a <span class="math inline">\(k \times 1\)</span> vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of <span class="math inline">\(\beta\)</span> (or even more general, <span class="math inline">\(W'\beta\)</span>), where <span class="math inline">\(W\)</span> is now a <span class="math inline">\(k \times m\)</span> matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.</p>
+<section id="linear-combination-of-beta" class="level3">
+<h3 class="anchored" data-anchor-id="linear-combination-of-beta">Linear combination of <span class="math inline">\(\beta\)</span></h3>
+<p>Last week, we considered the estimation of a linear combination of the <span class="math inline">\(\beta\)</span>s. That is, we consider any linear combination <span class="math display">\[
+\theta = w'\beta = w_{1}\beta_{1} + \cdots + w_{k}\beta_{k}.
+\]</span> We assume that the model coincides with the DGP, and Assumptions 2.1-2.3 hold. Then we took the following strategy:</p>
+<ul>
+<li>We consider a linear estimator of the data, given by <span class="math inline">\(\widehat{\theta} = a'y\)</span>, where the <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(a\)</span> is to be chosen optimally.</li>
+<li>We want the estimator to be unbiased, i.e., <span class="math inline">\(E(\widehat{\theta}) = \theta\)</span>, which implies <span class="math inline">\(X'a = w\)</span>.</li>
+<li>We want to have the lowest variance possible, thus we want to minimize <span class="math inline">\(\Var(\widehat{\theta}) = \sigma^{2}a'a\)</span> (which is once again a scalar, as it equals <span class="math inline">\(\sigma^{2}\sum_{i=1}^{n} a_{i}^{2}\)</span>).</li>
+</ul>
+<p>To find the best linear unbiased estimator (BLUE), we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function <span class="math display">\[
+\psi (a) = a'a/2 - l'(X'a - w),
+\]</span> where <span class="math inline">\(l\)</span> is a <span class="math inline">\(k \times 1\)</span> vector of Lagrangian multipliers. Because the objective function is scalar-valued, standard calculus could be used to find the optimal solution <span class="math inline">\(\widehat{\theta} = a'y = w'(X'X)^{-1}X'y\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Some examples">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Some examples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\beta = (\beta_{1}, \ldots, \beta_{k})'\)</span> and consider the following examples:</p>
+<ol type="a">
+<li><span class="math inline">\(w' = (0, 1, \ldots, 0)\)</span> gives <span class="math inline">\(w'\beta = \beta_{2}\)</span>.</li>
+<li><span class="math inline">\(w' = (1, -1, \ldots, 0)\)</span> gives <span class="math inline">\(w'\beta = \beta_{1} - \beta_{2}\)</span>.</li>
+<li><span class="math inline">\(w' = (3, 2, \ldots, 0)\)</span> gives <span class="math inline">\(w'\beta = 3\beta_{1} + 2\beta_{2}\)</span>.</li>
+</ol>
+<p>Note that <span class="math inline">\(w'\beta\)</span> <strong>always</strong> reduces to a scalar in this setting.</p>
+</div>
+</div>
+</section>
+<section id="estimation-of-beta" class="level3">
+<h3 class="anchored" data-anchor-id="estimation-of-beta">Estimation of <span class="math inline">\(\beta\)</span></h3>
+<p>Note that the steps in this scenario are very similar at first, it is just the dimensions of the objects that differ. That is, the problem reduces to</p>
+<ul>
+<li>We consider a linear estimator of the data, given by <span class="math inline">\(\widehat{\theta} = A'y\)</span>, where <span class="math inline">\(A\)</span> is an <span class="math inline">\(n \times m\)</span> matrix to be chosen optimally.</li>
+<li>We want the estimator to be unbiased, i.e., <span class="math inline">\(E(\widehat{\theta}) = \theta\)</span>, which implies <span class="math inline">\(X'A = W\)</span>.</li>
+<li>We want to have the lowest variance possible, thus we want to minimize <span class="math inline">\(\Var(\widehat{\theta}) = \sigma^{2}A'A\)</span> (which is an <span class="math inline">\(m \times m\)</span> matrix).</li>
+</ul>
+<p>Even though the problem appears analogous to the previous one, the crucial difference lies in the fact that we are now dealing with matrix functions. Calculus and Lagrangian theory are not applicable in this case. The proving strategy works as follows:</p>
+<ul>
+<li>For <span class="math inline">\(\widehat{\theta} = a'y\)</span>, we found that <span class="math inline">\(a = X(X'X)^{-1}w\)</span> constitutes the optimal weight.</li>
+<li>We now make the following educated guess. For <span class="math inline">\(\widehat{\theta} = A'y\)</span>, we <strong>expect</strong> that <span class="math inline">\(A = X(X'X)^{-1}W\)</span>.</li>
+<li>We proceed by defining <span class="math inline">\(D = A - X(X'X)^{-1}W\)</span> and aim at showing <span class="math inline">\(D = 0\)</span> at the optimal solution.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Multiple linear combinations">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Multiple linear combinations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that <span class="math inline">\(W'\beta\)</span> generally results in an <span class="math inline">\(m \times 1\)</span> vector, which contains <span class="math inline">\(m\)</span> linear combinations of <span class="math inline">\(\beta\)</span>.</p>
+<p>One of the most interesting cases is <span class="math inline">\(W'= I_{k}\)</span>, in which <span class="math inline">\(W'\beta = \beta\)</span>. That is, we consider <span class="math inline">\(m = k\)</span> trivial linear combinations because the matrix <span class="math inline">\(W'\)</span> essentially consists of <span class="math inline">\(k\)</span> standard basis vectors (i.e., a vector <span class="math inline">\(e_{i}\)</span> which has zero at every displacement <span class="math inline">\(j \neq i\)</span> and one at displacement <span class="math inline">\(i\)</span>).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that the intuition behind the proving techniques has been discussed, you are ready to read</p>
+<ul>
+<li>Section 2.10, which is a proof of the Gauss-Markov theorem.</li>
+<li>Section 2.11, which highlights a crucial difference between <span class="math inline">\(u\)</span> and <span class="math inline">\(e\)</span>, characterized by their respective variance matrices.</li>
+<li>Section 2.12, in which we construct a quadratic estimator for <span class="math inline">\(\sigma^{2}\)</span> with the property of being unbiased.</li>
+</ul>
+<p>For the last section, it is advisable to refresh your knowledge about square matrices (Section A.1), the trace of a matrix (Section A.2), properties of positive definite matrices (Section A.5) and the matrix <span class="math inline">\(M\)</span> (Section A.8).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="prediction" class="level2">
+<h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
