@@ -681,12 +681,19 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#best-unbiased-estimation" id="toc-best-unbiased-estimation" class="nav-link active" data-scroll-target="#best-unbiased-estimation">Best unbiased estimation</a>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#best-unbiased-estimation" id="toc-best-unbiased-estimation" class="nav-link" data-scroll-target="#best-unbiased-estimation">Best unbiased estimation</a>
   <ul class="collapse">
   <li><a href="#linear-combination-of-beta" id="toc-linear-combination-of-beta" class="nav-link" data-scroll-target="#linear-combination-of-beta">Linear combination of <span class="math inline">\(\beta\)</span></a></li>
   <li><a href="#estimation-of-beta" id="toc-estimation-of-beta" class="nav-link" data-scroll-target="#estimation-of-beta">Estimation of <span class="math inline">\(\beta\)</span></a></li>
   </ul></li>
   <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
+  <li><a href="#a-difficult-task-model-selection" id="toc-a-difficult-task-model-selection" class="nav-link" data-scroll-target="#a-difficult-task-model-selection">A difficult task: model selection</a>
+  <ul class="collapse">
+  <li><a href="#bias-variance-trade-off" id="toc-bias-variance-trade-off" class="nav-link" data-scroll-target="#bias-variance-trade-off">Bias-variance trade-off</a></li>
+  <li><a href="#significance-and-importance" id="toc-significance-and-importance" class="nav-link" data-scroll-target="#significance-and-importance">Significance and importance</a></li>
+  <li><a href="#balanced-addition" id="toc-balanced-addition" class="nav-link" data-scroll-target="#balanced-addition">Balanced addition</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -734,12 +741,16 @@ window.Quarto = {
 </ul>
 </div>
 </div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>The website does not really offer new material this week. Instead, it helps you to understand the proofs of finding the <strong>best linear unbiased estimator</strong> and the <strong>best linear predictor</strong> in the context of the linear regression model. The main challenge lies in understanding the proving strategy, which is quite different from what you are typically used to. The remaining sections in the book (Section 2.14 - 2.18) focus on the difficult task of model selection. What are important considerations for including or excluding variables from your model?</p>
+</section>
 <section id="best-unbiased-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="best-unbiased-estimation">Best unbiased estimation</h2>
-<p>To find the best linear unbiased estimator (BLUE) of <span class="math inline">\(\beta\)</span>, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of <span class="math inline">\(w'\beta\)</span>, i.e., a linear combination of <span class="math inline">\(\beta\)</span> as <span class="math inline">\(w\)</span> is a <span class="math inline">\(k \times 1\)</span> vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of <span class="math inline">\(\beta\)</span> (or even more general, <span class="math inline">\(W'\beta\)</span>), where <span class="math inline">\(W\)</span> is now a <span class="math inline">\(k \times m\)</span> matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.</p>
+<p>To find the <strong>best linear unbiased estimator</strong> (BLUE) of <span class="math inline">\(\beta\)</span>, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of <span class="math inline">\(w'\beta\)</span>, i.e., a linear combination of <span class="math inline">\(\beta\)</span> as <span class="math inline">\(w\)</span> is a <span class="math inline">\(k \times 1\)</span> vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of <span class="math inline">\(\beta\)</span> (or even more general, <span class="math inline">\(W'\beta\)</span>), where <span class="math inline">\(W\)</span> is now a <span class="math inline">\(k \times m\)</span> matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.</p>
 <section id="linear-combination-of-beta" class="level3">
 <h3 class="anchored" data-anchor-id="linear-combination-of-beta">Linear combination of <span class="math inline">\(\beta\)</span></h3>
-<p>Last week, we considered the estimation of a linear combination of the <span class="math inline">\(\beta\)</span>s. That is, we consider any linear combination <span class="math display">\[
+<p>Last week, we considered the estimation of a linear combination of the <span class="math inline">\(\beta\)</span>s. That is, <span class="math display">\[
 \theta = w'\beta = w_{1}\beta_{1} + \cdots + w_{k}\beta_{k}.
 \]</span> We assume that the model coincides with the DGP, and Assumptions 2.1-2.3 hold. Then we took the following strategy:</p>
 <ul>
@@ -747,7 +758,7 @@ window.Quarto = {
 <li>We want the estimator to be unbiased, i.e., <span class="math inline">\(E(\widehat{\theta}) = \theta\)</span>, which implies <span class="math inline">\(X'a = w\)</span>.</li>
 <li>We want to have the lowest variance possible, thus we want to minimize <span class="math inline">\(\Var(\widehat{\theta}) = \sigma^{2}a'a\)</span> (which is once again a scalar, as it equals <span class="math inline">\(\sigma^{2}\sum_{i=1}^{n} a_{i}^{2}\)</span>).</li>
 </ul>
-<p>To find the best linear unbiased estimator (BLUE), we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function <span class="math display">\[
+<p>To find the BLUE, we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function <span class="math display">\[
 \psi (a) = a'a/2 - l'(X'a - w),
 \]</span> where <span class="math inline">\(l\)</span> is a <span class="math inline">\(k \times 1\)</span> vector of Lagrangian multipliers. Because the objective function is scalar-valued, standard calculus could be used to find the optimal solution <span class="math inline">\(\widehat{\theta} = a'y = w'(X'X)^{-1}X'y\)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Some examples">
@@ -821,8 +832,119 @@ window.Quarto = {
 </section>
 <section id="prediction" class="level2">
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
+<p>In the topic prediction, we use very similar arguments as in best unbiased estimation to derive the <strong>best linear predictor</strong>. The setup is as follows:</p>
+<ul>
+<li>We have estimated the linear model <span class="math inline">\(y = X\beta + u\)</span> based on a set of observations <span class="math inline">\((y, X)\)</span>, where <span class="math inline">\(y\)</span> is an <span class="math inline">\(n \times 1\)</span> vector and <span class="math inline">\(X\)</span> an <span class="math inline">\(n \times k\)</span> matrix of regressors.</li>
+<li>Now we still have other data, <span class="math inline">\((y_{*}, X_{*})\)</span>, at our disposal, where <span class="math inline">\(y_{*}\)</span> is an <span class="math inline">\(m \times 1\)</span> vector and <span class="math inline">\(X_{*}\)</span> is an <span class="math inline">\(m \times k\)</span> matrix.</li>
+<li>We assume that this data comes from the same DGP as <span class="math inline">\((y, X)\)</span> and we use it to answer the question: <strong>how well does our predict the corresponding value of the dependent variable?</strong>.</li>
+<li>To do this, we assume the same standard linear regression model is also valid for the new observations: <span class="math display">\[
+y_{*} = X_{*}\beta + u_{*},
+\]</span> where <span class="math inline">\(u_{*}\)</span> has zero mean, variance <span class="math inline">\(\sigma^{2}I_{m}\)</span>, and is uncorrelated with <span class="math inline">\(u\)</span>. In other words, the same assumptions hold for this ‘new’ model.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can interpret this procedure as follows. If we want to evaluate how well our model does at prediction, it is arguably strange to first use the data <span class="math inline">\((y, X)\)</span> to estimate <span class="math inline">\(\beta\)</span> and to afterwards use exactly the same data <span class="math inline">\((y, X)\)</span> to make predictions. Ideally, you want to see whether the estimated model <em>generalizes well to data that we have not yet seen</em>.</p>
+<p>This is exactly what we are doing here. We use one data set <span class="math inline">\((y, X)\)</span> to estimate the unknown parameter vector <span class="math inline">\(\beta\)</span>. Afterwards, we use a separate data set <span class="math inline">\((y_{*}, X_{*})\)</span> to evaluate the predictive performance of our model.</p>
+</div>
+</div>
+<p>As can be read in ITE, there are two ways to approach the prediction problem, and they have quite different mathematical implications. Suppose we have a predictor <span class="math inline">\(\hat{y}_{*}\)</span> than we could compare this predicted value with:</p>
+<ol type="1">
+<li><p>The expected value <span class="math inline">\(E(y_{*}) = X_{*}\beta\)</span>. This is the easier case, because this is a nonrandom quantity. It can be argued that this is again an <em>estimation problem</em> rather than a <em>prediction problem</em>. In fact, by defining <span class="math inline">\(X_{*} = W'\)</span>, this problem can be posed as showing that <span class="math inline">\(W'\widehat{\beta}\)</span> is the best linear unbiased estimator of <span class="math inline">\(W'\beta\)</span>. Note that this is exactly what we did for best unbiased estimation. Thus, Proposition 2.2 directly applies.</p></li>
+<li><p>The true realization <span class="math inline">\(y_{*}\)</span>. This is a bit more complicated. Note that <span class="math inline">\(y_{*} = X_{*}\beta + u_{*}\)</span> is a random vector due to <span class="math inline">\(u_{*}\)</span> being part of it. We are now in the prediction framework. To find the best linear predictor, we have to proceed as follows:</p></li>
+</ol>
+<ul>
+<li>Define the prediction error <span class="math inline">\(\widehat{y}_{*} - y_{*}\)</span> and ensure that it is zero in expectation (unbiased). In other words, <em>on average</em>, we are not systematically predicting a value that is too high or too low.</li>
+<li>The variance of the prediction error should be as small as possible.</li>
+</ul>
+<p>The proving style is once again very similar. Our educated guess is that <span class="math inline">\(\widehat{y}_{*} = X_{*}\widehat{\beta} = X_{*}(X'X)^{-1}X'y\)</span> is the best linear predictor. Therefore, we define <span class="math inline">\(D = A - X(X'X)^{-1}X_{*}'\)</span> as the difference between the weights of <em>any other linear predictor of</em> <span class="math inline">\(y_{*}\)</span> and our educated guess. If the predictor is unbiased and the prediction error variance is minimized, we hope to find <span class="math inline">\(D = 0\)</span>. That is, the optimal weights are indeed <span class="math inline">\(A = X(X'X)^{-1}X_{*}'\)</span>.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With the explanation above in mind, you are ready to read</p>
+<ul>
+<li>Section 2.13, which derives the best linear predictor.</li>
+</ul>
+<p>Note that it is crucial this week that you understand the difference between quantities being random and nonrandom. If you have difficulties with that, it is highly advisable to revisit these concepts.</p>
+</div>
+</div>
+</section>
+<section id="a-difficult-task-model-selection" class="level2">
+<h2 class="anchored" data-anchor-id="a-difficult-task-model-selection">A difficult task: model selection</h2>
+<p>Many textbooks on introductory econometrics start by considering the linear regression model under <strong>correct specification</strong>. This means that the model that is being estimated coincides with the truth, i.e.&nbsp;the data-generation process (DGP). Whereas this setup is extremely convenient to evaluate the performance of the model, it is unfortunately a rather unrealistic one in practice. In real life, the DGP is almost never known to the practitioner. However, this does not mean that we should give up our challenge of evaluating our model’s performance.</p>
+<p>Instead of assuming that our chosen model exactly coincides with the truth, econometricians often also take another approach. They consider two different model specifications and compare these two to each other. This gives rise to the following: <span class="math display">\[
+y = X\beta + u = X_{1}\beta_{1} + X_{2}\beta_{2} + u,
+\]</span> with <span class="math inline">\(X = (X_{1} : X_{2})\)</span> is called the unrestricted model, and <span class="math display">\[
+y = X_{1}\beta_{1} + u_{1},
+\]</span> is called the restricted model, where the restriction is given by <span class="math inline">\(\beta_{2} = 0\)</span>. For clarification, note that <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are two subvectors of <span class="math inline">\(\beta\)</span>. That is, for <span class="math inline">\(k = k_{1} + k_{2}\)</span>, the <span class="math inline">\(k \times 1\)</span> vector <span class="math inline">\(\beta\)</span> can be written as <span class="math inline">\(\beta = (\beta_{1}, \beta_{2})'\)</span>, where <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are of order <span class="math inline">\(k_{1} \times 1\)</span> and <span class="math inline">\(k_{2} \times 1\)</span>, respectively. If we assume the DGP coincides with the unrestricted model, we can investigate the effects of ‘underspecifying’ our model.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One of the simplest examples is the following. Suppose that we are given the simple linear regression model <span class="math display">\[
+y = \beta_{1}\imath + \beta_{2}x + u,
+\]</span> written in vector notation, as the unrestricted model. In this case, <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are scalars! The restricted model is given by the no-intercept model <span class="math display">\[
+y = \beta_{2}x + u_{1}.
+\]</span> We could now investigate the properties of the least-squares estimator <span class="math inline">\(\widehat{\beta}_{2r}\)</span> in the restricted model. In fact, if the constant term in the DGP is nonzero, this estimator will not perform well. Generally, it is biased and inconsistent.</p>
+</div>
+</div>
+<p>In the following, we briefly consider the main take-away message from the remaining sections of Chapter 2 in ITE.</p>
+<section id="bias-variance-trade-off" class="level3">
+<h3 class="anchored" data-anchor-id="bias-variance-trade-off">Bias-variance trade-off</h3>
+<p>Section 2.15 and 2.16 focus on a very important concept in econometrics and data science: the bias-variance trade-off. Ideally, we want to have both the bias and variance low, but this is rarely possible simultaneously. Getting unbiased estimates often requires including many regressors in the model. However, the inclusion of many variables requires the estimation of the same large amount of unknown coefficients. This, in turn, increases the variance of the estimator a lot. Conversely, excluding relevant regressors biases the estimation of the coefficients of the variables that are actually included in the model. Thus, the variance of the estimator might be low, but the coefficients are biased.</p>
+<p>Both examples highlight the trade-off that needs to be made. In the first case, we might be willing to accept a bit of bias if it goes hand in hand with a substantial reduction in variance. In the second case, we could accept some more variance if the bias gets reduced sufficiently. But what exactly is sufficient?</p>
+<p>This is where the <strong>mean squared error</strong> (MSE) comes in. Following Section B.2 in ITE, we can express the MSE in terms of bias and variance. In the univariate case, we can write <span class="math display">\[
+\text{MSE}(\widehat{\theta}) = \Var(\widehat{\theta}) + \left(\text{bias}(\widehat{\theta})\right)^{2},
+\]</span> while the multivariate case reduces to <span class="math display">\[
+\text{MSE}(\widehat{\theta}) = \Var(\widehat{\theta}) + \text{bias}(\widehat{\theta})\text{bias}(\widehat{\theta})'.
+\]</span> In a way, the MSE embodies the bias-variance trade-off and this makes it a popular measure in econometrics and data science. Choosing between unbiased estimators is relatively simple: you pick the one with the lowest variance. The MSE however also makes the comparison between biased and unbiased estimators possible.</p>
+</section>
+<section id="significance-and-importance" class="level3">
+<h3 class="anchored" data-anchor-id="significance-and-importance">Significance and importance</h3>
+<p>Whereas the MSE is a measure to compare estimators, it does not directly answer the question which regressors to include in the model and which ones not. Suppose we know the truth. Then we could potentially choose to set up a model that coincides exactly with the truth. The previous discussion on the bias-variance trade-off highlights that we very likely should still opt against it. The difference between <strong>significance</strong> and <strong>importance</strong> is important here. Linguisitically, these terms are often used interchangeably, but statistically they have quite distinct meanings.</p>
+<p>If a parameter is significant, it simply means that we have enough evidence in the data to credibly argue that its value is different from zero. For a single parameter, we typically establish this by performing a <span class="math inline">\(t\)</span>-test. We choose a significance level <span class="math inline">\(\alpha\)</span> in advance (e.g.&nbsp;<span class="math inline">\(\alpha \in \{0.01, 0.05, 0.1\}\)</span>) and at the chosen significance level, we investigate whether we can reject the null hypothesis that the parameter is zero. In other words, significance is a statistical concept: it says something about how precise we are in estimating an unknown parameter. It does not mean that the parameter is also important.</p>
+<p>It could be that you estimate a parameter rather precisely (e.g., because you have a lot of data), you rule it significant based on a <span class="math inline">\(t\)</span>-test but the parameter is in fact unimportant. Deleting a small, unimportant parameter is generally a good idea because you incur a small bias (the bias depends on the size of the parameter), while much prediction may be gained (the reduction in variance does <em>not</em> depend on the size of the parameter). Thus, it is important that statistical significance is not necessarily decisive for including a variable in the model or not.</p>
+</section>
+<section id="balanced-addition" class="level3">
+<h3 class="anchored" data-anchor-id="balanced-addition">Balanced addition</h3>
+<p>We have argued that, if we know the truth, we can work ourselves towards unbiasedness by including regressors until we reacher the true specification. However, in reality, the truth is generally unknown and adding more regressors to the model does not at all guarantee that the bias decreases. That is why model selection is typically done based on several measures, and in the following chapter we will cover some of these.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read Section 2.14 - 2.18.</p>
+<p>After these sections, you should be convinced that deciding which variables to include in the model is generally not an easy task and several considerations should be made. Make sure that you have a clear picture what happens in the scenario <em>unrestricted model</em> (coinciding with the DGP) versus <em>restricted model</em>, and how it differs when we do not know the truth.</p>
+</div>
+</div>
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->

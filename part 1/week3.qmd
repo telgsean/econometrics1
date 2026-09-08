@@ -13,11 +13,14 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 
 :::
 
+## This week's contents
+The website does not really offer new material this week. Instead, it helps you to understand the proofs of finding the **best linear unbiased estimator** and the **best linear predictor** in the context of the linear regression model. The main challenge lies in understanding the proving strategy, which is quite different from what you are typically used to. The remaining sections in the book (Section 2.14 - 2.18) focus on the difficult task of model selection. What are important considerations for including or excluding variables from your model?
+
 ## Best unbiased estimation
-To find the best linear unbiased estimator (BLUE) of $\beta$, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of $w'\beta$, i.e., a linear combination of $\beta$ as $w$ is a $k \times 1$ vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of $\beta$ (or even more general, $W'\beta$), where $W$ is now a $k \times m$ matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.
+To find the **best linear unbiased estimator** (BLUE) of $\beta$, we proceed as follows. We first solve a simpler problem, which consists of finding the BLUE of $w'\beta$, i.e., a linear combination of $\beta$ as $w$ is a $k \times 1$ vector. In fact, we did this last week already. This problem is relatively straightforward to solve, because the objective function is scalar-valued in this case. Next, we are going to use the optimal solution found for this problem as an educated guess for the BLUE of $\beta$ (or even more general, $W'\beta$), where $W$ is now a $k \times m$ matrix. Because the objective function would be matrix-valued in this case, we cannot rely on standard calculus and a different proving style is required.
 
 ### Linear combination of $\beta$
-Last week, we considered the estimation of a linear combination of the $\beta$s. That is, we consider any linear combination
+Last week, we considered the estimation of a linear combination of the $\beta$s. That is, 
 $$
 \theta = w'\beta = w_{1}\beta_{1} + \cdots + w_{k}\beta_{k}.
 $$
@@ -27,7 +30,7 @@ We assume that the model coincides with the DGP, and Assumptions 2.1-2.3 hold. T
 - We want the estimator to be unbiased, i.e., $E(\widehat{\theta}) = \theta$, which implies $X'a = w$.
 - We want to have the lowest variance possible, thus we want to minimize $\Var(\widehat{\theta}) = \sigma^{2}a'a$ (which is once again a scalar, as it equals $\sigma^{2}\sum_{i=1}^{n} a_{i}^{2}$).
 
-To find the best linear unbiased estimator (BLUE), we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function
+To find the BLUE, we solved a constrained minimization problem which is defined by the following strictly convex Lagrangian function
 $$
 \psi (a) = a'a/2 - l'(X'a - w),
 $$
@@ -78,3 +81,106 @@ For the last section, it is advisable to refresh your knowledge about square mat
 :::
 
 ## Prediction
+In the topic prediction, we use very similar arguments as in best unbiased estimation to derive the **best linear predictor**. The setup is as follows:
+
+- We have estimated the linear model $y = X\beta + u$ based on a set of observations $(y, X)$, where $y$ is an $n \times 1$ vector and $X$ an $n \times k$ matrix of regressors.
+- Now we still have other data, $(y_{*}, X_{*})$, at our disposal, where $y_{*}$ is an $m \times 1$ vector and $X_{*}$ is an $m \times k$ matrix.
+- We assume that this data comes from the same DGP as $(y, X)$ and we use it to answer the question: **how well does our predict the corresponding value of the dependent variable?**.
+- To do this, we assume the same standard linear regression model is also valid for the new observations:
+$$
+y_{*} = X_{*}\beta + u_{*},
+$$
+where $u_{*}$ has zero mean, variance $\sigma^{2}I_{m}$, and is uncorrelated with $u$. In other words, the same assumptions hold for this 'new' model.
+
+::: {.callout-note title="Interpretation"}
+
+You can interpret this procedure as follows. If we want to evaluate how well our model does at prediction, it is arguably strange to first use the data $(y, X)$ to estimate $\beta$ and to afterwards use exactly the same data $(y, X)$ to make predictions. Ideally, you want to see whether the estimated model *generalizes well to data that we have not yet seen*.
+
+This is exactly what we are doing here. We use one data set $(y, X)$ to estimate the unknown parameter vector $\beta$. Afterwards, we use a separate data set $(y_{*}, X_{*})$ to evaluate the predictive performance of our model.
+
+:::
+
+As can be read in ITE, there are two ways to approach the prediction problem, and they have quite different mathematical implications. Suppose we have a predictor $\hat{y}_{*}$ than we could compare this predicted value with:
+
+1. The expected value $E(y_{*}) = X_{*}\beta$. This is the easier case, because this is a nonrandom quantity. It can be argued that this is again an *estimation problem* rather than a *prediction problem*. In fact, by defining $X_{*} = W'$, this problem can be posed as showing that $W'\widehat{\beta}$ is the best linear unbiased estimator of $W'\beta$. Note that this is exactly what we did for best unbiased estimation. Thus, Proposition 2.2 directly applies.
+
+2. The true realization $y_{*}$. This is a bit more complicated. Note that $y_{*} = X_{*}\beta + u_{*}$ is a random vector due to $u_{*}$ being part of it. We are now in the prediction framework. To find the best linear predictor, we have to proceed as follows:
+
+  - Define the prediction error $\widehat{y}_{*} - y_{*}$ and ensure that it is zero in expectation (unbiased). In other words, *on average*, we are not systematically predicting a value that is too high or too low.
+  - The variance of the prediction error should be as small as possible.
+
+The proving style is once again very similar. Our educated guess is that $\widehat{y}_{*} = X_{*}\widehat{\beta} = X_{*}(X'X)^{-1}X'y$ is the best linear predictor. Therefore, we define $D = A - X(X'X)^{-1}X_{*}'$ as the difference between the weights of *any other linear predictor of* $y_{*}$ and our educated guess. If the predictor is unbiased and the prediction error variance is minimized, we hope to find $D = 0$. That is, the optimal weights are indeed $A = X(X'X)^{-1}X_{*}'$.
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+With the explanation above in mind, you are ready to read
+
+- Section 2.13, which derives the best linear predictor.
+
+Note that it is crucial this week that you understand the difference between quantities being random and nonrandom. If you have difficulties with that, it is highly advisable to revisit these concepts.
+
+:::
+
+## A difficult task: model selection
+Many textbooks on introductory econometrics start by considering the linear regression model under **correct specification**. This means that the model that is being estimated coincides with the truth, i.e. the data-generation process (DGP). Whereas this setup is extremely convenient to evaluate the performance of the model, it is unfortunately a rather unrealistic one in practice. In real life, the DGP is almost never known to the practitioner. However, this does not mean that we should give up our challenge of evaluating our model's performance.
+
+Instead of assuming that our chosen model exactly coincides with the truth, econometricians often also take another approach. They consider two different model specifications and compare these two to each other. This gives rise to the following:
+$$
+y = X\beta + u = X_{1}\beta_{1} + X_{2}\beta_{2} + u,
+$$
+with $X = (X_{1} : X_{2})$ is called the unrestricted model, and
+$$
+y = X_{1}\beta_{1} + u_{1},
+$$
+is called the restricted model, where the restriction is given by $\beta_{2} = 0$. For clarification, note that $\beta_{1}$ and $\beta_{2}$ are two subvectors of $\beta$. That is, for $k = k_{1} + k_{2}$, the $k \times 1$ vector $\beta$ can be written as $\beta = (\beta_{1}, \beta_{2})'$, where $\beta_{1}$ and $\beta_{2}$ are of order $k_{1} \times 1$ and $k_{2} \times 1$, respectively. If we assume the DGP coincides with the unrestricted model, we can investigate the effects of 'underspecifying' our model.
+
+::: {.callout-note title="Example"}
+One of the simplest examples is the following. Suppose that we are given the simple linear regression model
+$$
+y = \beta_{1}\imath + \beta_{2}x + u,
+$$
+written in vector notation, as the unrestricted model. In this case, $\beta_{1}$ and $\beta_{2}$ are scalars! The restricted model is given by the no-intercept model
+$$
+y = \beta_{2}x + u_{1}.
+$$
+We could now investigate the properties of the least-squares estimator $\widehat{\beta}_{2r}$ in the restricted model. In fact, if the constant term in the DGP is nonzero, this estimator will not perform well. Generally, it is biased and inconsistent.
+
+:::
+
+In the following, we briefly consider the main take-away message from the remaining sections of Chapter 2 in ITE.
+
+### Bias-variance trade-off
+Section 2.15 and 2.16 focus on a very important concept in econometrics and data science: the bias-variance trade-off. Ideally, we want to have both the bias and variance low, but this is rarely possible simultaneously. Getting unbiased estimates often requires including many regressors in the model. However, the inclusion of many variables requires the estimation of the same large amount of unknown coefficients. This, in turn, increases the variance of the estimator a lot.
+Conversely, excluding relevant regressors biases the estimation of the coefficients of the variables that are actually included in the model. Thus, the variance of the estimator might be low, but the coefficients are biased.
+
+Both examples highlight the trade-off that needs to be made. In the first case, we might be willing to accept a bit of bias if it goes hand in hand with a substantial reduction in variance. In the second case, we could accept some more variance if the bias gets reduced sufficiently. But what exactly is sufficient?
+
+This is where the **mean squared error** (MSE) comes in. Following Section B.2 in ITE, we can express the MSE in terms of bias and variance. In the univariate case, we can write
+$$
+\text{MSE}(\widehat{\theta}) = \Var(\widehat{\theta}) + \left(\text{bias}(\widehat{\theta})\right)^{2},
+$$
+while the multivariate case reduces to
+$$
+\text{MSE}(\widehat{\theta}) = \Var(\widehat{\theta}) + \text{bias}(\widehat{\theta})\text{bias}(\widehat{\theta})'.
+$$
+In a way, the MSE embodies the bias-variance trade-off and this makes it a popular measure in econometrics and data science. Choosing between unbiased estimators is relatively simple: you pick the one with the lowest variance. The MSE however also makes the comparison between biased and unbiased estimators possible.
+
+### Significance and importance
+Whereas the MSE is a measure to compare estimators, it does not directly answer the question which regressors to include in the model and which ones not. Suppose we know the truth. Then we could potentially choose to set up a model that coincides exactly with the truth. The previous discussion on the bias-variance trade-off highlights that we very likely should still opt against it. The difference between **significance** and **importance** is important here. Linguisitically, these terms are often used interchangeably, but statistically they have quite distinct meanings.
+
+If a parameter is significant, it simply means that we have enough evidence in the data to credibly argue that its value is different from zero. For a single parameter, we typically establish this by performing a $t$-test. We choose a significance level $\alpha$ in advance (e.g. $\alpha \in \{0.01, 0.05, 0.1\}$) and at the chosen significance level, we investigate whether we can reject the null hypothesis that the parameter is zero. In other words, significance is a statistical concept: it says something about how precise we are in estimating an unknown parameter. It does not mean that the parameter is also important. 
+
+It could be that you estimate a parameter rather precisely (e.g., because you have a lot of data), you rule it significant based on a $t$-test but the parameter is in fact unimportant. Deleting a small, unimportant parameter is generally a good idea because you incur a small bias (the bias depends on the size of the parameter), while much prediction may be gained (the reduction in variance does *not* depend on the size of the parameter). Thus, it is important that statistical significance is not necessarily decisive for including a variable in the model or not.  
+
+### Balanced addition
+We have argued that, if we know the truth, we can work ourselves towards unbiasedness by including regressors until we reacher the true specification. However, in reality, the truth is generally unknown and adding more regressors to the model does not at all guarantee that the bias decreases. That is why model selection is typically done based on several measures, and in the following chapter we will cover some of these.
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read Section 2.14 - 2.18.
+
+After these sections, you should be convinced that deciding which variables to include in the model is generally not an easy task and several considerations should be made. Make sure that you have a clear picture what happens in the scenario *unrestricted model* (coinciding with the DGP) versus *restricted model*, and how it differs when we do not know the truth.
+
+:::
