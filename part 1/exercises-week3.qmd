@@ -5,3 +5,303 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+## Miscellaneous
+
+### Exercise 1
+
+*(B.26 in ME)* Let $Q$ be a random variable with
+$$
+E(Q) = (n-k)\sigma^{2}, \qquad \Var(Q) = 2(n-k)\sigma^{4},
+$$
+where $0 < k < n$. Now define an estimator $\hat{\sigma}^{2}_{m} = Q/m$ of $\sigma^{2}$.
+
+a. Compute the mean and variance of $\hat{\sigma}^{2}_{n-k}$ and $\hat{\sigma}^{2}_{n}$.
+b. Compute the mean squared error of $\hat{\sigma}^{2}_{n-k}$ and $\hat{\sigma}^{2}_{n}$.
+c. Determine $m$ such that the estimator $\hat{\sigma}^{2}_{m}$ has the lowest mean squared error.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. The mean and variance of $Q/m$ are
+$$
+E(Q/m)= E(Q)/m = (n-k) \sigma^2/m
+$$
+and
+$$
+\Var(Q/m) = \Var(Q)/m^2 = 2(n-k)\sigma^4/m^2.
+$$
+This implies
+$$
+\begin{aligned}
+&E(\hat\sigma_{n-k}^2)   =(n-k)\sigma^2/(n-k) =\sigma^2, \\
+&E(\hat\sigma_{n}^2)     =(n-k)\sigma^2/n <\sigma^2, \\
+&\Var(\hat\sigma_{n-k}^2) =2(n-k)\sigma^4/(n-k)^2 =2\sigma^4/(n-k), \\
+&\Var(\hat\sigma_n^2)     =2(n-k)\sigma^4/n^2.
+\end{aligned}
+$$
+The first estimator is unbiased, while the second estimator is biased and underestimates $\sigma^2$.
+But the first estimator has a larger variance than the second estimator, because $2/(n-k) > 2(n-k)/n^2$.
+
+b. The bias of $Q/m$ as an estimator of $\sigma^2$ is
+$$
+\text{bias}(Q/m)= E(Q/m) - \sigma^2=(n-k-m)\sigma^2/m,
+$$
+and the mean squared error is
+$$
+\begin{aligned}
+\text{MSE}(Q/m)&= \Var(Q/m) +\text{bias}^2(Q/m) \\
+&= [2(n-k)+(n-k-m)^2]\sigma^4/m^2.
+\end{aligned}
+$$
+Based on the general formula for the mean squared error, we find
+$$
+\text{MSE}(\hat\sigma_{n-k}^{2}) = 2\sigma^4/(n-k)
+$$
+and
+$$
+\text{MSE}(\hat\sigma_{n}^{2})   = (2(n-k)+k^2)\sigma^4/n^2,
+$$
+from which we see that
+$$
+\text{MSE}(\hat\sigma_{n-k}^{2})<\text{MSE}(\hat\sigma_{n}^{2})
+\iff
+k>4 \text{ and } n>\frac{k(k-2)}{k-4},
+$$
+which may or may not be the case depending on the values of $n$ and $k$.
+
+c. Since
+$$
+\text{MSE}(\hat\sigma_{m}^{2}) = \frac{[2(n-k)+(n-k-m)^2]\sigma^4}{m^2},
+$$
+we find the optimal value of $m$ by minimizing
+$$
+f(m)=\frac{2(n-k)+(n-k-m)^2}{m^2}.
+$$
+Differentiating $f$ gives
+$$
+\begin{aligned}
+f'(m)
+&=\frac{-2(n-k-m)m^2 - 4(n-k)m - 2(n-k-m)^2 m}{m^4}\\
+&=\frac{-2(n-k-m+2)(n-k)}{m^3},
+\end{aligned}
+$$
+and this is zero if and only if $m=n-k+2$.
+Hence, $\hat\sigma_{n-k+2}^2$, although biased, has a smaller mean squared error than the unbiased estimator $\hat\sigma_{n-k}^2$.
+
+:::
+
+
+### Exercise 2
+
+*(1.12, 1.13 and 1.14 in ME)* Suppose we minimize 
+$$
+\phi(\beta) = (y - X\beta)'(y - X\beta) + \lambda \beta'\beta,
+$$
+where scalar $\lambda > 0$. This is called ridge regression.
+
+a. Show that $b_{\text{ridge}} = (X'X + \lambda I_{k})^{-1} X'y$ is the solution to the minimization problem. 
+
+b. What could be the motivation to use ridge regression? *Hint: what problem can occur in least squares but not in ridge? Compare $b = (X'X)^{-1}X'y$ and $b_{\text{ridge}} = (X'X + \lambda I_{k})^{-1} X'y$.*
+
+c. Show that the ridge solution attains a minimum.
+
+d. Suppose we are given the design matrix:
+$$
+X = \frac{1}{2}
+\begin{pmatrix}
+-1 & -1 \\
+-1 & \phantom{-}1 \\
+\phantom{-}1 & -1 \\
+\phantom{-}1 & \phantom{-}1
+\end{pmatrix}.
+$$
+Express $b_{\text{ridge}} = (X'X + \lambda I_{k})^{-1} X'y$ in terms of $b = (X'X)^{-1}X'y$.
+
+*This exercise is a bit more difficult (old exam question). Therefore, you are  advised to first go through 1.3 and 1.5 in ME. For b., consider an easy example of a $2 \times 2$ matrix $X'X$ that is singular.*
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. Note that there is only one extra term compared to least squares. Appendix A shows how to take a derivative with respect to a quadratic term.
+
+b. Suppose one of the assumptions does not hold. What potential problem of $X'X$ can $X'X + \lambda I_{k}$ circumvent?
+
+c. The second derivative can formally show that the ridge solution attains a minimum.
+
+d. $b_{\text{ridge}}$ is a rescaled version of $b$.
+
+:::
+
+### Exercise 3 
+
+*(1.6 in ME)* Prove that $R^{2}$ never decreases when including an additional regressor in the model. *Hint: Consider the sum of squared residuals of the two models.*
+
+::: {.callout-caution title="Short solution" collapse = true}
+
+- For the model $y = X\beta + u$, the coefficient of determination is given by $R^{2} = 1 - \frac{e'e}{y'Ay}$.
+- Consider a model that has one additional regressor, i.e. $X_{*} = (X : x_{k+1})$. All quantities regarding this new model have an asterisk.
+- Let $u$ denote the error term of the original model using design matrix $X$ and $u_{*}$ the error term of the extended model using design matrix $X_{*}$.
+- The key part to see is that
+$$
+e_{*}'e_{*} = \text{min}_{\beta_{*}} \ u_{*}'u_{*} \leq \text{min}_{\beta_{*} \text{ with } \beta_{k+1} = 0} \ u_{*}'u_{*} = \text{min}_{\beta} \ u'u = e'e.
+$$
+- Since $y'Ay$ is the same in both models, we get that $R^{2}_{*} \geq R^{2}$.
+
+:::
+
+### Exercise 4
+
+*(2.14 in ME)* Suppose we are given the linear regression model
+$$
+y = X\beta + u, \quad E(u) = 0, \quad \Var(u) = \Omega,
+$$
+with $X$ a nonrandom $n \times k$ matrix of full column rank, $\beta$ a $k \times 1$ coefficient vector, and $\Omega$ a positive definite $n \times n$ variance matrix, which may be nondiagonal.
+
+a. Consider the linear unbiased estimator $A'y$ of the linear combination $W'\beta$ for some given matrix $W$. Show that $A'X = W'$.
+
+b. For the case $\Omega = \sigma^{2}I_{n}$, find the choice of $A$ that minimizes $\text{var}(A'y)$. Use the decomposition $D = A - X(X'X)^{-1}W$ in your solution.
+ 
+c. Apply a transformation to the linear regression model to derive the best linear unbiased estimator in the case where $\Omega$ is a **known** positive definite matrix.
+
+*This is a slight extension to the proof of the Gauss-Markov theorem in Section 2.10 of ITE. Try to understand the proving strategy: we will also use it in the context of prediction.*
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Unbiasedness requires
+$$
+E(A'y) = A'E(y) = A'X\beta = W'\beta.
+$$
+Since this has to hold for all $\beta$, we conclude $A'X = W'$.
+
+b. Since $A'X = W'$, we see that
+$$
+D'X = A'X - W'(X'X)^{-1}X'X - A'X - W' = 0.
+$$
+This result is useful for the following computation (since it is a decomposition, the crossterms disappear) as
+$$
+\begin{aligned}
+A'A &= (D + X(X'X)^{-1}W)'(D + X(X'X)^{-1}W) \\
+    &= D'D + W'(X'X)^{-1}X'X(X'X)^{-1}W \\
+    &= D'D + W'(X'X)^{1}W.
+\end{aligned}
+$$
+Since $\Var(A'y) = A'\sigma^{2}I_{n}A = \sigma^{2}A'A$, this is minimized when $D'D = 0$, that is when $D = 0$, so that $A = X(X'X)^{-1}W.
+
+c. Since $\Omega$ is positive definite, its unique square root is defined and we can write $\Omega = \Omega^{1/2}\Omega^{1/2}$. This square root is also positive definite, hence nonsingular. If we now transform
+$$
+y_{*} = \Omega^{-1/2}y, \quad X_{*} = \Omega^{-1/2}X, \quad u_{*} = \Omega^{-1/2}u,
+$$
+then $y_{*} = X_{*}\beta + u_{*}$ is the classical linear regression model where $E(u_{*}) =0$ and $\Var(u_{*}) = I_{n}$. Thus, the LS estimator for $\beta$ is given by
+$$
+\hat{\beta} = (X_{*}'X_{*})^{-1}X_{*}'y_{*} = (X'\Omega^{-1}X)^{-1} X'\Omega^{-1}y,
+$$
+and is the best linear unbiased estimator of $\beta$. This procedure is known as generalized least squares (GLS), if $\Omega$ needs to be estimated beforehand it is called *feasible* GLS. It is a generalization of weighted least squares, which allows for heteroskedasticity. GLS also allows for nonzero autocorrelation (i.e. correlation between the elements in the vector $u$).
+
+:::
+
+### Exercise 5
+
+*(2.7 in ME).* In a course on microeconomics, you have seen the Cobb-Douglas production function
+$$
+Q = \alpha K^{\beta_{1}}L^{\beta_{2}},
+$$
+where $Q$ denotes output, $K$ is capital, and $L$ is labor. We wish to estimate $\alpha$, $\beta_{1}$, and $\beta_{2}$ based on $n$ observations on $(Q_{i}, K_{i}, L_{i})$. How can this be done?
+
+::: {.callout-caution title="Hint" collapse = true}
+
+Is the production function a linear model in disguise?
+
+:::
+
+### Exercise 6
+
+*(2.8 in ME)* A researcher wants to estimate the following model
+$$
+y = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^{2} + u,
+$$
+because she believes that $x_{1}$ does not have a constant marginal effect on $y$ but rather a diminishing marginal effect.
+
+a. Does the proposed model violate the linearity assumption?
+
+b. An advantage of the multiple linear regression model is that it facilitates *ceteris paribus* analysis. Why is this difficult here?
+
+c. In case of diminishing marginal effects, what would be the signs of $\beta_{1}$ and $\beta_{2}$?
+
+d. Determine how a change in $x_{1}$ affects $y$. At which value of $x_{1}$ does the function take its maximum?
+
+e. Given an example of an empirical application where this modeling technique might be appropriate.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. The model has to be linear in the $\beta$ parameters, not in $X$. Thus, the linearity assumption is not violated.
+
+b. The multiple linear regression model is often used to study the effect of a change in one of the regressors, say $x_{1}$, on $y$, while controlling for the effects of other variables that influence $y$. Suppose for the moment that the model does not contain $x_{1}^{2}$, but instead another regressor, say $x_{2}$. Then we could study the effect of $x_{1}$ on $y$, while keeping $x_{2}$ fixed.
+However, in the case at hand, both $x_{1}$ and $x_{1}^{2}$ appear in the model, and therefore we can no longer interpret $\beta_{1}$ as the *ceteris paribus* effect of $x_{1}$ on $y$, since a change in $x_{1}$ also affects $x_{1}^{2}$.
+
+c. By choosing $\beta_{1} > 0$ and $\beta_{2} < 0$, we obtain a parabola with inverted $U$-shape when we plot $y$ against $x_{1}$.
+A change in $x_{1}$ close to the maximum of the function provides a smaller increase in $y$ than a change in $x_1$ further away from the maximum,
+which is the essence of diminishing marginal effects.
+
+d. Define $g(x_{1}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{1}^{2}$, then the effect of a change in $x_{1}$ on $y$ is given by
+$$
+\frac{d g(x_{1})}{d x_{1}} = \beta_{1} + 2\beta_{2}x_{1}.
+$$
+Setting this derivative equal to zero, leads to $x_{1}^{*} = -\beta_{1}/(2\beta_{2})$ as the value of $x_{1}$ for which the function $g(x_{1})$ takes its maximum.
+
+e. A well-known example is the relationship between experience and salary. An additional year of experience is typically more valuable for a relatively inexperienced worker than for a worker who has held the position for many years.
+
+:::
+
+### Exercise 7
+
+*(2.15 in ME).* Consider the standard linear regression model $y = X\beta + u$, where $y$ and $u$ are of order $n \times 1$, $\beta$ is of order $k \times 1$, and $X$ is an $n \times k$ matrix with full column rank. We assume that $E(u) = 0$ and $\Var(u) = \sigma^{2} I_{n}$.
+
+a. Show that the LS residuals $e$ are equal to $My$ and $Mu$.
+
+b. Compute the mean and variance of the residuals $e$.
+
+c. Show that the variance matrix of $e$ cannot have full rank and explain why.
+
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. Showing that $MX = 0$ may be helpful.
+
+b. Use the properties of the matrix $M$.
+
+c. Use the trace operator to calculate the rank of $M$.
+
+:::
+
+### Exercise 8
+
+*(2.17 in ME)* Let us split the data into an "in-sample" data set $(y_{1},X_{1})$ and an "out-of-sample" data set
+$(y_{2},X_{2})$, where the in-sample set is based on $n$ observations and the out-of-sample set is based on $m$ observations, so that the dimensions are $y_{1}$ $(n \times 1)$, $X_{1}$ $(n \times k)$, $y_{2}$ $(m \times 1)$, and $X_{2}$ $(m \times k)$. We assume
+$y_{1}$ and $y_{2}$ are generated by
+$$
+y_{1} = X_{1}\beta + u_{1}, \qquad y_{2} = X_{2}\beta + u_{2},
+$$
+where $E(u_{1}) = 0$, $E(u_{2}) = 0$, $\Var(u_{1}) = \sigma^{2}I_{n}$, $\Var(u_{2}) = \sigma^{2}I_{m}$, and
+$\text{Cov}(u_{1},u_{2}) = 0$. Assume that the standard assumptions of the linear model hold.
+
+Show that the predictor $X_{2}\hat{\beta}$ with $\hat{\beta} = (X_{1}'X_{1})^{-1}X_{1}'y_{1}$ is best linear unbiased. That is,
+among all predictors of the form $\hat{y}_{2} = Ly_{1}$ with the property $E(y_{2} - \hat{y}_{2}) = 0$, show that 
+$L_{*} = X_{2}(X_{1}'X_{1})^{-1}X_{1}'$ is the optimal choice in the sense that $L_{*}y_{1}$ minimizes the variance of the prediction error $y_{2} - \hat{y}_{2}$.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+This exercise requires a very similar proving style as we used for finding the best linear unbiased estimator. You can solve it by following the steps below:
+
+That is,
+
+- Show that the proposed predictor is indeed linear.
+
+- Show that it has an expected prediction error of zero (this makes the predictor "unbiased").
+
+- Compute the variance of the prediction error.
+
+- Afterwards, do the same for the "other" predictor, which involves the matrix $D = L_{*} - L$.
+
+- Show that to be the "best" estimator, i.e. in terms of smallest variance possible, $D=0$, giving the variance that you computed for the proposed predictor. 
+
+:::
+

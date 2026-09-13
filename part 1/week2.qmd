@@ -156,22 +156,22 @@ $$ {#eq-model}
 Clearly, @eq-model is a restricted version of @eq-DGP by setting $\beta_{1} = 0$. Thus, we would actually investigate whether such a restriction is appropriate in this case. How to do that, we will study later (from Section 2.14 onwards)!
 
 ## Properties of estimators
-As we mentioned before, approximation is very different from estimation. In the approximation context, data is nonrandom and thus it makes no sense to talk about concepts such as unbiasedness. However, if we assume that data are realizations of random variables, it means that every new draw results in a different data set. In other words, suppose two students are going to collect data at the VU, e.g., by asking $n$ students to fill in a survey. The two students each manage to get a sample from the same population, but their samples are different because they asked different students to complete the survey. However, both samples are a valid realization of a random process. Thus, if we were to estimate a linear regression model by least squares on both samples, we expect that the estimator "does well" in both cases.
+As we mentioned before, approximation is very different from estimation. In the approximation context, data is nonrandom and thus it makes no sense to talk about concepts such as unbiasedness. However, if we assume that data are realizations of random variables, it means that every new draw results in a different data set. In other words, suppose two students are going to collect data at the VU, e.g., by asking $n$ students to fill in a survey. The two students each manage to get a sample from the same population, but their samples are different because they asked different students to complete the survey. However, both samples are a valid realization of a random process. Thus, if we were to estimate a linear regression model by least squares on both samples, we want that estimator to perform well in both cases.
 
-Unbiasedness intuitively means that our estimator equal the correct, true value **on average**. In technical terms, for a given parameter $\theta$, we have $E(\hat{\theta}) = \theta$. To understand this, imagine that we could repeatedly draw new samples from the population and calculate $\hat{\theta}$ for each sample. The average of these estimates would equal the true value $\theta$. In other words, the estimator does not systematically overestimate or underestimate the parameter.
+Unbiasedness intuitively means that our estimator equals the correct, true value **on average**. In technical terms, for a given parameter $\theta$, we have $E(\hat{\theta}) = \theta$. To understand this, imagine that we could repeatedly draw new samples from the population and calculate $\hat{\theta}$ for each sample. The average of these estimates would equal the true value $\theta$. In other words, the estimator does not systematically overestimate or underestimate the value of the parameter.
 
-This is an informal way to think about unbiasedness, but it is important to distinguish it from asymptotic concepts such as consistency: unbiasedness concerns the estimator's average over repeated samples, whereas consistency concerns what happens to the estimator as the sample size grows.
+This is an informal way to think about unbiasedness, but it is important to distinguish it from asymptotic concepts such as consistency: unbiasedness concerns the estimator's average over repeated samples, whereas consistency concerns the behavior of the estimator as the number of observations of a single sample grows (and is evaluated at $n \to \infty$).
 
 ### Unbiasedness of the least-squares estimator in the simple linear regression model
 How can we prove that an estimator is unbiased? Let us characterize this for the least-squares estimator of the slope in the simple linear regression model. We assume that the model and the DGP coincide. The least-squares estimator of $\beta_{2}$ is given by
 $$
-\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
 $$
 Based on the DGP, $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$ and $\overline{y} = \beta_{1} + \beta_{2}\overline{x} + \overline{u}$ by taking the sample average. Plugging these expressions into the estimator, yields
 $$
 \begin{aligned}
 \widehat{\beta}_{2} &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{1} + \beta_{2}x_{i} + u_{i}) - (\beta_{1} + \beta_{2}\overline{x} + \overline{u})]}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
-                &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{2}(x_{i} - \overline{x}) + u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+                &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})[(\beta_{2}(x_{i} - \overline{x}) + u_{i} - \overline{u})]}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
                 &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
                 &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}},
 \end{aligned}
