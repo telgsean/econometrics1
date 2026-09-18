@@ -5,3 +5,233 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+## Revisiting previous topics
+This week we start with some relatively short exercises on material covering the first three weeks. Because we are halfway the first part of the course, it is a good moment to check whether you can comfortably answer questions about this material.
+
+### Exercise 1
+For the simple linear regression model, show that
+$$
+\widehat{\beta}_{2} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y}}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^{2} - \overline{x}^{2}} = \frac{\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+$$
+
+::: {.callout-caution title="Short solution" collapse = true}
+
+This solution only shows the numerator, the denominator is done analogously.
+
+Note that
+$$
+\begin{aligned}
+\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y} &= \frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y} - \overline{x}\overline{y} + \overline{x}\overline{y} \\
+&= \frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \frac{1}{n}\sum_{i=1}^{n} x_{i}\overline{y} - \frac{1}{n}\sum_{i=1}^{n} y_{i} \overline{x} + \overline{x}\overline{y} \\
+&= \frac{1}{n}\sum_{i=1}^{n} (x_{i}y_{i} - x_{i}\overline{y} - y_{i}\overline{x} - \overline{x}\overline{y}) \\
+&= \frac{1}{n}\sum_{i=1}^{n} (x_{i}(y_{i} - \overline{y}) - \overline{x}(y_{i} - \overline{y})) \\
+&= \frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})
+\end{aligned}
+$$
+In the first equality, we make use of **telescoping**. In the second and third equality, we ensure that the first two terms are both expressed in terms of $x_{i}$ and the last two terms in terms of $\overline{x}$. This is convenient for collecting terms, which we do in the last two equalities.
+
+:::
+
+
+### Exercise 2
+In the linear regression model with intercept, show that $\overline{y} = \overline{\widehat{y}}$.
+
+::: {.callout-caution title="Solution" collapse = true}
+Note that $y_{i} - \widehat{y}_{i} = e_{i}$. Taking sums and multiplying by $\frac{1}{n}$ on both sides yields
+$$
+\frac{1}{n}\sum_{i=1}^{n} y_{i} - \frac{1}{n}\sum_{i=1}^{n} \widehat{y}_{i} = \frac{1}{n}\sum_{i=1}^{n} e_{i}.
+$$
+We note that $\sum_{i=1}^{n} e_{i} = 0$ by the first-order condition of least squares. Thus, $\overline{y} = \overline{\widehat{y}}$.
+
+Alternatively, using vection notation, we can write $y = \widehat{y} + e$. To obtain sums, we pre-multiply by $\imath'$ to obtain
+$$
+\imath'y = \imath'\widehat{y} + \imath'e.
+$$
+Since $\imath'e = 0$ by the first-order condition of least squares, we obtain $\frac{1}{n}\imath'y = \frac{1}{n}\imath'\widehat{y}$.
+
+:::
+
+
+### Exercise 3
+In this exercise, we are going to investigate in more detail under what conditions $SST = SSR + SSE$ holds.
+
+a. Show that 
+$$
+SST = SSR + SSE + 2\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})(\widehat{y}_{i} - \overline{y}). 
+$$
+*Hint: Use telescoping*.
+
+b. Evaluate for the following three models whether the equation reduces to $SST = SSR + SSE$.
+
+  - The simple linear regression model.
+  - The intercept-only model.
+  - The no-intercept model (with only one regressor).
+
+c. Show that we can obtain the decomposition $y'y = \widehat{y}'\widehat{y} + e'e$ without assuming a constant term, whereas $SST = SSE + SSR$ can only derived when we do assume a constant term.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. Write $y_{i} - \overline{y}$ as $y_{i} - \widehat{y}_{i} + \widehat{y}_{i} - \overline{y}$. Continue with writing out the quadratic term. This should yield the desired result.
+
+b. Do we obtain $SST = SSR + SSE$ for the three models?
+
+  - Yes, because we have both first-order conditions.
+  - Yes, one of the first-order conditions suffices.
+  - No, generally not. One first-order condition is not enough.
+
+c. Both results are in Section 1.8 of ITE. Note that least squares always gives $\widehat{y}'e = 0$ (because $X'e = 0$), which is needed for the first decomposition. For the second one we need $\imath'e = 0$ explicitly.
+
+:::
+
+### Exercise 4
+There is something interesting about the way that we define SSE, the explained sum of squares. In textbooks, you will often read
+$$
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2}.
+$$
+However, this definition is different from typical measures of variation. For example, TSS is defined as the sum of squared deviation from **its own mean**, i.e.
+$$
+SST = \sum_{i=1}^{n} (y_{i} - \overline{y})^{2}.
+$$
+Let us study $SSE$ a bit deeper.
+
+a. Show that, in case of a constant term, 
+$$
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2} = \widehat{y}'A\widehat{y}.
+$$
+b. What changes in a. whenever there is no constant term in the model?
+c. In light of what we found out in this exercise, reconsider exercise 3b for the no-intercept model. Do you think the textbook measure of $SSE$ is informative in this case?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. We can write
+$$
+\widehat{y}'A\widehat{y} = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{\widehat{y}})^{2},
+$$
+by definition. However, with constant term, it is important to see that $\imath'\widehat{y} = \imath'(y - e) = \imath'y - \imath'e = \imath'y$ because $\imath'e = 0$ by the first-order condition of least squares.
+
+b. As shown in a. and in exercise 2 of this week, we no longer have $\overline{y} = \overline{\widehat{y}}$ in case there is no constant term in the model.
+
+c. Typically, measures of variation consider the variation around their own mean. In case of a constant term in the model, the definition
+$$
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2},
+$$
+is perfectly accurate because $\overline{y} = \overline{\widehat{y}}$ due to the first-order condition $\imath'e = 0$. However, whenever there is no constant term, one could argue that
+$$
+SSE^{*} = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{\widehat{y}})^{2},
+$$
+is a much more sensible measure of variation around the fitted values. In light of exercise 3b, this means the following. We used telescoping to show
+$$
+\begin{aligned}
+\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i} + \widehat{y}_{i} - \overline{y})^{2} &= \sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})^{2} + \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2} \\
+&\quad \ +2\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})(\widehat{y}_{i} - \overline{y}),
+\end{aligned}
+$$
+which we denoted as $SSR + SSE + \text{additional term}$. However, note that for the no-intercept model, the definition $SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2}$ is arguably not appropriate. Thus, the decomposition does not only fail in terms of the additional term that does not disappear, but the measure of $SSE$ could be considered questionable/inappropriate as a measure of explained variation.
+
+:::
+
+### Exercise 5
+Show that the OLS estimator for $\beta_{2}$ in the simple linear regression model can also be written as
+$$
+\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})y_{i}}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}} = \frac{\sum_{i=1}^{n} (y_{i} - \overline{y})x_{i}}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}}
+$$
+*Hint:* You may start from $\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}}$.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+The solution follows directly from writing out the numerator.
+
+:::
+
+### Exercise 6
+Suppose you demean the independent and dependent variable. Then you estimate a no-intercept model on this data, which we denote ($\tilde{x}, \tilde{y}$). Show that the estimated slope coefficient for this model is the same as the estimated slope in a simple linear regression model on the original data (not demeaned).
+
+::: {.callout-caution title="Solution" collapse = true}
+If we estimate a no-intercept model, the estimator for the slope coefficient is given by
+$$
+\widehat{\beta} = \frac{\sum_{i=1}^{n} \tilde{x}_{i}\tilde{y_{i}}}{\sum_{i=1}^{n} \tilde{x}_{i}^{2}}.
+$$
+Since the variables are demeaned, we have $\tilde{x}_{i} = x_{i} - \overline{x}$ and $\tilde{y}_{i} = y_{i} - \overline{y}$. Plugging these expressions in the formula for $\widehat{\beta}_{2}$ yields the (by now, well-known) estimator
+$$
+\widehat{\beta} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+$$
+
+:::
+
+### Exercise 7
+Student A estimates the simple linear regression model
+$$
+y_i = \beta_1 + \beta_2 x_i + u_i, \qquad (i=1,\ldots,n),
+$$
+by least squares and finds the estimators $\widehat{\beta}_{1}$ and $\widehat{\beta}_{2}$. Student B instead estimates the linear regression model 
+$$
+y_i = \delta_1 + \delta_2 z_i + \varepsilon_i, \qquad (i=1,\ldots,n),
+$$
+by least squares, where $z_{i} = c x_{i}$ for $c > 0$, i.e. $z_{i}$ is a rescaled version of $x_{i}$. She denotes the estimators $\widehat{\delta}_{1}$ and $\widehat{\delta}_{2}$. 
+
+a. Show that $\widehat{\delta}_{2} = c^{-1} \widehat{\beta}_{2}$ and $\widehat{\delta}_{1} = \widehat{\beta}_{1}$. 
+b. How would the results change when $c < 0$?
+c. How do the SER and $R^2$ of both models relate?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that
+$$
+\begin{aligned}
+    \hat{\delta}_{2} &= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
+    &= \frac{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))^{2}} = \frac{1}{c} \times \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\ 
+    &= c^{-1} \widehat{\beta}_{2}. \\
+    \widehat{\delta_{1}} &= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}. 
+\end{aligned}
+$$
+
+b. From the results in a., we can see that a negative value of $c$ results in a new slope that has opposite slope. The intercept is not affected.
+
+c. The SER could only be different if both models generate different fitted values. However, note that
+$$
+\widehat{y}_{i}^{(2)} = \widehat{\delta}_{1} + \widehat{\delta}_{2}z_{i} = \widehat{\beta}_{1} + c^{-1} \widehat{\beta}_{2} \times c x_{i} = \widehat{\beta}_{1} + \widehat{\beta}_{2}x_{i} = \widehat{y}_{i}^{(1)}.
+$$
+If the models generate the same fitted values, they also generate the same residuals. Thus since the SSR and SST is the same for both models, their $R^{2}$ values should also be the same.
+
+:::
+
+### Exercise 8
+During the course, we often consider the situation of correct specification, i.e. the data-generation process and the model coincide.
+Let us consider a situation in which this is not true. Suppose the data-generation process is given by
+$$
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
+$$
+whereas the model that we estimate is the no-intercept model
+$$
+y_{i} = \beta_{2} x_{i} + u_{i}.
+$$
+Is the least-squares estimator of $\beta_{2}$ in our model unbiased for the true value of $\beta_{2}$ in the data-generation process?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The estimator of the slope coefficient based on the no-intercept model is given by
+$$
+\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} x_{i}y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}.
+$$
+However, the data is generated according to $y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}$. Plugging this into the estimator
+yields
+$$
+\begin{aligned}
+\widehat{\beta}_{2} &= \frac{\sum_{i=1}^{n} x_{i}(\beta_{1} + \beta_{2} x_{i} + u_{i})}{\sum_{i=1}^{n} x_{i}^{2}} \\
+                    &= \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \beta_{2} + \frac{\sum_{i=1}^{n} x_{i}u_{i}}{\sum_{i=1}^{n} x_{i}^{2}}.
+\end{aligned}
+$$
+We proceed to take expectations:
+$$
+\begin{aligned}
+E(\widehat{\beta}_{2}) &= E \left(\beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \beta_{2} + \frac{\sum_{i=1}^{n} x_{i}u_{i}}{\sum_{i=1}^{n} x_{i}^{2}} \right) \\
+&= \beta_{2} + \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \frac{\sum_{i=1}^{n} x_{i}E(u_{i})}{\sum_{i=1}^{n} x_{i}^{2}} \\
+&= \beta_{2} + \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}},
+\end{aligned}
+$$
+where we used that $x_{i}$ is nonrandom by Assumption 2.2 and $E(u_{i}) = 0$ by Assumption 2.3. Thus, $\widehat{\beta}_{2}$ is biased and the bias equals $\beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}}$
+
+:::
+
+[More exercises will follow.]

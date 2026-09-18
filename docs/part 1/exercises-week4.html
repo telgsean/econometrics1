@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -647,8 +676,24 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#revisiting-previous-topics" id="toc-revisiting-previous-topics" class="nav-link active" data-scroll-target="#revisiting-previous-topics">Revisiting previous topics</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
+  <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
+  <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6">Exercise 6</a></li>
+  <li><a href="#exercise-7" id="toc-exercise-7" class="nav-link" data-scroll-target="#exercise-7">Exercise 7</a></li>
+  <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8">Exercise 8</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -679,8 +724,285 @@ window.MathJax = {
 </header>
 
 
+<section id="revisiting-previous-topics" class="level2">
+<h2 class="anchored" data-anchor-id="revisiting-previous-topics">Revisiting previous topics</h2>
+<p>This week we start with some relatively short exercises on material covering the first three weeks. Because we are halfway the first part of the course, it is a good moment to check whether you can comfortably answer questions about this material.</p>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise 1</h3>
+<p>For the simple linear regression model, show that <span class="math display">\[
+\widehat{\beta}_{2} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y}}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^{2} - \overline{x}^{2}} = \frac{\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\]</span></p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This solution only shows the numerator, the denominator is done analogously.</p>
+<p>Note that <span class="math display">\[
+\begin{aligned}
+\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y} &amp;= \frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x}\overline{y} - \overline{x}\overline{y} + \overline{x}\overline{y} \\
+&amp;= \frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \frac{1}{n}\sum_{i=1}^{n} x_{i}\overline{y} - \frac{1}{n}\sum_{i=1}^{n} y_{i} \overline{x} + \overline{x}\overline{y} \\
+&amp;= \frac{1}{n}\sum_{i=1}^{n} (x_{i}y_{i} - x_{i}\overline{y} - y_{i}\overline{x} - \overline{x}\overline{y}) \\
+&amp;= \frac{1}{n}\sum_{i=1}^{n} (x_{i}(y_{i} - \overline{y}) - \overline{x}(y_{i} - \overline{y})) \\
+&amp;= \frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})
+\end{aligned}
+\]</span> In the first equality, we make use of <strong>telescoping</strong>. In the second and third equality, we ensure that the first two terms are both expressed in terms of <span class="math inline">\(x_{i}\)</span> and the last two terms in terms of <span class="math inline">\(\overline{x}\)</span>. This is convenient for collecting terms, which we do in the last two equalities.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise 2</h3>
+<p>In the linear regression model with intercept, show that <span class="math inline">\(\overline{y} = \overline{\widehat{y}}\)</span>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Note that <span class="math inline">\(y_{i} - \widehat{y}_{i} = e_{i}\)</span>. Taking sums and multiplying by <span class="math inline">\(\frac{1}{n}\)</span> on both sides yields <span class="math display">\[
+\frac{1}{n}\sum_{i=1}^{n} y_{i} - \frac{1}{n}\sum_{i=1}^{n} \widehat{y}_{i} = \frac{1}{n}\sum_{i=1}^{n} e_{i}.
+\]</span> We note that <span class="math inline">\(\sum_{i=1}^{n} e_{i} = 0\)</span> by the first-order condition of least squares. Thus, <span class="math inline">\(\overline{y} = \overline{\widehat{y}}\)</span>.</p>
+<p>Alternatively, using vection notation, we can write <span class="math inline">\(y = \widehat{y} + e\)</span>. To obtain sums, we pre-multiply by <span class="math inline">\(\imath'\)</span> to obtain <span class="math display">\[
+\imath'y = \imath'\widehat{y} + \imath'e.
+\]</span> Since <span class="math inline">\(\imath'e = 0\)</span> by the first-order condition of least squares, we obtain <span class="math inline">\(\frac{1}{n}\imath'y = \frac{1}{n}\imath'\widehat{y}\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">Exercise 3</h3>
+<p>In this exercise, we are going to investigate in more detail under what conditions <span class="math inline">\(SST = SSR + SSE\)</span> holds.</p>
+<ol type="a">
+<li><p>Show that <span class="math display">\[
+SST = SSR + SSE + 2\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})(\widehat{y}_{i} - \overline{y}).
+\]</span> <em>Hint: Use telescoping</em>.</p></li>
+<li><p>Evaluate for the following three models whether the equation reduces to <span class="math inline">\(SST = SSR + SSE\)</span>.</p></li>
+</ol>
+<ul>
+<li>The simple linear regression model.</li>
+<li>The intercept-only model.</li>
+<li>The no-intercept model (with only one regressor).</li>
+</ul>
+<ol start="3" type="a">
+<li>Show that we can obtain the decomposition <span class="math inline">\(y'y = \widehat{y}'\widehat{y} + e'e\)</span> without assuming a constant term, whereas <span class="math inline">\(SST = SSE + SSR\)</span> can only derived when we do assume a constant term.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Write <span class="math inline">\(y_{i} - \overline{y}\)</span> as <span class="math inline">\(y_{i} - \widehat{y}_{i} + \widehat{y}_{i} - \overline{y}\)</span>. Continue with writing out the quadratic term. This should yield the desired result.</p></li>
+<li><p>Do we obtain <span class="math inline">\(SST = SSR + SSE\)</span> for the three models?</p></li>
+</ol>
+<ul>
+<li>Yes, because we have both first-order conditions.</li>
+<li>Yes, one of the first-order conditions suffices.</li>
+<li>No, generally not. One first-order condition is not enough.</li>
+</ul>
+<ol start="3" type="a">
+<li>Both results are in Section 1.8 of ITE. Note that least squares always gives <span class="math inline">\(\widehat{y}'e = 0\)</span> (because <span class="math inline">\(X'e = 0\)</span>), which is needed for the first decomposition. For the second one we need <span class="math inline">\(\imath'e = 0\)</span> explicitly.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4">Exercise 4</h3>
+<p>There is something interesting about the way that we define SSE, the explained sum of squares. In textbooks, you will often read <span class="math display">\[
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2}.
+\]</span> However, this definition is different from typical measures of variation. For example, TSS is defined as the sum of squared deviation from <strong>its own mean</strong>, i.e. <span class="math display">\[
+SST = \sum_{i=1}^{n} (y_{i} - \overline{y})^{2}.
+\]</span> Let us study <span class="math inline">\(SSE\)</span> a bit deeper.</p>
+<ol type="a">
+<li>Show that, in case of a constant term, <span class="math display">\[
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2} = \widehat{y}'A\widehat{y}.
+\]</span></li>
+<li>What changes in a. whenever there is no constant term in the model?</li>
+<li>In light of what we found out in this exercise, reconsider exercise 3b for the no-intercept model. Do you think the textbook measure of <span class="math inline">\(SSE\)</span> is informative in this case?</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>We can write <span class="math display">\[
+\widehat{y}'A\widehat{y} = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{\widehat{y}})^{2},
+\]</span> by definition. However, with constant term, it is important to see that <span class="math inline">\(\imath'\widehat{y} = \imath'(y - e) = \imath'y - \imath'e = \imath'y\)</span> because <span class="math inline">\(\imath'e = 0\)</span> by the first-order condition of least squares.</p></li>
+<li><p>As shown in a. and in exercise 2 of this week, we no longer have <span class="math inline">\(\overline{y} = \overline{\widehat{y}}\)</span> in case there is no constant term in the model.</p></li>
+<li><p>Typically, measures of variation consider the variation around their own mean. In case of a constant term in the model, the definition <span class="math display">\[
+SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2},
+\]</span> is perfectly accurate because <span class="math inline">\(\overline{y} = \overline{\widehat{y}}\)</span> due to the first-order condition <span class="math inline">\(\imath'e = 0\)</span>. However, whenever there is no constant term, one could argue that <span class="math display">\[
+SSE^{*} = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{\widehat{y}})^{2},
+\]</span> is a much more sensible measure of variation around the fitted values. In light of exercise 3b, this means the following. We used telescoping to show <span class="math display">\[
+\begin{aligned}
+\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i} + \widehat{y}_{i} - \overline{y})^{2} &amp;= \sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})^{2} + \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2} \\
+&amp;\quad \ +2\sum_{i=1}^{n} (y_{i} - \widehat{y}_{i})(\widehat{y}_{i} - \overline{y}),
+\end{aligned}
+\]</span> which we denoted as <span class="math inline">\(SSR + SSE + \text{additional term}\)</span>. However, note that for the no-intercept model, the definition <span class="math inline">\(SSE = \sum_{i=1}^{n} (\widehat{y}_{i} - \overline{y})^{2}\)</span> is arguably not appropriate. Thus, the decomposition does not only fail in terms of the additional term that does not disappear, but the measure of <span class="math inline">\(SSE\)</span> could be considered questionable/inappropriate as a measure of explained variation.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5">Exercise 5</h3>
+<p>Show that the OLS estimator for <span class="math inline">\(\beta_{2}\)</span> in the simple linear regression model can also be written as <span class="math display">\[
+\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})y_{i}}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}} = \frac{\sum_{i=1}^{n} (y_{i} - \overline{y})x_{i}}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}}
+\]</span> <em>Hint:</em> You may start from <span class="math inline">\(\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}}\)</span>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The solution follows directly from writing out the numerator.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-6" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6">Exercise 6</h3>
+<p>Suppose you demean the independent and dependent variable. Then you estimate a no-intercept model on this data, which we denote (<span class="math inline">\(\tilde{x}, \tilde{y}\)</span>). Show that the estimated slope coefficient for this model is the same as the estimated slope in a simple linear regression model on the original data (not demeaned).</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If we estimate a no-intercept model, the estimator for the slope coefficient is given by <span class="math display">\[
+\widehat{\beta} = \frac{\sum_{i=1}^{n} \tilde{x}_{i}\tilde{y_{i}}}{\sum_{i=1}^{n} \tilde{x}_{i}^{2}}.
+\]</span> Since the variables are demeaned, we have <span class="math inline">\(\tilde{x}_{i} = x_{i} - \overline{x}\)</span> and <span class="math inline">\(\tilde{y}_{i} = y_{i} - \overline{y}\)</span>. Plugging these expressions in the formula for <span class="math inline">\(\widehat{\beta}_{2}\)</span> yields the (by now, well-known) estimator <span class="math display">\[
+\widehat{\beta} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-7" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7">Exercise 7</h3>
+<p>Student A estimates the simple linear regression model <span class="math display">\[
+y_i = \beta_1 + \beta_2 x_i + u_i, \qquad (i=1,\ldots,n),
+\]</span> by least squares and finds the estimators <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span>. Student B instead estimates the linear regression model <span class="math display">\[
+y_i = \delta_1 + \delta_2 z_i + \varepsilon_i, \qquad (i=1,\ldots,n),
+\]</span> by least squares, where <span class="math inline">\(z_{i} = c x_{i}\)</span> for <span class="math inline">\(c &gt; 0\)</span>, i.e.&nbsp;<span class="math inline">\(z_{i}\)</span> is a rescaled version of <span class="math inline">\(x_{i}\)</span>. She denotes the estimators <span class="math inline">\(\widehat{\delta}_{1}\)</span> and <span class="math inline">\(\widehat{\delta}_{2}\)</span>.</p>
+<ol type="a">
+<li>Show that <span class="math inline">\(\widehat{\delta}_{2} = c^{-1} \widehat{\beta}_{2}\)</span> and <span class="math inline">\(\widehat{\delta}_{1} = \widehat{\beta}_{1}\)</span>.</li>
+<li>How would the results change when <span class="math inline">\(c &lt; 0\)</span>?</li>
+<li>How do the SER and <span class="math inline">\(R^2\)</span> of both models relate?</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Note that <span class="math display">\[
+\begin{aligned}
+\hat{\delta}_{2} &amp;= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
+&amp;= \frac{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))^{2}} = \frac{1}{c} \times \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+&amp;= c^{-1} \widehat{\beta}_{2}. \\
+\widehat{\delta_{1}} &amp;= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}.
+\end{aligned}
+\]</span></p></li>
+<li><p>From the results in a., we can see that a negative value of <span class="math inline">\(c\)</span> results in a new slope that has opposite slope. The intercept is not affected.</p></li>
+<li><p>The SER could only be different if both models generate different fitted values. However, note that <span class="math display">\[
+\widehat{y}_{i}^{(2)} = \widehat{\delta}_{1} + \widehat{\delta}_{2}z_{i} = \widehat{\beta}_{1} + c^{-1} \widehat{\beta}_{2} \times c x_{i} = \widehat{\beta}_{1} + \widehat{\beta}_{2}x_{i} = \widehat{y}_{i}^{(1)}.
+\]</span> If the models generate the same fitted values, they also generate the same residuals. Thus since the SSR and SST is the same for both models, their <span class="math inline">\(R^{2}\)</span> values should also be the same.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-8" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8">Exercise 8</h3>
+<p>During the course, we often consider the situation of correct specification, i.e.&nbsp;the data-generation process and the model coincide. Let us consider a situation in which this is not true. Suppose the data-generation process is given by <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
+\]</span> whereas the model that we estimate is the no-intercept model <span class="math display">\[
+y_{i} = \beta_{2} x_{i} + u_{i}.
+\]</span> Is the least-squares estimator of <span class="math inline">\(\beta_{2}\)</span> in our model unbiased for the true value of <span class="math inline">\(\beta_{2}\)</span> in the data-generation process?</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The estimator of the slope coefficient based on the no-intercept model is given by <span class="math display">\[
+\widehat{\beta}_{2} = \frac{\sum_{i=1}^{n} x_{i}y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}.
+\]</span> However, the data is generated according to <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}\)</span>. Plugging this into the estimator yields <span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{2} &amp;= \frac{\sum_{i=1}^{n} x_{i}(\beta_{1} + \beta_{2} x_{i} + u_{i})}{\sum_{i=1}^{n} x_{i}^{2}} \\
+                    &amp;= \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \beta_{2} + \frac{\sum_{i=1}^{n} x_{i}u_{i}}{\sum_{i=1}^{n} x_{i}^{2}}.
+\end{aligned}
+\]</span> We proceed to take expectations: <span class="math display">\[
+\begin{aligned}
+E(\widehat{\beta}_{2}) &amp;= E \left(\beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \beta_{2} + \frac{\sum_{i=1}^{n} x_{i}u_{i}}{\sum_{i=1}^{n} x_{i}^{2}} \right) \\
+&amp;= \beta_{2} + \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}} + \frac{\sum_{i=1}^{n} x_{i}E(u_{i})}{\sum_{i=1}^{n} x_{i}^{2}} \\
+&amp;= \beta_{2} + \beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}},
+\end{aligned}
+\]</span> where we used that <span class="math inline">\(x_{i}\)</span> is nonrandom by Assumption 2.2 and <span class="math inline">\(E(u_{i}) = 0\)</span> by Assumption 2.3. Thus, <span class="math inline">\(\widehat{\beta}_{2}\)</span> is biased and the bias equals <span class="math inline">\(\beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum_{i=1}^{n} x_{i}^{2}}\)</span></p>
+</div>
+</div>
+</div>
+<p>[More exercises will follow.]</p>
 
 
+</section>
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

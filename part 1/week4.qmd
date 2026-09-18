@@ -12,3 +12,197 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 3, Section 3.1 - 3.9.
 
 :::
+
+## This week's contents
+So far, we have focused on estimation of $\beta$ and $\sigma^{2}$, model fit and making predictions in the linear regression model. Last week ended with considerations regarding model selection, in which the bias-variance trade-off played a central role.
+
+This week, we study another important topic: **inference**. We start with hypothesis testing and study meticulously what ingredients are necessary to have a valid test statistic. We first need to derive the exact distributions of $\widehat{\beta}$ and $s^{2}$, and establish the independence of these two estimators. Based on this, we can establish the **$t$-ratio**. We revisit statistical concepts that you are already familiar with, such as the **null hypothesis**, **maintained hypothesis**, the **$p$-value** and the **signficance level** of a test. We discuss two main applications of the $t$-ratio: testing a hypothesis of interest and diagnostic testing. We end the week by considering the **size** and the **power** of a test.
+
+## Hypothesis testing in the linear regression model
+Let us first consider the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}.
+$$ {#eq-simplinreg}
+Suppose there is a company that has $n$ different stores located in Amsterdam. It wants to use this model to evaluate the effectiveness of the promotion activities of these stores. Let $x_{i}$ be the amount of money spent on advertisements by store $i$ and let $y_{i}$ denote the sales of store $i$. The company has three managers, the one more optimistic than the other, and they ask the following questions:
+
+1. Did the promotion activities have an effect on the sales at all?
+2. Did the promotion activities translate at least into a one-to-one increase in sales?
+3. Did we manage to get twice the amount of sales out of our promotion activities, or was it less?
+
+If you were to work for this company as an econometrician, you would have to translate these questions into statements that you can statistically test. We can do this by performing hypothesis tests on $\beta_{2}$. In case of the first manager, the set of hypotheses is given by
+$$
+H_{0}: \beta_{2} = 0 \quad \text{versus} \quad H_{1}: \beta_{2} \neq 0,
+$$
+where the null hypothesis states that the money spent on promotion has no effect on the sales, while the alternative hypothesis states that it does have an effect. However, it leaves unspecified whether it is positive or negative, because it is a two-sided test. The second manager is a bit more positive, and wants to know whether the money spent is at least earned back through sales. This set of hypotheses can be formalized as
+$$
+H_{0}: \beta_{2} = 1 \quad \text{versus} \quad H_{1}: \beta_{2} > 1,
+$$
+where the null hypothesis states that a unit increase in $x_{i}$ results in the same unit increase in $y_{i}$. Because the manager specified `at least' in the question, the alternative hypothesis considers the scenario that a single Euro spent on promotion leads to more than one Euro in sales, making this a one-sided test. As we will see, the alternative considers the right tail of the distribution. Finally, we have the most optimistic manager, whose set of hypotheses can be written as
+$$
+H_{0}: \beta_{2} = 2 \quad \text{versus} \quad H_{1}: \beta_{2} < 2,
+$$
+which is once again a one-sided test but concerns the left tail of the distribution. 
+
+To answer the questions posed by the managers, we need a testing procedure. Since the null hypotheses represent single (linear) restrictions, we can make use of a $t$-test. Let us first consider what is needed to have a valid test statistic.
+
+## Student's $t$-distribution
+Before we derive the formal test statistic, let us first investigate how we can construct random variables with a Student's $t$-distribution. Following Appendix B.4., and in particular Equation B.7, we can see that if $x \sim N(0,1)$ (i.e., univariate standard normal) and $w \sim \chi^{2}(n)$, and $x$ and $w$ independent, then
+$$
+\frac{x}{\sqrt{w/n}} \sim t(n),
+$$ {#eq-tdist}
+i.e., the ratio follows a Student's $t$-distribution with $n$ degrees of freedom. This result will prove useful whenever we want to perform tests of individual coefficients in the linear regression model.
+
+## Deriving the distributions of our estimators
+Let us now consider the *multiple* linear regression again to derive the distributions of $\widehat{\beta}$, $e$ and $s^2$. This derivation could also be done using the simple linear regression model, but it is typically more convenient to immediately derive the formulas based on the multiple linear regression model.
+
+### Distribution of $\widehat{\beta}$
+This week, we make extensive use of Assumption 2.4, which states that $u \sim N(0,\sigma^{2}I_{n})$. In combination with Assumption 2.3 ($X$ is nonrandom), this can also be written as $y \sim N(X\beta,\sigma^{2}I_{n})$. We can now make use of an extremely useful property of the normal distribution. Since $y$ is normally distributed and $\widehat{\beta}$ is linear in $y$, we obtain
+$$
+\widehat{\beta} = (X'X)^{-1}X'y \sim N(\beta, \sigma^{2}(X'X)^{-1}).
+$$
+
+::: {.callout-note title="Mean and variance of $\hat{\beta}$" collapse = true}
+
+Using Section B.1, we can find the mean and variance of $\hat{\beta}$ as follows. For the mean, we obtain
+$$
+E(\widehat{\beta}) = E((X'X)^{-1}X'y) = (X'X)^{-1}X'E(y) = (X'X)^{-1}X'X\beta = \beta,
+$$
+while the variance is given by
+$$
+\begin{aligned}
+\Var(\widehat{\beta}) &= \Var((X'X)^{-1}X'y) \\
+&= (X'X)^{-1}X'\Var(y)X(X'X)^{-1} \\
+&= (X'X)^{-1}X'\sigma^{2}I_{n}X(X'X)^{-1} \\
+&= \sigma^{2}(X'X)^{-1},
+\end{aligned}
+$$
+where we used that $\sigma^{2}$ is a scalar, $X$ is nonrandom and $X'X$ is invertible because $X$ has full rank by Assumption 2.2.
+
+:::
+
+### Distribution of $e$
+For the residuals, we have seen that they are also linear in $y$ and even $u$ since $e = My = Mu$. It is straightforward to derive $E(e) = ME(u) = 0$ and $\Var(e) = \Var(Mu) = M\Var(u)M' = \sigma^{2}M$, where we use that $M$ is symmetric and idempotent. There is, however, one important difference. As we have seen before, the variance matrix of $e$ does not have full rank (we also call this rank-deficient). Because $M$ is singular, the distribution of $e$ is degenerate. Intuitively, this means that the $n \times 1$ random vector $e$ has a support (the space where all the probability mass lives) that lies entirely within a subspace of dimension strictly less than $n$.
+
+::: {.callout-note title="Reminder" collapse = true}
+
+Because $M$ is symmetric and idempotent, we can calculate its rank using the trace:
+$$
+\begin{aligned}
+\text{tr}(M) &= \text{tr}(I_{n} - X(X'X)^{-1}X') \\
+             &= \text{tr}(I_{n}) - \text{tr}(X(X'X)^{-1}X') \\
+             &= \text{tr}(I_{n}) - \text{tr}(X'X(X'X)^{-1}) \\
+             &= \text{tr}(I_{n}) - \text{tr}(I_{k})
+             &= n - k.
+\end{aligned}
+$$
+
+Since $\Var(e) = \sigma^{2}M$, we know that the support of the $n \times 1$ random vector $e$ lies within a subspace of dimension $n-k$. This is due to the fact that least squares imposes $k$ first-order conditions. 
+
+:::
+
+### Distribution of $s^2$
+We now have the main ingredients to derive the distribution of $s^{2}$, but need to rely on Appendix B.4 once more. We make use of the following result given in Equation B.6: if $x \sim N(0, I_{n})$ and $A$ is a symmetric idempotent matrix of rank $r$, then $x'Ax \sim \chi^{2}(r)$. Let us apply this result to find the distribution of $s^{2} = e'e/(n-k)$.
+
+Note that $e'e = (Mu)'Mu = u'Mu$ because $M$ is symmetric and idempotent. We know that $u \sim N(0,\sigma^{2}I_{n})$ such that $v = u/\sigma \sim N(0,I_{n})$ and that $\text{r}(M) = n-k$. Then applying Equation B.6 to these quantities gives
+$$
+\frac{e'e}{\sigma^{2}} = v'Mv \sim \chi^{2}(n-k).
+$$
+Using $s^{2} = e'e/(n-k)$ we obtain 
+$$
+\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k).
+$$
+Using the information about the $\chi^{2}$-distribution, we can easily derive the mean and variance of $s^{2}$ but we won't do that here because it is not crucial to derive the $t$-test.
+
+### Independence between $\widehat{\beta}$ and $s^2$
+If we plug $y = X\beta + u$ into our least-squares estimator $\widehat{\beta} = (X'X)^{-1}X'y$ and rearrange terms, we obtain
+$$
+\widehat{\beta} - \beta = (X'X)^{-1}X'u = \sigma(X'X)^{-1}X'v,
+$$
+which is a linear form given by $\sigma Lv$ by defining $L = (X'X)^{-1}X'$. Moreover, we can write
+$$
+e'e = u'Mu = \sigma^{2}v'Mv,
+$$
+which is a quadratic form in terms of $v$. Since $LM = 0$ (as $MX = 0$), we now know by Equation B.9 in Appendix B.5, that $Lv$ amd $v'Mv$ are independent. This is sufficient to show that $\widehat{\beta}$ and $s^{2}$ are independent. 
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+It is important that you understand how a $t$-ratio can be constructed. The following sections in ITE will be quite repetitive given what you just read on the website, but it is good practice to check if you understand all the steps.
+
+Read Sections 3.1 - 3.4
+
+:::
+
+
+## Constructing the $t$-ratio
+Note that we are now almost in the position to apply (@eq-tdist). Let us first have a closer look at $\widehat{\beta}$, for which we derived $\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1})$. If we define $V = (X'X)^{-1}$, then we have $\widehat{\beta}_{j} \sim N(\beta_{j}, \sigma^{2}v_{jj})$ for the $j$'th element in the random vector $\widehat{\beta}$. In other words,
+$$
+\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} \sim N(0,1).
+$$ {#eq-tnorm}
+
+::: {.callout-note title="Why not use this result for testing?" collapse = true}
+
+If $\sigma^{2}$ is known, then (@eq-tnorm) could be used for testing. For example, since
+$$
+\Pr\left( -1.96 < \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} < 1.96 \right) = 0.95,
+$$
+we can test two-sided at a $5\%$ significance level. If the value of $\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}}$ lies inside the interval $(-1.96, 1.96)$ we fail to reject $H_{0}$, while we reject $H_{0}$ if the computed value falls outside the interval.
+
+Unfortunately, we typically cannot use this result for testing because $\sigma^{2}$ is generally unknown. 
+
+:::
+
+Because the previous result cannot be used for testing, we have to find another solution. We cannot simply replace $\sigma^{2}$ by its estimator $s^{2}$, we can apply (@eq-tdist). That is,
+$$
+\frac{(\widehat{\beta}_{j} - \beta_{j})/ \sqrt{\sigma^{2}v_{jj}}}{\sqrt{\frac{(n-k)s^{2}}{\sigma^{2}} / (n-k)}} = \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k),
+$$ {#eq-ttest}
+which is a feasible test statistic because all its elements can be computed. You might disagree with this statement, because the true $\beta_{j}$ is typically also unknown. However, $\beta_{j}$ plays a different role in this statistic: we may also call it the **hypothesized value**. Quite often we consider $\beta_{j} = 0$, which provides the $t$-ratio. However, as the example with the three managers highlights, we may also be interested in other hypothesized values. We can use (@eq-ttest) to test the null hypotheses of these managers.
+
+## Two interpretations of the $t$-ratio
+At the start of this week's page, we started off with the simple linear regression model in (@eq-simplinreg). As we already established, the hypotheses of the different managers involved performing tests on the slope coefficient $\beta_{2}$. This is the first use of the $t$-ratio: we are interested in a clear (research) hypothesis which investigates the behavior of a **focus variable** on the dependent variable.
+
+The simple linear regression model has some advantages, such as its easy interpretation and the ability to visually represent the results. The disadvantages are also substantial, though. If we revisit the empirical application where $x_{i}$ represents the amount of money spent on promotion and $y_{i}$ the sales, then we can draw an important conclusion. In this model, only the promotion is allowed to influence sales but this is arguably too simplistic. Sales are likely also influenced by other factors, such as the exact location of the store (in a busy shopping area or not), the size of the store (larger stores probably sell more), the (average) number of visitors in each store, et cetera. Because all these factors are not contained in the model, they are contained in the error term $u_{i}$. In case one or more of these factors are correlated with $x_{i}$, $\beta_{2}$ is not correctly representing the effect of $x_{i}$ on $y_{i}$.
+
+This is one of the main reasons why we study the multiple linear regression model. We might still only be interested in the effect of promotion on sales, but in order to get a better estimate of that effect, we include more regressors:
+$$
+y = \beta_{1} + \beta_{2}x_{2} + \ldots + \beta_{k} x_{k} + u \quad \text{or in short,} \quad y = X\beta + u,
+$$ {#eq-multlinreg}
+where $x_{1}, \ldots, x_{k}$ now represent $k$ different regressors in vector form (not $k$ observations on one regressor!). This brings about a second use of the $t$-ratio. For some regressors, we are not really interested in their direct effect of the dependent variable. They are called **auxiliary** or **control variables**. Performing tests on the coefficients corresponding to these variables is often also called **diagnostic testing**. This name reveals that the test is executed to assess the adequacy of the model rather than testing a (research) hypothesis of interest. If we consider @eq-multlinreg in terms of our empirical application:
+
+- If $x_{2}$ represents promotion, then this variable is a *focus variable*. We can test our hypothesis of interest on $\beta_{2}$.
+- This makes $x_{3}, \ldots, x_{k}$ *auxiliary variables*, who are included to ensure a proper estimation of $\beta_{2}$. If we perform tests on the remaining coefficients $\beta_{3}, \ldots, \beta_{k}$, we typically refer to this as diagnostic testing.
+
+Note that it is possible to have more than one focus variable. In what follows, we may choose to partition the design matrix $X$ as follows $X = (X_{1} : X_{2})$, where $X_{1}$ are $k_{1}$ focus variables and $X_{2}$ are $k_{2}$ auxiliary variables. We come back to this in the context of model selection.
+
+## Size and power
+The ability to perform statistical tests is an important tool for econometricians. However, it is important to be aware of the two errors that can be made during hypothesis testing. That is, (i) we may reject the null hypothesis while it is true (type I) or (ii) we may not reject the null hypothesis while it is false (type II). For a fixed sample size, the investigator must find a balance between these errors.  The associated probabilities are defined by
+$$
+\begin{aligned}
+\alpha &= \Pr(\text{reject } H_{0} | H_{0} \text{ is true}), \\
+\beta  &= \Pr(\text{do not reject } H_{0} | H_{1} \text{ is true}).
+\end{aligned}
+$$
+These two quantities play a crucial role in testing. We recognize $\alpha$ as the significance level that we set beforehand ourselves (in econometrics, we often choose $\alpha = 0.05$). In terms of testing, we also refer to the **size** of a test: we do not want the probability of making a Type I error to exceed the value of $0.05$. Another important quantity is the **power** of a test, which is defined as $1 - \beta$. Further elaboration on these concepts can be found in the last section of this week.
+
+::: {.callout-note title="An example in the justice system" collapse = true}
+
+An effective way to think about hypothesis testing is to consider the saying *innocent until proven guilty*. Suppose a person got arrested suspected of murder. The saying indicates that our $H_{0}$ is that the person is innocent. We only want to convict persons in case there is substantial evidence showing that they are indeed guilty.
+
+In terms of $\alpha$ and $\beta$, we can say the following. Suppose the null hypothesis is true (the person is in fact innocent), then we want to make $\alpha$ very small: we do not want an innocent person to go behind bars. We probably want to set $\alpha$ smaller than the $0.05$ that we typically choose in econometrics, because wrongfully sending people to jail in 5\% of the cases is unacceptable (if this were a repeated experiment). However, a small significance level has adverse effects on the power of the test. That is, if the alternative is true (the person is in fact guilty), then the probability of actually rejecting $H_{0}$ decreases. The murderer has a larger chance of going free.
+
+The only way to reduce both $\alpha$ and $\beta$ is to increase the number of observations. In the case at hand, to increase the pieces of evidence related to the murder scene.
+
+As you can see, hypothesis testing takes a rather conservative view. In many cases, the null hypothesis says that there is "no effect" or in this example, "the person is innocent". This means that we assume $H_{0}$ to be true as long as we do not collect enough evidence against this null hypothesis. 
+
+Imagine now that we would do it the other way around. We would assume the person is guilty and the only way to clear the person's name is whenever enough evidence is collected that shows innocence. If we took that point of view, probably many more people would end up behind bars (innocent or not)...
+
+:::
+
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read Sections 3.5 - 3.9.
+
+:::
+

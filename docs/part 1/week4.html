@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -647,8 +676,26 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#hypothesis-testing-in-the-linear-regression-model" id="toc-hypothesis-testing-in-the-linear-regression-model" class="nav-link" data-scroll-target="#hypothesis-testing-in-the-linear-regression-model">Hypothesis testing in the linear regression model</a></li>
+  <li><a href="#students-t-distribution" id="toc-students-t-distribution" class="nav-link" data-scroll-target="#students-t-distribution">Student’s <span class="math inline">\(t\)</span>-distribution</a></li>
+  <li><a href="#deriving-the-distributions-of-our-estimators" id="toc-deriving-the-distributions-of-our-estimators" class="nav-link" data-scroll-target="#deriving-the-distributions-of-our-estimators">Deriving the distributions of our estimators</a>
+  <ul class="collapse">
+  <li><a href="#distribution-of-widehatbeta" id="toc-distribution-of-widehatbeta" class="nav-link" data-scroll-target="#distribution-of-widehatbeta">Distribution of <span class="math inline">\(\widehat{\beta}\)</span></a></li>
+  <li><a href="#distribution-of-e" id="toc-distribution-of-e" class="nav-link" data-scroll-target="#distribution-of-e">Distribution of <span class="math inline">\(e\)</span></a></li>
+  <li><a href="#distribution-of-s2" id="toc-distribution-of-s2" class="nav-link" data-scroll-target="#distribution-of-s2">Distribution of <span class="math inline">\(s^2\)</span></a></li>
+  <li><a href="#independence-between-widehatbeta-and-s2" id="toc-independence-between-widehatbeta-and-s2" class="nav-link" data-scroll-target="#independence-between-widehatbeta-and-s2">Independence between <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#constructing-the-t-ratio" id="toc-constructing-the-t-ratio" class="nav-link" data-scroll-target="#constructing-the-t-ratio">Constructing the <span class="math inline">\(t\)</span>-ratio</a></li>
+  <li><a href="#two-interpretations-of-the-t-ratio" id="toc-two-interpretations-of-the-t-ratio" class="nav-link" data-scroll-target="#two-interpretations-of-the-t-ratio">Two interpretations of the <span class="math inline">\(t\)</span>-ratio</a></li>
+  <li><a href="#size-and-power" id="toc-size-and-power" class="nav-link" data-scroll-target="#size-and-power">Size and power</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -694,8 +741,216 @@ window.MathJax = {
 </ul>
 </div>
 </div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>So far, we have focused on estimation of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^{2}\)</span>, model fit and making predictions in the linear regression model. Last week ended with considerations regarding model selection, in which the bias-variance trade-off played a central role.</p>
+<p>This week, we study another important topic: <strong>inference</strong>. We start with hypothesis testing and study meticulously what ingredients are necessary to have a valid test statistic. We first need to derive the exact distributions of <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^{2}\)</span>, and establish the independence of these two estimators. Based on this, we can establish the <strong><span class="math inline">\(t\)</span>-ratio</strong>. We revisit statistical concepts that you are already familiar with, such as the <strong>null hypothesis</strong>, <strong>maintained hypothesis</strong>, the <strong><span class="math inline">\(p\)</span>-value</strong> and the <strong>signficance level</strong> of a test. We discuss two main applications of the <span class="math inline">\(t\)</span>-ratio: testing a hypothesis of interest and diagnostic testing. We end the week by considering the <strong>size</strong> and the <strong>power</strong> of a test.</p>
+</section>
+<section id="hypothesis-testing-in-the-linear-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-testing-in-the-linear-regression-model">Hypothesis testing in the linear regression model</h2>
+<p>Let us first consider the simple linear regression model <span id="eq-simplinreg"><span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}.
+\tag{1}\]</span></span> Suppose there is a company that has <span class="math inline">\(n\)</span> different stores located in Amsterdam. It wants to use this model to evaluate the effectiveness of the promotion activities of these stores. Let <span class="math inline">\(x_{i}\)</span> be the amount of money spent on advertisements by store <span class="math inline">\(i\)</span> and let <span class="math inline">\(y_{i}\)</span> denote the sales of store <span class="math inline">\(i\)</span>. The company has three managers, the one more optimistic than the other, and they ask the following questions:</p>
+<ol type="1">
+<li>Did the promotion activities have an effect on the sales at all?</li>
+<li>Did the promotion activities translate at least into a one-to-one increase in sales?</li>
+<li>Did we manage to get twice the amount of sales out of our promotion activities, or was it less?</li>
+</ol>
+<p>If you were to work for this company as an econometrician, you would have to translate these questions into statements that you can statistically test. We can do this by performing hypothesis tests on <span class="math inline">\(\beta_{2}\)</span>. In case of the first manager, the set of hypotheses is given by <span class="math display">\[
+H_{0}: \beta_{2} = 0 \quad \text{versus} \quad H_{1}: \beta_{2} \neq 0,
+\]</span> where the null hypothesis states that the money spent on promotion has no effect on the sales, while the alternative hypothesis states that it does have an effect. However, it leaves unspecified whether it is positive or negative, because it is a two-sided test. The second manager is a bit more positive, and wants to know whether the money spent is at least earned back through sales. This set of hypotheses can be formalized as <span class="math display">\[
+H_{0}: \beta_{2} = 1 \quad \text{versus} \quad H_{1}: \beta_{2} &gt; 1,
+\]</span> where the null hypothesis states that a unit increase in <span class="math inline">\(x_{i}\)</span> results in the same unit increase in <span class="math inline">\(y_{i}\)</span>. Because the manager specified `at least’ in the question, the alternative hypothesis considers the scenario that a single Euro spent on promotion leads to more than one Euro in sales, making this a one-sided test. As we will see, the alternative considers the right tail of the distribution. Finally, we have the most optimistic manager, whose set of hypotheses can be written as <span class="math display">\[
+H_{0}: \beta_{2} = 2 \quad \text{versus} \quad H_{1}: \beta_{2} &lt; 2,
+\]</span> which is once again a one-sided test but concerns the left tail of the distribution.</p>
+<p>To answer the questions posed by the managers, we need a testing procedure. Since the null hypotheses represent single (linear) restrictions, we can make use of a <span class="math inline">\(t\)</span>-test. Let us first consider what is needed to have a valid test statistic.</p>
+</section>
+<section id="students-t-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="students-t-distribution">Student’s <span class="math inline">\(t\)</span>-distribution</h2>
+<p>Before we derive the formal test statistic, let us first investigate how we can construct random variables with a Student’s <span class="math inline">\(t\)</span>-distribution. Following Appendix B.4., and in particular Equation B.7, we can see that if <span class="math inline">\(x \sim N(0,1)\)</span> (i.e., univariate standard normal) and <span class="math inline">\(w \sim \chi^{2}(n)\)</span>, and <span class="math inline">\(x\)</span> and <span class="math inline">\(w\)</span> independent, then <span id="eq-tdist"><span class="math display">\[
+\frac{x}{\sqrt{w/n}} \sim t(n),
+\tag{2}\]</span></span> i.e., the ratio follows a Student’s <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n\)</span> degrees of freedom. This result will prove useful whenever we want to perform tests of individual coefficients in the linear regression model.</p>
+</section>
+<section id="deriving-the-distributions-of-our-estimators" class="level2">
+<h2 class="anchored" data-anchor-id="deriving-the-distributions-of-our-estimators">Deriving the distributions of our estimators</h2>
+<p>Let us now consider the <em>multiple</em> linear regression again to derive the distributions of <span class="math inline">\(\widehat{\beta}\)</span>, <span class="math inline">\(e\)</span> and <span class="math inline">\(s^2\)</span>. This derivation could also be done using the simple linear regression model, but it is typically more convenient to immediately derive the formulas based on the multiple linear regression model.</p>
+<section id="distribution-of-widehatbeta" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-widehatbeta">Distribution of <span class="math inline">\(\widehat{\beta}\)</span></h3>
+<p>This week, we make extensive use of Assumption 2.4, which states that <span class="math inline">\(u \sim N(0,\sigma^{2}I_{n})\)</span>. In combination with Assumption 2.3 (<span class="math inline">\(X\)</span> is nonrandom), this can also be written as <span class="math inline">\(y \sim N(X\beta,\sigma^{2}I_{n})\)</span>. We can now make use of an extremely useful property of the normal distribution. Since <span class="math inline">\(y\)</span> is normally distributed and <span class="math inline">\(\widehat{\beta}\)</span> is linear in <span class="math inline">\(y\)</span>, we obtain <span class="math display">\[
+\widehat{\beta} = (X'X)^{-1}X'y \sim N(\beta, \sigma^{2}(X'X)^{-1}).
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Mean and variance of $\hat{\beta}$">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Mean and variance of <span class="math inline">\(\hat{\beta}\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Using Section B.1, we can find the mean and variance of <span class="math inline">\(\hat{\beta}\)</span> as follows. For the mean, we obtain <span class="math display">\[
+E(\widehat{\beta}) = E((X'X)^{-1}X'y) = (X'X)^{-1}X'E(y) = (X'X)^{-1}X'X\beta = \beta,
+\]</span> while the variance is given by <span class="math display">\[
+\begin{aligned}
+\Var(\widehat{\beta}) &amp;= \Var((X'X)^{-1}X'y) \\
+&amp;= (X'X)^{-1}X'\Var(y)X(X'X)^{-1} \\
+&amp;= (X'X)^{-1}X'\sigma^{2}I_{n}X(X'X)^{-1} \\
+&amp;= \sigma^{2}(X'X)^{-1},
+\end{aligned}
+\]</span> where we used that <span class="math inline">\(\sigma^{2}\)</span> is a scalar, <span class="math inline">\(X\)</span> is nonrandom and <span class="math inline">\(X'X\)</span> is invertible because <span class="math inline">\(X\)</span> has full rank by Assumption 2.2.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-e" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-e">Distribution of <span class="math inline">\(e\)</span></h3>
+<p>For the residuals, we have seen that they are also linear in <span class="math inline">\(y\)</span> and even <span class="math inline">\(u\)</span> since <span class="math inline">\(e = My = Mu\)</span>. It is straightforward to derive <span class="math inline">\(E(e) = ME(u) = 0\)</span> and <span class="math inline">\(\Var(e) = \Var(Mu) = M\Var(u)M' = \sigma^{2}M\)</span>, where we use that <span class="math inline">\(M\)</span> is symmetric and idempotent. There is, however, one important difference. As we have seen before, the variance matrix of <span class="math inline">\(e\)</span> does not have full rank (we also call this rank-deficient). Because <span class="math inline">\(M\)</span> is singular, the distribution of <span class="math inline">\(e\)</span> is degenerate. Intuitively, this means that the <span class="math inline">\(n \times 1\)</span> random vector <span class="math inline">\(e\)</span> has a support (the space where all the probability mass lives) that lies entirely within a subspace of dimension strictly less than <span class="math inline">\(n\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Reminder">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reminder
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Because <span class="math inline">\(M\)</span> is symmetric and idempotent, we can calculate its rank using the trace: <span class="math display">\[
+\begin{aligned}
+\text{tr}(M) &amp;= \text{tr}(I_{n} - X(X'X)^{-1}X') \\
+             &amp;= \text{tr}(I_{n}) - \text{tr}(X(X'X)^{-1}X') \\
+             &amp;= \text{tr}(I_{n}) - \text{tr}(X'X(X'X)^{-1}) \\
+             &amp;= \text{tr}(I_{n}) - \text{tr}(I_{k})
+             &amp;= n - k.
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(\Var(e) = \sigma^{2}M\)</span>, we know that the support of the <span class="math inline">\(n \times 1\)</span> random vector <span class="math inline">\(e\)</span> lies within a subspace of dimension <span class="math inline">\(n-k\)</span>. This is due to the fact that least squares imposes <span class="math inline">\(k\)</span> first-order conditions.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-s2" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-s2">Distribution of <span class="math inline">\(s^2\)</span></h3>
+<p>We now have the main ingredients to derive the distribution of <span class="math inline">\(s^{2}\)</span>, but need to rely on Appendix B.4 once more. We make use of the following result given in Equation B.6: if <span class="math inline">\(x \sim N(0, I_{n})\)</span> and <span class="math inline">\(A\)</span> is a symmetric idempotent matrix of rank <span class="math inline">\(r\)</span>, then <span class="math inline">\(x'Ax \sim \chi^{2}(r)\)</span>. Let us apply this result to find the distribution of <span class="math inline">\(s^{2} = e'e/(n-k)\)</span>.</p>
+<p>Note that <span class="math inline">\(e'e = (Mu)'Mu = u'Mu\)</span> because <span class="math inline">\(M\)</span> is symmetric and idempotent. We know that <span class="math inline">\(u \sim N(0,\sigma^{2}I_{n})\)</span> such that <span class="math inline">\(v = u/\sigma \sim N(0,I_{n})\)</span> and that <span class="math inline">\(\text{r}(M) = n-k\)</span>. Then applying Equation B.6 to these quantities gives <span class="math display">\[
+\frac{e'e}{\sigma^{2}} = v'Mv \sim \chi^{2}(n-k).
+\]</span> Using <span class="math inline">\(s^{2} = e'e/(n-k)\)</span> we obtain <span class="math display">\[
+\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k).
+\]</span> Using the information about the <span class="math inline">\(\chi^{2}\)</span>-distribution, we can easily derive the mean and variance of <span class="math inline">\(s^{2}\)</span> but we won’t do that here because it is not crucial to derive the <span class="math inline">\(t\)</span>-test.</p>
+</section>
+<section id="independence-between-widehatbeta-and-s2" class="level3">
+<h3 class="anchored" data-anchor-id="independence-between-widehatbeta-and-s2">Independence between <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^2\)</span></h3>
+<p>If we plug <span class="math inline">\(y = X\beta + u\)</span> into our least-squares estimator <span class="math inline">\(\widehat{\beta} = (X'X)^{-1}X'y\)</span> and rearrange terms, we obtain <span class="math display">\[
+\widehat{\beta} - \beta = (X'X)^{-1}X'u = \sigma(X'X)^{-1}X'v,
+\]</span> which is a linear form given by <span class="math inline">\(\sigma Lv\)</span> by defining <span class="math inline">\(L = (X'X)^{-1}X'\)</span>. Moreover, we can write <span class="math display">\[
+e'e = u'Mu = \sigma^{2}v'Mv,
+\]</span> which is a quadratic form in terms of <span class="math inline">\(v\)</span>. Since <span class="math inline">\(LM = 0\)</span> (as <span class="math inline">\(MX = 0\)</span>), we now know by Equation B.9 in Appendix B.5, that <span class="math inline">\(Lv\)</span> amd <span class="math inline">\(v'Mv\)</span> are independent. This is sufficient to show that <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^{2}\)</span> are independent.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is important that you understand how a <span class="math inline">\(t\)</span>-ratio can be constructed. The following sections in ITE will be quite repetitive given what you just read on the website, but it is good practice to check if you understand all the steps.</p>
+<p>Read Sections 3.1 - 3.4</p>
+</div>
+</div>
+</section>
+</section>
+<section id="constructing-the-t-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="constructing-the-t-ratio">Constructing the <span class="math inline">\(t\)</span>-ratio</h2>
+<p>Note that we are now almost in the position to apply (<a href="#eq-tdist" class="quarto-xref">2</a>). Let us first have a closer look at <span class="math inline">\(\widehat{\beta}\)</span>, for which we derived <span class="math inline">\(\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1})\)</span>. If we define <span class="math inline">\(V = (X'X)^{-1}\)</span>, then we have <span class="math inline">\(\widehat{\beta}_{j} \sim N(\beta_{j}, \sigma^{2}v_{jj})\)</span> for the <span class="math inline">\(j\)</span>’th element in the random vector <span class="math inline">\(\widehat{\beta}\)</span>. In other words, <span id="eq-tnorm"><span class="math display">\[
+\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} \sim N(0,1).
+\tag{3}\]</span></span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Why not use this result for testing?">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why not use this result for testing?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\sigma^{2}\)</span> is known, then (<a href="#eq-tnorm" class="quarto-xref">3</a>) could be used for testing. For example, since <span class="math display">\[
+\Pr\left( -1.96 &lt; \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} &lt; 1.96 \right) = 0.95,
+\]</span> we can test two-sided at a <span class="math inline">\(5\%\)</span> significance level. If the value of <span class="math inline">\(\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}}\)</span> lies inside the interval <span class="math inline">\((-1.96, 1.96)\)</span> we fail to reject <span class="math inline">\(H_{0}\)</span>, while we reject <span class="math inline">\(H_{0}\)</span> if the computed value falls outside the interval.</p>
+<p>Unfortunately, we typically cannot use this result for testing because <span class="math inline">\(\sigma^{2}\)</span> is generally unknown.</p>
+</div>
+</div>
+</div>
+<p>Because the previous result cannot be used for testing, we have to find another solution. We cannot simply replace <span class="math inline">\(\sigma^{2}\)</span> by its estimator <span class="math inline">\(s^{2}\)</span>, we can apply (<a href="#eq-tdist" class="quarto-xref">2</a>). That is, <span id="eq-ttest"><span class="math display">\[
+\frac{(\widehat{\beta}_{j} - \beta_{j})/ \sqrt{\sigma^{2}v_{jj}}}{\sqrt{\frac{(n-k)s^{2}}{\sigma^{2}} / (n-k)}} = \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k),
+\tag{4}\]</span></span> which is a feasible test statistic because all its elements can be computed. You might disagree with this statement, because the true <span class="math inline">\(\beta_{j}\)</span> is typically also unknown. However, <span class="math inline">\(\beta_{j}\)</span> plays a different role in this statistic: we may also call it the <strong>hypothesized value</strong>. Quite often we consider <span class="math inline">\(\beta_{j} = 0\)</span>, which provides the <span class="math inline">\(t\)</span>-ratio. However, as the example with the three managers highlights, we may also be interested in other hypothesized values. We can use (<a href="#eq-ttest" class="quarto-xref">4</a>) to test the null hypotheses of these managers.</p>
+</section>
+<section id="two-interpretations-of-the-t-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="two-interpretations-of-the-t-ratio">Two interpretations of the <span class="math inline">\(t\)</span>-ratio</h2>
+<p>At the start of this week’s page, we started off with the simple linear regression model in (<a href="#eq-simplinreg" class="quarto-xref">1</a>). As we already established, the hypotheses of the different managers involved performing tests on the slope coefficient <span class="math inline">\(\beta_{2}\)</span>. This is the first use of the <span class="math inline">\(t\)</span>-ratio: we are interested in a clear (research) hypothesis which investigates the behavior of a <strong>focus variable</strong> on the dependent variable.</p>
+<p>The simple linear regression model has some advantages, such as its easy interpretation and the ability to visually represent the results. The disadvantages are also substantial, though. If we revisit the empirical application where <span class="math inline">\(x_{i}\)</span> represents the amount of money spent on promotion and <span class="math inline">\(y_{i}\)</span> the sales, then we can draw an important conclusion. In this model, only the promotion is allowed to influence sales but this is arguably too simplistic. Sales are likely also influenced by other factors, such as the exact location of the store (in a busy shopping area or not), the size of the store (larger stores probably sell more), the (average) number of visitors in each store, et cetera. Because all these factors are not contained in the model, they are contained in the error term <span class="math inline">\(u_{i}\)</span>. In case one or more of these factors are correlated with <span class="math inline">\(x_{i}\)</span>, <span class="math inline">\(\beta_{2}\)</span> is not correctly representing the effect of <span class="math inline">\(x_{i}\)</span> on <span class="math inline">\(y_{i}\)</span>.</p>
+<p>This is one of the main reasons why we study the multiple linear regression model. We might still only be interested in the effect of promotion on sales, but in order to get a better estimate of that effect, we include more regressors: <span id="eq-multlinreg"><span class="math display">\[
+y = \beta_{1} + \beta_{2}x_{2} + \ldots + \beta_{k} x_{k} + u \quad \text{or in short,} \quad y = X\beta + u,
+\tag{5}\]</span></span> where <span class="math inline">\(x_{1}, \ldots, x_{k}\)</span> now represent <span class="math inline">\(k\)</span> different regressors in vector form (not <span class="math inline">\(k\)</span> observations on one regressor!). This brings about a second use of the <span class="math inline">\(t\)</span>-ratio. For some regressors, we are not really interested in their direct effect of the dependent variable. They are called <strong>auxiliary</strong> or <strong>control variables</strong>. Performing tests on the coefficients corresponding to these variables is often also called <strong>diagnostic testing</strong>. This name reveals that the test is executed to assess the adequacy of the model rather than testing a (research) hypothesis of interest. If we consider <a href="#eq-multlinreg" class="quarto-xref">5</a> in terms of our empirical application:</p>
+<ul>
+<li>If <span class="math inline">\(x_{2}\)</span> represents promotion, then this variable is a <em>focus variable</em>. We can test our hypothesis of interest on <span class="math inline">\(\beta_{2}\)</span>.</li>
+<li>This makes <span class="math inline">\(x_{3}, \ldots, x_{k}\)</span> <em>auxiliary variables</em>, who are included to ensure a proper estimation of <span class="math inline">\(\beta_{2}\)</span>. If we perform tests on the remaining coefficients <span class="math inline">\(\beta_{3}, \ldots, \beta_{k}\)</span>, we typically refer to this as diagnostic testing.</li>
+</ul>
+<p>Note that it is possible to have more than one focus variable. In what follows, we may choose to partition the design matrix <span class="math inline">\(X\)</span> as follows <span class="math inline">\(X = (X_{1} : X_{2})\)</span>, where <span class="math inline">\(X_{1}\)</span> are <span class="math inline">\(k_{1}\)</span> focus variables and <span class="math inline">\(X_{2}\)</span> are <span class="math inline">\(k_{2}\)</span> auxiliary variables. We come back to this in the context of model selection.</p>
+</section>
+<section id="size-and-power" class="level2">
+<h2 class="anchored" data-anchor-id="size-and-power">Size and power</h2>
+<p>The ability to perform statistical tests is an important tool for econometricians. However, it is important to be aware of the two errors that can be made during hypothesis testing. That is, (i) we may reject the null hypothesis while it is true (type I) or (ii) we may not reject the null hypothesis while it is false (type II). For a fixed sample size, the investigator must find a balance between these errors. The associated probabilities are defined by <span class="math display">\[
+\begin{aligned}
+\alpha &amp;= \Pr(\text{reject } H_{0} | H_{0} \text{ is true}), \\
+\beta  &amp;= \Pr(\text{do not reject } H_{0} | H_{1} \text{ is true}).
+\end{aligned}
+\]</span> These two quantities play a crucial role in testing. We recognize <span class="math inline">\(\alpha\)</span> as the significance level that we set beforehand ourselves (in econometrics, we often choose <span class="math inline">\(\alpha = 0.05\)</span>). In terms of testing, we also refer to the <strong>size</strong> of a test: we do not want the probability of making a Type I error to exceed the value of <span class="math inline">\(0.05\)</span>. Another important quantity is the <strong>power</strong> of a test, which is defined as <span class="math inline">\(1 - \beta\)</span>. Further elaboration on these concepts can be found in the last section of this week.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="An example in the justice system">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>An example in the justice system
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>An effective way to think about hypothesis testing is to consider the saying <em>innocent until proven guilty</em>. Suppose a person got arrested suspected of murder. The saying indicates that our <span class="math inline">\(H_{0}\)</span> is that the person is innocent. We only want to convict persons in case there is substantial evidence showing that they are indeed guilty.</p>
+<p>In terms of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, we can say the following. Suppose the null hypothesis is true (the person is in fact innocent), then we want to make <span class="math inline">\(\alpha\)</span> very small: we do not want an innocent person to go behind bars. We probably want to set <span class="math inline">\(\alpha\)</span> smaller than the <span class="math inline">\(0.05\)</span> that we typically choose in econometrics, because wrongfully sending people to jail in 5% of the cases is unacceptable (if this were a repeated experiment). However, a small significance level has adverse effects on the power of the test. That is, if the alternative is true (the person is in fact guilty), then the probability of actually rejecting <span class="math inline">\(H_{0}\)</span> decreases. The murderer has a larger chance of going free.</p>
+<p>The only way to reduce both <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is to increase the number of observations. In the case at hand, to increase the pieces of evidence related to the murder scene.</p>
+<p>As you can see, hypothesis testing takes a rather conservative view. In many cases, the null hypothesis says that there is “no effect” or in this example, “the person is innocent”. This means that we assume <span class="math inline">\(H_{0}\)</span> to be true as long as we do not collect enough evidence against this null hypothesis.</p>
+<p>Imagine now that we would do it the other way around. We would assume the person is guilty and the only way to clear the person’s name is whenever enough evidence is collected that shows innocence. If we took that point of view, probably many more people would end up behind bars (innocent or not)…</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read Sections 3.5 - 3.9.</p>
+</div>
+</div>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
