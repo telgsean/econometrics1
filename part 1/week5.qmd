@@ -12,3 +12,6 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 3, Section 3.10 - 3.20.
 
 :::
+
+## This week's contents
+Last week, we have seen how to perform a $t$-test and discusses two important properties of any test, its size and power. Using this knowledge, we can proceed in two ways. First, we are able to set up confidence and prediction intervals. Second, we extend our testing framework to test for restrictions: both for single linear restrictions of the form $w'\beta = r$ and multiple linear restrictions given by $R\beta = r$. As special cases of the latter, we will discuss the *overall $F$-test* and the *partial $F$-test*. The final sections of this chapter are, similarly to last chapter, devoted to model selection. We discuss the *adjusted $R^{2}$* as a measure to compare the unrestricted and restricted model, and derive relations with $s^{2}$ and the $F$-statistic. Instead of selecting one model, we discuss the possibility of using multiple models. 

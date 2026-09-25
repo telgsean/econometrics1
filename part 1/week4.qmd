@@ -91,7 +91,7 @@ $$
 \text{tr}(M) &= \text{tr}(I_{n} - X(X'X)^{-1}X') \\
              &= \text{tr}(I_{n}) - \text{tr}(X(X'X)^{-1}X') \\
              &= \text{tr}(I_{n}) - \text{tr}(X'X(X'X)^{-1}) \\
-             &= \text{tr}(I_{n}) - \text{tr}(I_{k})
+             &= \text{tr}(I_{n}) - \text{tr}(I_{k}) \\
              &= n - k.
 \end{aligned}
 $$
@@ -122,7 +122,7 @@ which is a linear form given by $\sigma Lv$ by defining $L = (X'X)^{-1}X'$. More
 $$
 e'e = u'Mu = \sigma^{2}v'Mv,
 $$
-which is a quadratic form in terms of $v$. Since $LM = 0$ (as $MX = 0$), we now know by Equation B.9 in Appendix B.5, that $Lv$ amd $v'Mv$ are independent. This is sufficient to show that $\widehat{\beta}$ and $s^{2}$ are independent. 
+which is a quadratic form in terms of $v$. Since $LM = 0$ (as $MX = 0$), we now know by Equation B.9 in Appendix B.5, that $Lv$ and $v'Mv$ are independent. This is sufficient to show that $\widehat{\beta}$ and $s^{2}$ are independent. 
 
 ::: {.callout-tip icon="false"}
 ## 📚 Read in ITE
@@ -135,7 +135,7 @@ Read Sections 3.1 - 3.4
 
 
 ## Constructing the $t$-ratio
-Note that we are now almost in the position to apply (@eq-tdist). Let us first have a closer look at $\widehat{\beta}$, for which we derived $\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1})$. If we define $V = (X'X)^{-1}$, then we have $\widehat{\beta}_{j} \sim N(\beta_{j}, \sigma^{2}v_{jj})$ for the $j$'th element in the random vector $\widehat{\beta}$. In other words,
+Note that we are now almost in the position to apply (@eq-tdist). Let us first have a closer look at $\widehat{\beta}$, for which we derived $\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1})$. If we define $V = (X'X)^{-1}$, then we have $\widehat{\beta}_{j} \sim N(\beta_{j}, \sigma^{2}v_{jj})$ for the $j$th element in the random vector $\widehat{\beta}$. In other words,
 $$
 \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} \sim N(0,1).
 $$ {#eq-tnorm}
@@ -152,7 +152,7 @@ Unfortunately, we typically cannot use this result for testing because $\sigma^{
 
 :::
 
-Because the previous result cannot be used for testing, we have to find another solution. We cannot simply replace $\sigma^{2}$ by its estimator $s^{2}$, we can apply (@eq-tdist). That is,
+Because the previous result cannot be used for testing, we have to find another solution. We cannot "simply replace" $\sigma^{2}$ by its estimator $s^{2}$ without any justification, but we can apply (@eq-tdist). Note that applying this result will have exactly the outcome that we hinted at (replace $\sigma^{2}$ by $s^{2}$) but the distribution of this new statistic changes:  
 $$
 \frac{(\widehat{\beta}_{j} - \beta_{j})/ \sqrt{\sigma^{2}v_{jj}}}{\sqrt{\frac{(n-k)s^{2}}{\sigma^{2}} / (n-k)}} = \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k),
 $$ {#eq-ttest}

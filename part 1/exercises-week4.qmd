@@ -234,4 +234,51 @@ where we used that $x_{i}$ is nonrandom by Assumption 2.2 and $E(u_{i}) = 0$ by 
 
 :::
 
-[More exercises will follow.]
+## Inference and power
+
+### Exercise 9
+*(3.1 in ME)* Consider the regression model $y_{i} = \beta_{1} + \beta_{2}x_{2,i} + \beta_{3}x_{3,i} u_{i}$, where we have data based on $n=10$ observations on $y$, $x_{2}$, and $x_{3}$, as follows:
+$$
+\begin{aligned}
+&\imath'y = 20,  &\imath'x_{2} = 30, \qquad &\imath'x_{3} = 40 \\
+&y'y = 88.2,    &x_{2}'x_{2} = 92, \qquad  &x_{3}'x_{3} = 163 \\
+&x_{2}'y = 59,   &x_{3}'y = 88, \qquad     &x_{2}'x_{3} = 119.
+\end{aligned}
+$$
+Estimate the three coefficients by least squares and test the null hypothesis that $\beta_{3}$ equals zero against a two-sided alternative at both the $5\%$ and $1\%$ significance level. 
+
+*Hint*: Use a programming language of choice to determine the inverse of $X'X$.
+
+::: {.callout-caution title="Short solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 3.1.
+
+You should find
+$$
+\widehat{\beta} =
+\begin{pmatrix}
+-13 \\ 1 \\ 3
+\end{pmatrix},
+\quad
+s^{2} = 3.6, \quad s^{2}v_{33} = 1.44, \quad t = 2.5.
+$$
+We reject the null hypothesis at the $5\%$ significance level, but not at the $1\%$ significance level.
+
+:::
+
+### Exercise 10
+
+*(3.3 in ME)* Comment on the following statements. The power of the test $H_{0}: \theta = \theta_{0}$ for some parameter $\theta$:
+
+a. Increases/Decreases with sample size;
+b. Increases/Decreases with significance level;
+c. Increases/Decreases with the distance $|\theta_{0} - \theta_{1}|$ where $\theta_{1} \neq \theta_{0}$ denotes the value under the alternative hypothesis $H_{1}: \theta = \theta_{1}$.
+
+::: {.callout-caution title="Short solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 3.3.
+
+Note that the power increases in all three situations.
+
+
+:::

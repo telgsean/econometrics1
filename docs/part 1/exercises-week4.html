@@ -692,6 +692,11 @@ window.Quarto = {
   <li><a href="#exercise-7" id="toc-exercise-7" class="nav-link" data-scroll-target="#exercise-7">Exercise 7</a></li>
   <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8">Exercise 8</a></li>
   </ul></li>
+  <li><a href="#inference-and-power" id="toc-inference-and-power" class="nav-link" data-scroll-target="#inference-and-power">Inference and power</a>
+  <ul class="collapse">
+  <li><a href="#exercise-9" id="toc-exercise-9" class="nav-link" data-scroll-target="#exercise-9">Exercise 9</a></li>
+  <li><a href="#exercise-10" id="toc-exercise-10" class="nav-link" data-scroll-target="#exercise-10">Exercise 10</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -998,7 +1003,70 @@ E(\widehat{\beta}_{2}) &amp;= E \left(\beta_{1} \frac{\sum_{i=1}^{n} x_{i}}{\sum
 </div>
 </div>
 </div>
-<p>[More exercises will follow.]</p>
+</section>
+</section>
+<section id="inference-and-power" class="level2">
+<h2 class="anchored" data-anchor-id="inference-and-power">Inference and power</h2>
+<section id="exercise-9" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9">Exercise 9</h3>
+<p><em>(3.1 in ME)</em> Consider the regression model <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{2,i} + \beta_{3}x_{3,i} u_{i}\)</span>, where we have data based on <span class="math inline">\(n=10\)</span> observations on <span class="math inline">\(y\)</span>, <span class="math inline">\(x_{2}\)</span>, and <span class="math inline">\(x_{3}\)</span>, as follows: <span class="math display">\[
+\begin{aligned}
+&amp;\imath'y = 20,  &amp;\imath'x_{2} = 30, \qquad &amp;\imath'x_{3} = 40 \\
+&amp;y'y = 88.2,    &amp;x_{2}'x_{2} = 92, \qquad  &amp;x_{3}'x_{3} = 163 \\
+&amp;x_{2}'y = 59,   &amp;x_{3}'y = 88, \qquad     &amp;x_{2}'x_{3} = 119.
+\end{aligned}
+\]</span> Estimate the three coefficients by least squares and test the null hypothesis that <span class="math inline">\(\beta_{3}\)</span> equals zero against a two-sided alternative at both the <span class="math inline">\(5\%\)</span> and <span class="math inline">\(1\%\)</span> significance level.</p>
+<p><em>Hint</em>: Use a programming language of choice to determine the inverse of <span class="math inline">\(X'X\)</span>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 3.1.</p>
+<p>You should find <span class="math display">\[
+\widehat{\beta} =
+\begin{pmatrix}
+-13 \\ 1 \\ 3
+\end{pmatrix},
+\quad
+s^{2} = 3.6, \quad s^{2}v_{33} = 1.44, \quad t = 2.5.
+\]</span> We reject the null hypothesis at the <span class="math inline">\(5\%\)</span> significance level, but not at the <span class="math inline">\(1\%\)</span> significance level.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-10" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10">Exercise 10</h3>
+<p><em>(3.3 in ME)</em> Comment on the following statements. The power of the test <span class="math inline">\(H_{0}: \theta = \theta_{0}\)</span> for some parameter <span class="math inline">\(\theta\)</span>:</p>
+<ol type="a">
+<li>Increases/Decreases with sample size;</li>
+<li>Increases/Decreases with significance level;</li>
+<li>Increases/Decreases with the distance <span class="math inline">\(|\theta_{0} - \theta_{1}|\)</span> where <span class="math inline">\(\theta_{1} \neq \theta_{0}\)</span> denotes the value under the alternative hypothesis <span class="math inline">\(H_{1}: \theta = \theta_{1}\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 3.3.</p>
+<p>Note that the power increases in all three situations.</p>
+</div>
+</div>
+</div>
 
 
 </section>
