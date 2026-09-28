@@ -5,3 +5,326 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+### Exercise 1
+
+*(2.18 in ME)* Let $y = X_{1}\beta_{1} + X_{2}\beta_{2} + u$. Let $\widehat{\beta}_{1r}$ be the estimator of $\beta_{1}$ by regressing
+$y$ on $X_{1}$ alone. Let $\widehat{\beta}_{1u}$ and $\widehat{\beta}_{2u}$ be the estimators of $\beta_{1}$ and $\beta_{2}$ when $y$ is regressed on both $X_{1}$ and $X_{2}$. Show that $\Var(\widehat{\beta}_{1r}) \leq \Var(\widehat{\beta}_{1u})$. What is the implication of this result? You may use the fact that $\Cov(\widehat{\beta}_{2u}, \widehat{\beta}_{1r}) = 0$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 2.18.
+
+:::
+
+### Exercise 2
+
+*(2.19 in ME)* Suppose that the DGP is given by
+$$
+y = X_{1}\beta_{1} + X_{2}\beta_{2} + u, \qquad u \sim N(0, \sigma^{2}_{u}I_{n}),
+$$
+which we will refer to as the unrestricted model. We denote the least-squares estimator of $\beta_{1}$ in this model by $\widehat{\beta}_{1u}$. We also consider the restricted model
+$$
+y = X_{1}\beta_{1} + u_{1},
+$$
+and we denote the least-squares estimator of $\beta_{1}$ in this model as $\widehat{\beta}_{1r}$. It can be shown that
+$$
+\text{bias}(\widehat{\beta}_{1r}) = (X_{1}'X_{1})^{-1}X_{1}'X_{2}\beta_{2},
+$$
+and
+$$
+\Var(\widehat{\beta}_{1u}) - \Var(\widehat{\beta}_{1r}) = \sigma^{2}_{u}\Delta, 
+$$
+where
+$$
+\Delta = (X_{1}'X_{1})^{-1}X_{1}'X_{2}(X_{2}'M_{1}X_{2})^{-1}X_{2}'X_{1}(X_{1}'X_{1})^{-1},
+$$
+and $M_{1} = I_{n} - X_{1}(X_{1}'X_{1})^{-1}X_{1}'$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 2.19.
+
+:::
+
+### Exercise 3
+
+*(3.8 in ME)* Production $Q$ is determined by a Cobb-Douglas production function, which we estimate in logarithmic form as
+$$
+\log Q_i = \beta_0 + \beta_{k}\log K_i + \beta_{l}\log L_i + u_i.
+$$
+This yields the following result:
+$$
+\widehat{\log Q} = 1.37 + \underset{(0.257)}{0.632}\log K + \underset{(0.219)}{0.452} \log L,
+$$
+where the standard errors are in parentheses. We further have $R^2 = 0.98$ and $\Cov(\widehat\beta_{k}, \widehat\beta_{l}) = 0.055$.
+
+a. Test the hypothesis that the output elasticities with respect to capital $K$ and labor $L$ are the same.
+b. Test the hypothesis that there are constant returns to scale.
+
+::: {.callout-caution title="Short solution" collapse = true}
+
+a. We find $t = 2.85$, which is the realization of a $t(n-3)$ distribution. We do not know the value of $n$. If $n\leq6$ then we do not reject the null hypothesis at the $5\%$ significance level, but if $n>6$ we do.
+b. We find $t = 0.18$, which is too small to be significant at any sample size, and we can therefore not reject the hypothesis of constant returns to scale.
+
+:::
+
+### Exercise 4
+
+*(3.9 in ME)* Consider the linear regression model
+$$
+y = X\beta + u,
+$$
+where $X$ is an $n \times k$ matrix and $\beta = (\beta_{1},\ldots,\beta_{k})'$. Show that the $F$-statistic for a single restriction $\beta_{j} = 0$ is equal to the square of the $t$-statistic to test $\beta_{j} = 0$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 3.9.
+
+:::
+
+### Exercise 5
+
+Show that the test statistic
+$$
+\frac{w'\widehat{\beta} - r}{\sqrt{s^{2}w'(X'X)^{-1}w}} \sim t(n-k)
+$$
+reduces to 
+$$
+\frac{\widehat{\beta}_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k)
+$$
+for the restriction $\beta_{j} = 0$. Note that $V = (X'X)^{-1}$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The restriction $\beta_{j} = 0$ can be represented in the form $w'\beta = r$ by choosing $w = e_{j}$, where 
+$e_{j}$ is the $k \times 1$ basis vector where the $j$-th entry is one and all other entries are zero, and $r = 0$. Thus, in the numerator, we obtain $w'\widehat{\beta} = e_{j}'\widehat{\beta} = \widehat{\beta}_{j}$. 
+
+Regarding the denominator, we note that $w'(X'X)^{-1}w$ can be written as $e_{j}'Ve_{j}$ in this case. We have
+$$
+Ve_{j} =
+\begin{pmatrix}
+v_{1j} \\
+v_{2j} \\
+\vdots \\
+v_{kj}
+\end{pmatrix}
+\qquad \text{ and }
+e_{j}'Ve_{j} = v_{jj}.
+$$
+
+This gives the desired result. 
+
+:::
+
+### Exercise 6
+
+*(3.10, 3.11, 3.12 in ME)* Consider the model $y = X\beta + u$. We impose the restriction $R\beta=r$, where $R$ has full row rank.
+The least-squares (LS) estimator of $\beta$ in the restricted model is obtained by minimizing $(y-X\beta)'(y-X\beta)$ under the restriction $R\beta=r$.
+
+a. Show that the restricted LS estimator is given by
+$$
+\tilde\beta  = \hat\beta - (X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r),
+$$
+where $\hat\beta$ is the estimator in the unrestricted model.
+
+b. Show that
+$$
+\tilde{u}=\hat{u} + X(X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r),
+$$
+where $\hat{u}$ denotes the residual vector from the unrestricted model and $\tilde{u}$
+the residual vector from the restricted model.
+
+c. The $F$-statistic for testing the hypothesis $R\beta=r$ is given by
+$$
+F = \frac{(R\hat\beta - r)'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r)/m}{\hat{u}'\hat{u}/(n-k)} \sim F(m,n-k),
+$$
+where $\hat{u}$ is the residual vector from the unrestricted regression. Show that $F$ can also be written as
+$$
+F = \frac{(\tilde{u}'\tilde{u} - \hat{u}'\hat{u})/m}{\hat{u}'\hat{u}/(n-k)},
+$$
+where $\tilde{u}$ denotes the residual vector from the restricted regression.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. The objective function is $\phi(\beta)=(y-X\beta)'(y-X\beta)$ and the constraint is $R\beta-r=0$.
+Since we are essentially differentiating a square, it is common practice to minimize $\phi(\beta)/2$, but this is for aesthetic convenience only.
+The Lagrangian is then
+$$
+\psi(\beta)=(y-X\beta)'(y-X\beta)/2 -l'(R\beta-r),
+$$
+where $l$ is a vector of Lagrangian multipliers. Taking the derivative with respect to $\beta$ gives
+$$
+\frac{\partial\psi(\beta)}{\partial\beta'} = -(y-X\beta)'X -l'R,
+$$
+so that the first-order conditions are
+$$
+X'(y-X\beta) + R'l=0,
+\qquad
+R\beta=r.
+$$
+To solve these two equations in the two unknowns $\beta$ and $l$, we premultiply the first equation by $R(X'X)^{-1}$, giving
+$$
+R(X'X)^{-1}R'l = - R(X'X)^{-1}X'(y-X\beta) = - (R\hat\beta - r),
+$$
+where $\hat\beta=(X'X)^{-1}X'y$ is the estimator in the unrestricted model.
+Since the matrix $R(X'X)^{-1}R'$ is nonsingular, we can solve $l$ as
+$$
+l = - (R(X'X)^{-1}R')^{-1}(R\hat\beta - r),
+$$
+so that
+$$
+X'(y-X\beta) + R'l
+= X'y-X'X\beta - R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r) =0,
+$$
+from which we solve the restricted estimator as
+$$
+\tilde\beta  = \hat\beta - (X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r).
+$$
+To show that the matrix $V=R(X'X)^{-1}R'$ is nonsingular, we argue as follows.
+Let $A=(X'X)^{-1/2}R'$. Then, $V=A'A$ and $r(V)=r(A'A)=r(A)=r(R')=m$,
+where we used the facts that $R$ has full row rank and that $r(A'A)=r(A)$ for any matrix $A$; see also Exercise A.15 in *Mastering Econometrics*.
+This shows that $V$ is an $m \times m$ matrix of rank $m$, hence nonsingular.
+
+b. We find
+$$
+\tilde{\beta}  = \hat\beta - (X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r).
+$$
+Premultiplying this expression by $X$ yields
+$$
+X\tilde\beta  = X\hat\beta - X(X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r).
+$$
+Since $\hat{u}=y-X\hat\beta$ and $\tilde{u}=y-X\tilde\beta$, we then find
+$$
+\begin{aligned}
+\tilde{u}
+&= y-X\tilde\beta \\
+&= y-X\hat\beta + X(X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r) \\
+&= \hat{u} + X(X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r).
+\end{aligned}
+$$
+
+c. We know that
+$$
+\tilde{u} = \hat{u} + X(X'X)^{-1}R'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r).
+$$
+In fact, this relationship is a decomposition, because the two vectors on the right-hand side are orthogonal to each other,
+which follows from the fact that $X'\hat{u}=0$. Then, letting $V=R(X'X)^{-1}R'$,
+$$
+\begin{aligned}
+\tilde{u}'\tilde{u}
+&= \hat{u}'\hat{u} + (R\hat\beta - r)'V^{-1}R(X'X)^{-1}X'X (X'X)^{-1}R'V^{-1}(R\hat\beta - r)\\
+&=\hat{u}'\hat{u} + (R\hat\beta - r)'V^{-1}VV^{-1}(R\hat\beta - r)\\
+&=\hat{u}'\hat{u} + (R\hat\beta - r)'V^{-1}(R\hat\beta - r).
+\end{aligned}
+$$
+It follows that
+$$
+\frac{(R\hat\beta - r)'(R(X'X)^{-1}R')^{-1}(R\hat\beta - r)/m}{\hat{u}'\hat{u}/(n-k)}
+=
+\frac{(\tilde{u}'\tilde{u} - \hat{u}'\hat{u})/m}{\hat{u}'\hat{u}/(n-k)}.
+$$
+
+:::
+
+### Exercise 7
+
+*(3.18 in ME)* Consider a sample of size $n=12$ from the linear regression model $y = X\beta + u$,
+where $X = (\imath : x_{2} : x_{3})$. We know that $\bar{x}_2=\bar{x}_3=0$, $\bar{y}=2.5$, and
+$$
+\begin{aligned}
+x_{2}'x_{2}^{} &= 300, \qquad & x_{2}'x_{3}^{} &= -205,   \qquad  & x_{3}'x_{3}^{} &= 182,\\
+x_{2}'y &= 3,          \qquad & x_{3}'y &= -12,           \qquad  & y'y &= 470.
+\end{aligned}
+$$
+
+a. Find the least-squares (LS) estimate of $\beta$.
+b. Calculate $s^{2}$, $R^2$, and $\bar{R}^2$.
+c. Comment on the values of $R^2$ and $\bar{R}^2$. Are they plausible?
+
+*(Similar exercises in ME: 3.1, 3.14, 3.19)*
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. The matrix $X'X$ is given by
+$$
+X'X =
+\begin{pmatrix}
+n & \imath'x_{2} & \imath'x_{3} \\
+\imath'x_{2} & x_{2}'x_{2}^{} & x_{2}'x_{3}^{} \\
+\imath'x_{3} & x_{3}'x_{2}^{} & x_{3}'x_{3}^{}
+\end{pmatrix}
+=
+\begin{pmatrix}
+12 & \phantom{-}0 & \phantom{-}0 \\
+0 & \phantom{-}300 & -205 \\
+0 & -205 & \phantom{-}182
+\end{pmatrix}.
+$$
+This matrix is block-diagonal, and we write
+$$
+X'X =
+\begin{pmatrix}
+12 & 0' \\ 0 & Z
+\end{pmatrix},
+\qquad
+Z=
+\begin{pmatrix}
+\phantom{-}300 & -205 \\
+-205 & \phantom{-}182
+\end{pmatrix}.
+$$
+The determinant of $Z$ is $|Z|=300 \times 182 - (-205)^{2} = 12575$, which is nonzero, so that $Z$ and hence $X'X$ are nonsingular.
+Thus,
+$$
+(X'X)^{-1} =
+\begin{pmatrix}
+1/12 & 0' \\ 0 & Z^{-1}
+\end{pmatrix},
+\qquad
+Z^{-1}=
+\frac{1}{12575}
+\begin{pmatrix}
+182 & 205 \\
+205 & 300
+\end{pmatrix},
+$$
+and
+$$
+X'y =
+\begin{pmatrix}
+\imath'y \\ x_{2}'y \\ x_{3}'y
+\end{pmatrix}
+=
+\begin{pmatrix} \phantom{-}30 \\ \phantom{-}3 \\ -12
+\end{pmatrix}.
+$$
+Consequently, we obtain the LS estimates
+$$
+\hat{\beta} = (X'X)^{-1}X'y =
+\begin{pmatrix}
+5/2 \\ -1914/12575 \\ -2985/12575
+\end{pmatrix}.
+$$
+
+
+b. Let $A=I_n-\imath\imath'/n$. Since
+$$
+\begin{aligned}
+e'e  &= y'y - \hat{\beta}'X'y = 470 - 77.392 = 392.608, \\
+y'Ay &= y'y -n\,\bar{y}^2 = 470 -12\times(2.5)^2 = 395,
+\end{aligned}
+$$
+we find
+$$
+\begin{aligned}
+s^2       &= e'e/(n-k)= 392.608 / 9 = 43.623, \\
+R^2       &= 1- e'e/y'Ay =1 - 392.608 / 395 =0.006, \\
+\bar{R}^2 &= 1-\frac{s^2}{y'Ay/(n-1)} = 1 - \frac{43.623}{395/11} = -0.215.
+\end{aligned}
+$$
+
+c. Since we have a model with intercept, we know that $R^2 \in [0,1]$, and this is indeed the case here.
+The fact that $R^2$ is close to zero means that the fit is not good. We also know that $\bar{R}^2$ is *not* restricted to the $[0,1]$ interval and, when the fit is not so good, it can become negative - as it does here.
+
+:::
