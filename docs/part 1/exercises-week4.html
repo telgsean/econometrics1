@@ -935,7 +935,7 @@ y_i = \delta_1 + \delta_2 z_i + \varepsilon_i, \qquad (i=1,\ldots,n),
 <ol type="a">
 <li>Show that <span class="math inline">\(\widehat{\delta}_{2} = c^{-1} \widehat{\beta}_{2}\)</span> and <span class="math inline">\(\widehat{\delta}_{1} = \widehat{\beta}_{1}\)</span>.</li>
 <li>How would the results change when <span class="math inline">\(c &lt; 0\)</span>?</li>
-<li>How do the SER and <span class="math inline">\(R^2\)</span> of both models relate?</li>
+<li>How do the <span class="math inline">\(SER\)</span> and <span class="math inline">\(R^2\)</span> of both models relate?</li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled" title="Solution">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -952,10 +952,10 @@ y_i = \delta_1 + \delta_2 z_i + \varepsilon_i, \qquad (i=1,\ldots,n),
 <ol type="a">
 <li><p>Note that <span class="math display">\[
 \begin{aligned}
-\hat{\delta}_{2} &amp;= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
+\widehat{\delta}_{2} &amp;= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
 &amp;= \frac{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))^{2}} = \frac{1}{c} \times \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
 &amp;= c^{-1} \widehat{\beta}_{2}. \\
-\widehat{\delta_{1}} &amp;= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}.
+\widehat{\delta}_{1} &amp;= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}.
 \end{aligned}
 \]</span></p></li>
 <li><p>From the results in a., we can see that a negative value of <span class="math inline">\(c\)</span> results in a new slope that has opposite slope. The intercept is not affected.</p></li>

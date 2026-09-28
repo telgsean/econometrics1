@@ -172,17 +172,17 @@ by least squares, where $z_{i} = c x_{i}$ for $c > 0$, i.e. $z_{i}$ is a rescale
 
 a. Show that $\widehat{\delta}_{2} = c^{-1} \widehat{\beta}_{2}$ and $\widehat{\delta}_{1} = \widehat{\beta}_{1}$. 
 b. How would the results change when $c < 0$?
-c. How do the SER and $R^2$ of both models relate?
+c. How do the $SER$ and $R^2$ of both models relate?
 
 ::: {.callout-caution title="Solution" collapse = true}
 
 a. Note that
 $$
 \begin{aligned}
-    \hat{\delta}_{2} &= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
+    \widehat{\delta}_{2} &= \frac{\sum_{i=1}^{n} (z_{i} - \overline{z})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (z_{i} - \overline{z})^{2}} = \frac{\sum_{i=1}^{n} (c x_{i} - c \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c x_{i} - c \overline{x})^{2}} \\
     &= \frac{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))(y_{i} - \overline{y})}{\sum_{i=1}^{n} (c(x_{i} - \overline{x}))^{2}} = \frac{1}{c} \times \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\ 
     &= c^{-1} \widehat{\beta}_{2}. \\
-    \widehat{\delta_{1}} &= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}. 
+    \widehat{\delta}_{1} &= \overline{y} - \widehat{\delta}_{2}\overline{z} = \overline{y} - c^{-1} \widehat{\beta}_{2} \times c \overline{x} = \overline{y} - \widehat{\beta}_{2}\overline{x} = \widehat{\beta}_{1}. 
 \end{aligned}
 $$
 

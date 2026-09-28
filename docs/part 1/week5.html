@@ -682,6 +682,12 @@ window.Quarto = {
    
   <ul>
   <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals">Confidence and prediction intervals</a></li>
+  <li><a href="#restricted-testing" id="toc-restricted-testing" class="nav-link" data-scroll-target="#restricted-testing">Restricted testing</a>
+  <ul class="collapse">
+  <li><a href="#a-single-linear-restriction" id="toc-a-single-linear-restriction" class="nav-link" data-scroll-target="#a-single-linear-restriction">A single linear restriction</a></li>
+  </ul></li>
+  <li><a href="#several-linear-restrictions" id="toc-several-linear-restrictions" class="nav-link" data-scroll-target="#several-linear-restrictions">Several linear restrictions</a></li>
   </ul>
 </nav>
     </div>
@@ -731,7 +737,133 @@ window.Quarto = {
 </div>
 <section id="this-weeks-contents" class="level2">
 <h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
-<p>Last week, we have seen how to perform a <span class="math inline">\(t\)</span>-test and discusses two important properties of any test, its size and power. Using this knowledge, we can proceed in two ways. First, we are able to set up confidence and prediction intervals. Second, we extend our testing framework to test for restrictions: both for single linear restrictions of the form <span class="math inline">\(w'\beta = r\)</span> and multiple linear restrictions given by <span class="math inline">\(R\beta = r\)</span>. As special cases of the latter, we will discuss the <em>overall <span class="math inline">\(F\)</span>-test</em> and the <em>partial <span class="math inline">\(F\)</span>-test</em>. The final sections of this chapter are, similarly to last chapter, devoted to model selection. We discuss the <em>adjusted <span class="math inline">\(R^{2}\)</span></em> as a measure to compare the unrestricted and restricted model, and derive relations with <span class="math inline">\(s^{2}\)</span> and the <span class="math inline">\(F\)</span>-statistic. Instead of selecting one model, we discuss the possibility of using multiple models.</p>
+<p>Last week, we have seen how to perform a <span class="math inline">\(t\)</span>-test and discusses two important properties of any test, its size and power. Using this knowledge, we can proceed in two ways. First, we are able to set up confidence and prediction intervals. Second, we extend our testing framework to test for restrictions: both for single linear restrictions of the form <span class="math inline">\(w'\beta = r\)</span> and multiple linear restrictions given by <span class="math inline">\(R\beta = r\)</span>. As special cases of the latter, we will discuss the <em>overall <span class="math inline">\(F\)</span>-test</em> and the <em>partial <span class="math inline">\(F\)</span>-test</em>. The final sections of this chapter are, similarly to last chapter, devoted to model selection. We discuss the <em>adjusted <span class="math inline">\(R^{2}\)</span></em> as a measure to compare the unrestricted and restricted model, and derive relations with <span class="math inline">\(s^{2}\)</span> and the <span class="math inline">\(F\)</span>-statistic. Instead of selecting one model, we discuss the possibility of using multiple models. These last parts are exclusive to the book and won’t be discussed here.</p>
+</section>
+<section id="confidence-and-prediction-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-and-prediction-intervals">Confidence and prediction intervals</h2>
+<p>Last week we derived that <span id="eq-ttest"><span class="math display">\[
+t_{j} = \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k),
+\tag{1}\]</span></span> which we can use to perform <span class="math inline">\(t\)</span>-tests on individual coefficients in the linear regression model. Performing such a test typically gives us a binary choice: either we reject or we fail to reject the null hypothesis. A test and a <strong>confidence interval</strong> are closely related, but it could be argued that a confidence interval provides the econometrician with more information. We can exploit the fact that for a given <span class="math inline">\(n\)</span> and <span class="math inline">\(k\)</span>, the distribution of (<a href="#eq-ttest" class="quarto-xref">1</a>) is fully known. Using the steps in the book, we can go from a probability statement to an interval <span id="eq-confint"><span class="math display">\[
+\left( \widehat{\beta}_{j} + c_{\alpha/2} \sqrt{s^{2}v_{jj}}, \widehat{\beta}_{j} + c_{1-\alpha/2} \sqrt{s^{2}v_{jj}}  \right),
+\tag{2}\]</span></span> where <span class="math inline">\(c_{\alpha/2}\)</span> and <span class="math inline">\(c_{1-\alpha/2}\)</span> are the critical values of the <span class="math inline">\(t(n-k)\)</span> distribution at <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1 - \alpha/2\)</span>. This provides the <span class="math inline">\(100(1-\alpha)\%\)</span> confidence interval (if <span class="math inline">\(\alpha\)</span> expressed in decimals) or <span class="math inline">\(100 - \alpha\)</span> confidence interval (if <span class="math inline">\(\alpha\)</span> expressed in percentage) for <span class="math inline">\(\beta_{j}\)</span>. For a symmetric distribution, such as the <span class="math inline">\(t\)</span>-distribution and the normal distribution, the critical values on both tails only differ by sign. In that case, we can also write <span class="math display">\[
+\left( \widehat{\beta}_{j} - c_{\alpha/2} \sqrt{s^{2}v_{jj}}, \widehat{\beta}_{j} + c_{\alpha/2} \sqrt{s^{2}v_{jj}}  \right),
+\]</span> in which it is understood that <span class="math inline">\(c_{\alpha/2}\)</span> represents the critical value emerging from the right tail. This latter definition is also often preferred because it already has the plus and minus in the direct definition (in contrast (<a href="#eq-confint" class="quarto-xref">2</a>) has a plus for both the left and right cut-off because the sign emerges from the critical value). In any case, it shows that it is important to properly define all terms.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If we take <span class="math inline">\(\alpha = 0.05\)</span>, then we obtain the <span class="math inline">\(100(1-0.05)\% = 95\%\)</span> confidence interval. The critical values are then <span class="math inline">\(c_{\alpha/2} = c_{0.025}\)</span> and <span class="math inline">\(c_{1 - \alpha/2} = c_{0.975}\)</span>, which ensures that the tails are cut-off at <span class="math inline">\(2.5\%\)</span> and <span class="math inline">\(97.5\%\)</span> probability, respectively. Note that we only include <span class="math inline">\(\alpha\)</span> as a subscript of the critical values, but for the <span class="math inline">\(t\)</span>-distribution it is also a function of <span class="math inline">\(n\)</span> and <span class="math inline">\(k\)</span>.</p>
+<p>In contrast, consider the case where we could use <span class="math display">\[
+\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} \sim N(0, 1),
+\]</span> for testing, because <span class="math inline">\(\sigma^{2}\)</span> is known. Note that the critical values for a given <span class="math inline">\(\alpha\)</span> based on the standard normal distribution <span class="math inline">\(N(0,1)\)</span>, are not functions of <span class="math inline">\(n\)</span> and <span class="math inline">\(k\)</span>. In other words, replacing <span class="math inline">\(\sigma^{2}\)</span> by an estimator <span class="math inline">\(s^{2}\)</span> does not only change the distribution (from normal to <span class="math inline">\(t\)</span>), but also makes the resulting critical values a function of the remaining degrees of freedom <span class="math inline">\(n-k\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Note that the term confidence is very different from probability. Confidence intervals are based on a repeated sampling argument: if we could repeatedly sample from the true process, say <span class="math inline">\(100\)</span> times, about <span class="math inline">\(95\)</span> of the resulting intervals capture the true population value <span class="math inline">\(\beta_{j}\)</span>. This is because a confidence interval is actually about a <em>nonrandom</em> quantity <span class="math inline">\(\beta_{j}\)</span>, which lies within certain <em>random</em> bounds with a certain probability. Note that if the hypothesized value does not fall within the confidence interval, then we reject the null hypothesis of a test. Thus, we have a third way of performing a statistical test: (i) compare statistic and critical value, (ii) compare <span class="math inline">\(p\)</span>-value and significance level, (iii) determine whether the hypothesized value is included in the confidence interval.</p>
+<p>We have seen how we can go from estimators and tests to confidence intervals, but we can proceed similarly for <strong>prediction intervals</strong>. For now, it is important to mention that, even though the naming seems to suggest that confidence and predictio intervals are very similar, they do have striking differences. Confidence intervals considers estimators of a population parameter (such as <span class="math inline">\(\beta_{j}\)</span>) and uses information of the whole sample. Note that the estimators are essentially determining the random bounds of the interval, because the estimators are functions of the data. Prediction intervals, instead, considers predicting a single data point or multiple data points in a random vector. The source of uncertainty is not just sampling error (i.e., the variation between estimator and population parameter) but also the randomness emerging from the individual data points (i.e., data points are themselves outcomes of random variables). This is a similar discussion as in Week 3, when we compared best linear unbiased estimation and best linear unbiased prediction.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With the explanation above in mind, you are now ready to read</p>
+<ul>
+<li>Section 3.10, which shows how to derive confidence intervals.</li>
+<li>Section 3.11, which shows how to derive prediction intervals.</li>
+</ul>
+<p>Especially for the latter section, we make use of relationships between distributions. You are advised to verify the results in this section using Section B.4. of Appendix B.</p>
+</div>
+</div>
+</section>
+<section id="restricted-testing" class="level2">
+<h2 class="anchored" data-anchor-id="restricted-testing">Restricted testing</h2>
+<p>The <span class="math inline">\(t\)</span>-test that we considered only allows for testing hypotheses of the form <span class="math inline">\(\beta_{j} = 0\)</span>. Whereas these tests are often employed in empirical work, one might also want to test more complicated hypotheses. Consider the following regression for companies that advertise on Instagram and Tiktok, with the goal to increase sales: <span class="math display">\[
+\text{Sales}_{i} = \beta_{1} + \beta_{2} \text{Spending on Instagram}_{i} + \beta_{3} \text{Spending on Tiktok}_{i} + \beta_{4}x_{i,4} + \ldots + \beta_{k}x_{i,k} + u_{i},
+\]</span> where <span class="math inline">\(x_{i,4}\)</span> up to <span class="math inline">\(x_{i,k}\)</span> are auxiliary variables. The hypothesis <span class="math inline">\(H_{0}: \beta_{2} + \beta_{3} = 1\)</span> could be interest to managers who want to know whether advertisement spendings on both platforms translate to a one-to-one increase in a company’s sales. This hypothesis only consists of one linear restriction, which can be written in the form <span class="math inline">\(w'\beta = r\)</span> as <span class="math display">\[
+w'\beta =
+\begin{pmatrix}
+0 &amp; 1 &amp; 1 &amp; \cdots &amp; 0
+\end{pmatrix}
+\begin{pmatrix}
+\beta_{1} \\ \beta_{2} \\ \beta_{3} \\ \vdots \\ \beta_{k}
+\end{pmatrix}
+= r,
+\]</span> with <span class="math inline">\(r = 1\)</span>. One might also test for multiple linear restrictions, which can be represented in the form <span class="math inline">\(R\beta = r\)</span>. The matrix <span class="math inline">\(R\)</span> is of the order <span class="math inline">\(m \times k\)</span>, where <span class="math inline">\(m\)</span> represents the number of unique restrictions imposed. This means that <span class="math inline">\(r\)</span> is now an <span class="math inline">\(m \times 1\)</span> vector instead of a scalar (which it is in the <span class="math inline">\(w'\beta = r\)</span> framework).</p>
+<p>The test statistics for both scenarios, i.e.&nbsp;<span class="math inline">\(w'\beta = r\)</span> and <span class="math inline">\(R\beta = r\)</span>, are derived in Section 3.12 and 3.13 respectively. We will not derive the same results here as in the book, but rather focus on how to find the test statistics in case you do not know the expressions by heart. Note that we found the following result last week: <span class="math display">\[
+\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1}).
+\]</span> Because linear combinations of normally distributed random variables are also normally distributed, we can easily find <span class="math display">\[
+w'\widehat{\beta} \sim N(w'\beta, \sigma^{2}w'(X'X)^{-1}w) \quad \text{ and } \quad R\widehat{\beta} \sim N(R\beta, \sigma^{2}R(X'X)^{-1}R').
+\]</span> It must be noted that these two results look very similar, but the main difference lies in the fact that <span class="math inline">\(w'\widehat{\beta}\)</span> follows a univariate normal distribution, while the distribution of <span class="math inline">\(R\widehat{\beta}\)</span> is multivariate normal.</p>
+<section id="a-single-linear-restriction" class="level3">
+<h3 class="anchored" data-anchor-id="a-single-linear-restriction">A single linear restriction</h3>
+<p>Similar to the derivation of the <span class="math inline">\(t\)</span>-test, we can first write <span class="math display">\[
+\frac{w'\widehat{\beta} - w'\beta}{\sqrt{\sigma^{2}w'(X'X)^{-1}w}} \sim N(0,1).
+\]</span> If <span class="math inline">\(\sigma^{2}\)</span> was known and imposing under the null hypothesis that <span class="math inline">\(w'\beta = r\)</span>, we could directly use this expression for testing. However, since <span class="math inline">\(\sigma^{2}\)</span> is generally unknown, we need to replace <span class="math inline">\(\sigma^{2}\)</span> by <span class="math inline">\(s^2\)</span>. We can proceed almost exactly analogously as for the <span class="math inline">\(t\)</span>-test of previous week (good exercise for yourself!) to derive <span class="math display">\[
+t_{w} = \frac{w'\widehat{\beta} - r}{\sqrt{s^{2}w'(X'X)^{-1}w}} \sim t(n-k).
+\]</span> Since we have a standard normal distribution, <span class="math inline">\((n-k)s^{2}/\sigma^{2} \sim \chi^{2}(n-k)\)</span>, <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^{2}\)</span> are independent, we can once again use equation B.7 in Section B.4 of Appendix B.</p>
+</section>
+</section>
+<section id="several-linear-restrictions" class="level2">
+<h2 class="anchored" data-anchor-id="several-linear-restrictions">Several linear restrictions</h2>
+<p>The case for the single linear restriction is relatively straightforward, because all terms are univariate and the steps are similar to last week’s derivation. However, several linear restrictions requires a different approach because the distribution of <span class="math inline">\(R\widehat{\beta}\)</span> is <span class="math inline">\(m\)</span>-dimensional. We can rewrite it to a multivariate standard normal distribution, which we denote by <span class="math inline">\(x\)</span> <span id="eq-multnorm"><span class="math display">\[
+x = (\sigma^{2}R(X'X)^{-1}R')^{-1/2}(R\widehat{\beta} - R\beta) \sim N(0,I_{m}).
+\tag{3}\]</span></span> We cannot use this result for hypothesis testing, because <span class="math inline">\(\sigma^{2}\)</span> is generally unknown and the distribution of <span class="math inline">\(x\)</span> is multivariate. We cannot perform the same steps as before, because we can only obtain a <span class="math inline">\(t\)</span>-distribution in case of a univariate normal distribution. Instead, we can convert (<a href="#eq-multnorm" class="quarto-xref">3</a>) to another univariate distribution. We can apply equation B.5 to (<a href="#eq-multnorm" class="quarto-xref">3</a>) to obtain <span id="eq-chisq"><span class="math display">\[
+x'x = \frac{(R\widehat{\beta} - R\beta)'(R(X'X)^{-1}R')^{-1}(R\widehat{\beta} - R\beta)}{\sigma^{2}} \sim \chi^{2}(m).
+\tag{4}\]</span></span> This helps us to simplify the problem to a univariate distribution. However, we still cannot use this result for hypothesis testing because <span class="math inline">\(\sigma^{2}\)</span> is unknown.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Matrix functions">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Matrix functions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The variance matrix of <span class="math inline">\(R\widehat{\beta}\)</span> is given by <span class="math inline">\(\sigma^{2}(R(X'X)^{-1}R')\)</span>. To obtain (<a href="#eq-multnorm" class="quarto-xref">3</a>), we apply a matrix function that gives <span class="math inline">\(\sigma^{-1}(R(X'X)^{-1}R')^{-1/2}\)</span>. Note that, following Section A.6 in Appendix A, we are only allowed to perform this operation whenever the matrix is symmetric and positive definite.</p>
+<p>The matrix <span class="math inline">\(R(X'X)^{-1}R'\)</span> indeed fulfills these conditions. Note that a variance matrix is always symmetric, and <span class="math inline">\(R(X'X)^{-1}R'\)</span> is positive definite because <span class="math inline">\(R\)</span> has full row rank <span class="math inline">\(m\)</span> while the <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(X'X\)</span> is positive definite and thus invertible due to <span class="math inline">\(X\)</span> having full column rank <span class="math inline">\(k\)</span>.</p>
+</div>
+</div>
+</div>
+<p>We can proceed as follows. Because <span class="math inline">\(x'x\)</span> in (<a href="#eq-chisq" class="quarto-xref">4</a>) follows a <span class="math inline">\(\chi^{2}(m)\)</span> distribution, and <span class="math inline">\((n-k)s^{2}/\sigma^{2} \sim \chi^{2}(n-k)\)</span> with <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(s^{2}\)</span> independent, we can apply equation B.8 in Section B.4 of Appendix B to convert (<a href="#eq-chisq" class="quarto-xref">4</a>) to the feasible test statistic <span class="math display">\[
+F_{R} = \frac{(R\widehat{\beta} - r)'(R(X'X)^{-1}R')^{-1}(R\widehat{\beta} - r)/m}{s^{2}} \sim F(m, n-k),
+\]</span> under the null hypothesis <span class="math inline">\(R\beta = r\)</span>.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With the explanation above in mind, you are ready to read</p>
+<ul>
+<li>Section 3.12 - 3.15.</li>
+</ul>
+<p>Note that in Section 3.15, the title contains <span class="math inline">\(\beta_{2} = 0\)</span>. This refers to a <span class="math inline">\(k_{2} \times 1\)</span> vector <span class="math inline">\(\beta_{2}\)</span>, not a single coefficient in the <span class="math inline">\(\beta\)</span> vector. That is, we used partitioning to write <span class="math inline">\(\beta = (\beta_{1}, \beta_{2})'\)</span> where <span class="math inline">\(\beta_{1}\)</span> is <span class="math inline">\(k_{1} \times 1\)</span>, <span class="math inline">\(\beta_{2}\)</span> is <span class="math inline">\(k_{2} \times 1\)</span> and <span class="math inline">\(\beta\)</span> is <span class="math inline">\(k \times 1\)</span> with <span class="math inline">\(k = k_{1} + k_{2}\)</span>. The test in Section 3.15 is referred to as the <strong>partial F-test</strong>.</p>
+<ul>
+<li>Section 3.16 - 3.20.</li>
+</ul>
+<p>Note that <strong>adjusted <span class="math inline">\(R^{2}\)</span></strong> is a metric for model selection, while <span class="math inline">\(R^{2}\)</span> is a measure of fit. They serve quite distinct goals. The final sections focus on how selecting between two models enforces a binary choice, which is not always clear-cut. Alternatively, one could think about combining multiple models. We will discuss this in a bit more detail in class.</p>
+</div>
+</div>
 
 
 </section>

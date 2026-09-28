@@ -14,4 +14,128 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 :::
 
 ## This week's contents
-Last week, we have seen how to perform a $t$-test and discusses two important properties of any test, its size and power. Using this knowledge, we can proceed in two ways. First, we are able to set up confidence and prediction intervals. Second, we extend our testing framework to test for restrictions: both for single linear restrictions of the form $w'\beta = r$ and multiple linear restrictions given by $R\beta = r$. As special cases of the latter, we will discuss the *overall $F$-test* and the *partial $F$-test*. The final sections of this chapter are, similarly to last chapter, devoted to model selection. We discuss the *adjusted $R^{2}$* as a measure to compare the unrestricted and restricted model, and derive relations with $s^{2}$ and the $F$-statistic. Instead of selecting one model, we discuss the possibility of using multiple models. 
+Last week, we have seen how to perform a $t$-test and discusses two important properties of any test, its size and power. Using this knowledge, we can proceed in two ways. First, we are able to set up confidence and prediction intervals. Second, we extend our testing framework to test for restrictions: both for single linear restrictions of the form $w'\beta = r$ and multiple linear restrictions given by $R\beta = r$. As special cases of the latter, we will discuss the *overall $F$-test* and the *partial $F$-test*. The final sections of this chapter are, similarly to last chapter, devoted to model selection. We discuss the *adjusted $R^{2}$* as a measure to compare the unrestricted and restricted model, and derive relations with $s^{2}$ and the $F$-statistic. Instead of selecting one model, we discuss the possibility of using multiple models. These last parts are exclusive to the book and won't be discussed here. 
+
+## Confidence and prediction intervals
+Last week we derived that
+$$
+t_{j} = \frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{s^{2}v_{jj}}} \sim t(n-k),
+$$ {#eq-ttest}
+which we can use to perform $t$-tests on individual coefficients in the linear regression model. Performing such a test typically gives us a binary choice: either we reject or we fail to reject the null hypothesis. A test and a **confidence interval** are closely related, but it could be argued that a confidence interval provides the econometrician with more information. We can exploit the fact that for a given $n$ and $k$, the distribution of (@eq-ttest) is fully known. Using the steps in the book, we can go from a probability statement to an interval
+$$
+\left( \widehat{\beta}_{j} + c_{\alpha/2} \sqrt{s^{2}v_{jj}}, \widehat{\beta}_{j} + c_{1-\alpha/2} \sqrt{s^{2}v_{jj}}  \right),
+$$ {#eq-confint}
+where $c_{\alpha/2}$ and $c_{1-\alpha/2}$ are the critical values of the $t(n-k)$ distribution at $\alpha/2$ and $1 - \alpha/2$. This provides the $100(1-\alpha)\%$ confidence interval (if $\alpha$ expressed in decimals) or $100 - \alpha$ confidence interval (if $\alpha$ expressed in percentage) for $\beta_{j}$. For a symmetric distribution, such as the $t$-distribution and the normal distribution, the critical values on both tails only differ by sign. In that case, we can also write 
+$$
+\left( \widehat{\beta}_{j} - c_{\alpha/2} \sqrt{s^{2}v_{jj}}, \widehat{\beta}_{j} + c_{\alpha/2} \sqrt{s^{2}v_{jj}}  \right),
+$$
+in which it is understood that $c_{\alpha/2}$ represents the critical value emerging from the right tail. This latter definition is also often preferred because it already has the plus and minus in the direct definition (in contrast (@eq-confint) has a plus for both the left and right cut-off because the sign emerges from the critical value). In any case, it shows that it is important to properly define all terms.
+
+::: {.callout-note title="Example" collapse = "true"}
+
+If we take $\alpha = 0.05$, then we obtain the $100(1-0.05)\% = 95\%$ confidence interval. The critical values are then $c_{\alpha/2} = c_{0.025}$ and $c_{1 - \alpha/2} = c_{0.975}$, which ensures that the tails are cut-off at $2.5\%$ and $97.5\%$ probability, respectively. Note that we only include $\alpha$ as a subscript of the critical values, but for the $t$-distribution it is also a function of $n$ and $k$. 
+
+In contrast, consider the case where we could use 
+$$
+\frac{\widehat{\beta}_{j} - \beta_{j}}{\sqrt{\sigma^{2}v_{jj}}} \sim N(0, 1),
+$$
+for testing, because $\sigma^{2}$ is known. Note that the critical values for a given $\alpha$ based on the standard normal distribution $N(0,1)$, are not functions of $n$ and $k$. In other words, replacing $\sigma^{2}$ by an estimator $s^{2}$ does not only change the distribution (from normal to $t$), but also makes the resulting critical values a function of the remaining degrees of freedom $n-k$. 
+
+:::
+
+Note that the term confidence is very different from probability. Confidence intervals are based on a repeated sampling argument: if we could repeatedly sample from the true process, say $100$ times, about $95$ of the resulting intervals capture the true population value $\beta_{j}$. This is because a confidence interval is actually about a *nonrandom* quantity $\beta_{j}$, which lies within certain *random* bounds with a certain probability. Note that if the hypothesized value does not fall within the confidence interval, then we reject the null hypothesis of a test. Thus, we have a third way of performing a statistical test: (i) compare statistic and critical value, (ii) compare $p$-value and significance level, (iii) determine whether the hypothesized value is included in the confidence interval.
+
+We have seen how we can go from estimators and tests to confidence intervals, but we can proceed similarly for **prediction intervals**. For now, it is important to mention that, even though the naming seems to suggest that confidence and predictio intervals are very similar, they do have striking differences. Confidence intervals considers estimators of a population parameter (such as $\beta_{j}$) and uses information of the whole sample. Note that the estimators are essentially determining the random bounds of the interval, because the estimators are functions of the data. Prediction intervals, instead, considers predicting a single data point or multiple data points in a random vector. The source of uncertainty is not just sampling error (i.e., the variation between estimator and population parameter) but also the randomness emerging from the individual data points (i.e., data points are themselves outcomes of random variables). This is a similar discussion as in Week 3, when we compared best linear unbiased estimation and best linear unbiased prediction.   
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+With the explanation above in mind, you are now ready to read
+
+- Section 3.10, which shows how to derive confidence intervals.
+- Section 3.11, which shows how to derive prediction intervals.
+
+Especially for the latter section, we make use of relationships between distributions. You are advised to verify the results in this section using Section B.4. of Appendix B.
+
+:::
+
+## Restricted testing
+The $t$-test that we considered only allows for testing hypotheses of the form $\beta_{j} = 0$. Whereas these tests are often employed in empirical work, one might also want to test more complicated hypotheses. Consider the following regression for companies that advertise on Instagram and Tiktok, with the goal to increase sales:
+$$
+\text{Sales}_{i} = \beta_{1} + \beta_{2} \text{Spending on Instagram}_{i} + \beta_{3} \text{Spending on Tiktok}_{i} + \beta_{4}x_{i,4} + \ldots + \beta_{k}x_{i,k} + u_{i},
+$$
+where $x_{i,4}$ up to $x_{i,k}$ are auxiliary variables. The hypothesis $H_{0}: \beta_{2} + \beta_{3} = 1$ could be interest to managers who want to know whether advertisement spendings on both platforms translate to a one-to-one increase in a company's sales. This hypothesis only consists of one linear restriction, which can be written in the form $w'\beta = r$ as
+$$ 
+w'\beta =
+\begin{pmatrix}
+0 & 1 & 1 & \cdots & 0
+\end{pmatrix}
+\begin{pmatrix}
+\beta_{1} \\ \beta_{2} \\ \beta_{3} \\ \vdots \\ \beta_{k}
+\end{pmatrix}
+= r,
+$$
+with $r = 1$. One might also test for multiple linear restrictions, which can be represented in the form $R\beta = r$. The matrix $R$ is of the order $m \times k$, where $m$ represents the number of unique restrictions imposed. This means that $r$ is now an $m \times 1$ vector instead of a scalar (which it is in the $w'\beta = r$ framework).
+
+The test statistics for both scenarios, i.e. $w'\beta = r$ and $R\beta = r$, are derived in Section 3.12 and 3.13 respectively. We will not derive the same results here as in the book, but rather focus on how to find the test statistics in case you do not know the expressions by heart. Note that we found the following result last week:
+$$
+\widehat{\beta} \sim N(\beta, \sigma^{2}(X'X)^{-1}).
+$$
+Because linear combinations of normally distributed random variables are also normally distributed, we can easily find
+$$
+w'\widehat{\beta} \sim N(w'\beta, \sigma^{2}w'(X'X)^{-1}w) \quad \text{ and } \quad R\widehat{\beta} \sim N(R\beta, \sigma^{2}R(X'X)^{-1}R'). 
+$$
+It must be noted that these two results look very similar, but the main difference lies in the fact that $w'\widehat{\beta}$ follows a univariate normal distribution, while the distribution of $R\widehat{\beta}$ is multivariate normal.
+
+### A single linear restriction
+Similar to the derivation of the $t$-test, we can first write
+$$
+\frac{w'\widehat{\beta} - w'\beta}{\sqrt{\sigma^{2}w'(X'X)^{-1}w}} \sim N(0,1).
+$$
+If $\sigma^{2}$ was known and imposing under the null hypothesis that $w'\beta = r$, we could directly use this expression for testing. However, since $\sigma^{2}$ is generally unknown, we need to replace $\sigma^{2}$ by $s^2$. We can proceed almost exactly analogously as for the $t$-test of previous week (good exercise for yourself!) to derive 
+$$
+t_{w} = \frac{w'\widehat{\beta} - r}{\sqrt{s^{2}w'(X'X)^{-1}w}} \sim t(n-k).
+$$
+Since we have a standard normal distribution, $(n-k)s^{2}/\sigma^{2} \sim \chi^{2}(n-k)$, $\widehat{\beta}$ and $s^{2}$ are independent, we can once again use equation B.7 in Section B.4 of Appendix B.
+
+## Several linear restrictions
+The case for the single linear restriction is relatively straightforward, because all terms are univariate and the steps are similar to last week's derivation. However, several linear restrictions requires a different approach because the distribution of $R\widehat{\beta}$ is $m$-dimensional. We can rewrite it to a multivariate standard normal distribution, which we denote by $x$
+$$
+x = (\sigma^{2}R(X'X)^{-1}R')^{-1/2}(R\widehat{\beta} - R\beta) \sim N(0,I_{m}).
+$$ {#eq-multnorm}
+We cannot use this result for hypothesis testing, because $\sigma^{2}$ is generally unknown and the distribution of $x$ is multivariate. We cannot perform the same steps as before, because we can only obtain a $t$-distribution in case of a univariate normal distribution. Instead, we can convert (@eq-multnorm) to another univariate distribution. We can apply equation B.5 to (@eq-multnorm) to obtain 
+$$
+x'x = \frac{(R\widehat{\beta} - R\beta)'(R(X'X)^{-1}R')^{-1}(R\widehat{\beta} - R\beta)}{\sigma^{2}} \sim \chi^{2}(m).
+$$ {#eq-chisq}
+This helps us to simplify the problem to a univariate distribution. However, we still cannot use this result for hypothesis testing because $\sigma^{2}$ is unknown.
+
+::: {.callout-note title="Matrix functions" collapse = "true"}
+
+The variance matrix of $R\widehat{\beta}$ is given by $\sigma^{2}(R(X'X)^{-1}R')$. To obtain (@eq-multnorm), we apply a matrix function that gives $\sigma^{-1}(R(X'X)^{-1}R')^{-1/2}$. Note that, following Section A.6 in Appendix A, we are only allowed to perform this operation whenever the matrix is symmetric and positive definite. 
+
+The matrix $R(X'X)^{-1}R'$ indeed fulfills these conditions. Note that a variance matrix is always symmetric, and $R(X'X)^{-1}R'$ is positive definite because $R$ has full row rank $m$ while the $k\times k$ matrix $X'X$ is positive definite and thus invertible due to $X$ having full column rank $k$. 
+
+:::
+
+We can proceed as follows. Because $x'x$ in (@eq-chisq) follows a $\chi^{2}(m)$ distribution, and $(n-k)s^{2}/\sigma^{2} \sim \chi^{2}(n-k)$ with $\widehat{\beta}$ and $s^{2}$ independent, we can apply equation B.8 in Section B.4 of Appendix B to convert (@eq-chisq) to the feasible test statistic
+$$
+F_{R} = \frac{(R\widehat{\beta} - r)'(R(X'X)^{-1}R')^{-1}(R\widehat{\beta} - r)/m}{s^{2}} \sim F(m, n-k),
+$$
+under the null hypothesis $R\beta = r$.
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+With the explanation above in mind, you are ready to read
+
+- Section 3.12 - 3.15.
+
+Note that in Section 3.15, the title contains $\beta_{2} = 0$. This refers to a $k_{2} \times 1$ vector $\beta_{2}$, not a single coefficient in the $\beta$ vector. That is, we used partitioning to write $\beta = (\beta_{1}, \beta_{2})'$ where $\beta_{1}$ is $k_{1} \times 1$, $\beta_{2}$ is $k_{2} \times 1$ and $\beta$ is $k \times 1$ with $k = k_{1} + k_{2}$. The test in Section 3.15 is referred to as the **partial F-test**.
+
+- Section 3.16 - 3.20.
+
+Note that **adjusted $R^{2}$** is a metric for model selection, while $R^{2}$ is a measure of fit. They serve quite distinct goals. The final sections focus on how selecting between two models enforces a binary choice, which is not always clear-cut. Alternatively, one could think about combining multiple models. We will discuss this in a bit more detail in class.  
+
+:::
+
+
