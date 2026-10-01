@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -647,8 +676,19 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#the-simple-linear-regression-model" id="toc-the-simple-linear-regression-model" class="nav-link" data-scroll-target="#the-simple-linear-regression-model">The simple linear regression model</a>
+  <ul class="collapse">
+  <li><a href="#unbiasedness-of-the-least-squares-estimator" id="toc-unbiasedness-of-the-least-squares-estimator" class="nav-link" data-scroll-target="#unbiasedness-of-the-least-squares-estimator">Unbiasedness of the least-squares estimator</a></li>
+  </ul></li>
+  <li><a href="#empirical-applications" id="toc-empirical-applications" class="nav-link" data-scroll-target="#empirical-applications">Empirical applications</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -694,8 +734,294 @@ window.MathJax = {
 </ul>
 </div>
 </div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>So far, we covered Chapter 1 to 3 in ITE. We derived the estimators <span class="math inline">\(\widehat{\beta} = (X'X)^{-1}X'y\)</span>, <span class="math inline">\(s^{2} = e'e/(n-k)\)</span> under the condition that they are unbiased. We continued by deriving test statistics for single and multiple linear restrictions. These results were found based on the classical assumptions for the linear regression model, except for one. The assumption that <span class="math inline">\(X\)</span> is nonrandom has been motivated in Section 2.7 using the argument that the basics of econometric theory do not change if we make this simplifying assumption. Whereas this is true, any good econometrician needs to know how to deal with <strong>conditioning</strong>, which is the title of this week’s Chapter 6. Since you are already familiar with this topic from your previous probability theory and statistics course, we will focus almost exclusively on the linear regression model. We revisit some of the previously found results and see how their derivation changes when <span class="math inline">\(X\)</span> is assumed random.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Section 6.1 - 6.4. These sections intuitively explain the concept of conditioning and help you refresh your memory on the concept.</li>
+<li>Section 6.5. This section introduces two very important concepts: the <strong>law of total expectation</strong> (also called the <em>law of iterated expectations</em> or the <em>tower property</em>) and the <strong>law of total variance</strong>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="the-simple-linear-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-simple-linear-regression-model">The simple linear regression model</h2>
+<p>Consider the simple linear regression model <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1,\ldots, n),
+\]</span> where <span class="math inline">\(x_{i}\)</span> is assumed to be random. This means that <span class="math inline">\(u_{i}\)</span> is no longer the only random part on the right-hand side of this equation and thus we need to make an assumption about the relationship between <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(x_{i}\)</span>.</p>
+<p>An often chosen assumption is <strong>mean-independence</strong>, which can be expressed as <span class="math inline">\(E(u_{i}|x_{i}) = 0\)</span>, because it is stronger than uncorrelatedness between <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(x_{i}\)</span> and weaker than independence (which is deemed unrealistic). This condition is also called <strong>strict exogeneity</strong>. In addition, <strong>variance-independence</strong> is imposed, which shows that the variance of <span class="math inline">\(u_{i}\)</span> does not depend on <span class="math inline">\(x_{i}\)</span>, i.e.&nbsp;<span class="math inline">\(\Var(u_{i}|x_{i}) = \sigma^{2}\)</span>. This is called <strong>homoskedasticity</strong> and we study its implications in more detail in the second part of this course.</p>
+<p>These assumptions give a clear interpretation to the linear regression. Note that <span class="math display">\[
+\begin{aligned}
+E(y_{i}|x_{i}) &amp;= E(\beta_{1} + \beta_{2}x_{i} + u_{i} | x_{i}) \\
+               &amp;= \beta_{1} + \beta_{2}E(x_{i}|x_{i}) + E(u_{i} | x_{i}) \\
+               &amp;= \beta_{1} + \beta_{2}x_{i},
+\end{aligned}
+\]</span> because <span class="math inline">\(E(u_{i}|x_{i}) = 0\)</span> by strict exogeneity. Thus, the <strong>population linear regression line</strong> simply represents the conditional mean of <span class="math inline">\(y_{i}\)</span> given <span class="math inline">\(x_{i}\)</span>. This also reveals how to proceed in terms of prediction. In that case, we need the <strong>sample linear regression line</strong> which then represents an estimate of the conditional mean of <span class="math inline">\(y_{i}\)</span> given <span class="math inline">\(x_{i}\)</span>.</p>
+<p>We may also compute the conditional variance of <span class="math inline">\(y_{i}\)</span> given <span class="math inline">\(x_{i}\)</span>. Note that <span class="math display">\[
+\Var(y_{i} | x_{i}) = \Var(\beta_{1} + \beta_{2}x_{i} + u_{i} | x_{i}) = \Var(u_{i}|x_{i}) = \sigma^{2},
+\]</span> since the systemic part <span class="math inline">\(\beta_{1} + \beta_{2}x_{i}\)</span> is fixed conditional on <span class="math inline">\(x_{i}\)</span>. The difference with the unconditional variance of <span class="math inline">\(y_{i}\)</span> is important to notice. Using the law of total variance: <span class="math display">\[
+\begin{aligned}
+E(y_{i}) &amp;= E(\Var(y_{i}|x_{i})) + \Var(E(y_{i}|x_{i})) \\
+         &amp;= E(\sigma^{2}) + \Var(\beta_{1} + \beta_{2}x_{i}) \\
+         &amp;= \sigma^{2} + \beta_{2}^{2}\Var(x_{i}) \\
+         &amp;= \sigma^{2} + \beta_{2}^{2}\sigma^{2}_{x},
+\end{aligned}
+\]</span> which has the nice interpretation that the total variation in <span class="math inline">\(y_{i}\)</span> is the sum of variation explained by <span class="math inline">\(x_{i}\)</span> and the unexplained variation from <span class="math inline">\(u_{i}\)</span>. So, even though the variance of <span class="math inline">\(y_{i}\)</span> conditional on <span class="math inline">\(x_{i}\)</span> is always <span class="math inline">\(\sigma^{2}\)</span>, the unconditional variance also contains variation arising because <span class="math inline">\(x_{i}\)</span> itself varies across observations.</p>
+<section id="unbiasedness-of-the-least-squares-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="unbiasedness-of-the-least-squares-estimator">Unbiasedness of the least-squares estimator</h3>
+<p>Because <span class="math inline">\(x_{i}\)</span> is now <strong>random</strong>, the least-squares estimators <span class="math inline">\(\widehat{\beta}_{1}\)</span>, <span class="math inline">\(\widehat{\beta}_{2}\)</span> and <span class="math inline">\(s^{2} = \frac{1}{n-2}\sum_{i=1}^{n} \widehat{u}_{i}^{2}\)</span> are now highly nonlinear functions of <span class="math inline">\((y, X)\)</span>. Under the conditions that we just imposed, we can still show unbiasedness of these estimators. Let’s focus on <span class="math inline">\(\widehat{\beta}_{2}\)</span>.</p>
+<p>Under correct specification, i.e.&nbsp;the model and DGP coincide,note that we can write <span class="math display">\[
+\widehat{\beta}_{2} = \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}},
+\]</span> which we already showed in Week 2.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Reminder">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reminder
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Note that <span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{1\2} &amp;= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+&amp;= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(\beta_{1} + \beta_{2}x_{i} + u_{i} - (\beta_{1} + \beta_{2}\overline{x} + \overline{u}))}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+&amp;= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(\beta_{2}(x_{i} - \overline{x}) + (u_{i} - \overline{u}))}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+&amp;= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+&amp;= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\end{aligned}
+\]</span> Note that we plugged in the DGP at the second equality, the third and fourth equalities are rearranging terms, and the last equality follows from <span class="math inline">\(\overline{u}\sum_{i=1}^{n}(x_{i} - \overline{x}) = 0\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Taking expectations now yields <span class="math display">\[
+\begin{aligned}
+E(\widehat{\beta}_{2}) &amp;= E\left[ \beta_{2} + \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right] \\
+&amp;= E(\beta_{2}) + E \left[ \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}  \right] \\
+&amp;= \beta_{2} + E \left[ \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}  \right].
+\end{aligned}
+\]</span> To obtain the desired result <span class="math inline">\(E(\widehat{\beta}_{2}) = \beta_{2}\)</span>, we need to show that this second term equals zero. We are going to use the <em>law of total expectations</em>, because the term involves several random variables. If we define <span class="math inline">\(X = (x_{1}, \ldots, x_{n})\)</span>, we can proceed as follows: <span class="math display">\[
+\begin{aligned}
+E \left( \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}  \right) &amp;=
+E_{X} \left( \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})E_{u_{i}|X}(u_{i}| X)}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}  \right) \\
+&amp;= E_{X} \left( \frac{\sum_{i=1}^{n}(x_{i} - \overline{x}) \cdot 0}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}  \right)
+= 0,
+\end{aligned}
+\]</span> where some subtle steps need extra explanation:</p>
+<ul>
+<li>The first equality makes use of the law of total expectations. We have to condition on <span class="math inline">\(X = (x_{1}, \ldots, x_{n})\)</span> and not just a single <span class="math inline">\(x_{i}\)</span>, otherwise we may not take <span class="math inline">\(\sum_{i=1}^{n} (x_{i} - \overline{x})\)</span> outside of the inner expectation.</li>
+<li>The inner expectation is taken with respect to the conditional distribution <span class="math inline">\(u_{i} | x_{1}, \ldots, x_{n}\)</span>, while the outer expectation is with respect to <span class="math inline">\(x_{1}, \ldots, x_{n}\)</span>. To emphasize with respect to what distribution we take the expectation, we included them as subscripts. <em>You may do this as well, but note that it is not mandatory.</em></li>
+<li>By combining <span class="math inline">\(\Cov(u_{i}, u_{j}) = 0\)</span> for all <span class="math inline">\(i \neq j\)</span> and normality, we have independence of all pairs of observations <span class="math inline">\((x_{i}, y_{i})\)</span> and <span class="math inline">\((x_{j}, y_{j})\)</span> for all <span class="math inline">\(i \neq j\)</span>. Therefore, we can conclude <span class="math inline">\(E_{u_{i}|X}(u_{i} | X) = E_{u_{i}|X}(u_{i} | x_{1}, \ldots, x_{n}) = E_{u_{i}|x_{i}}(u_{i} | x_{i}) = 0\)</span>.</li>
+</ul>
+<p>We have now calculated the unconditional expectation of <span class="math inline">\(\widehat{\beta}_{2}\)</span>, which shows that the estimator is indeed unbiased. For completeness, we can also compute its variance. Let us first compute the conditional variance: <span class="math display">\[
+\begin{aligned}
+\Var(\widehat{\beta}_{2} | X) &amp;= \Var\left( \beta_{2} + \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \Bigg| X \right) \\
+&amp;= \frac{1}{[\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}]^{2}} \Var\left(\sum_{i=1}^{n}(x_{i} - \overline{x})u_{i} | X \right) \\
+&amp;= \frac{\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}}{[\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}]^{2}} \Var(u_{i} | X ) \\
+&amp;= \frac{\sigma^{2}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}.
+\end{aligned}
+\]</span> We are now ready to compute the unconditional variance using the law of total variance.: <span class="math display">\[
+\begin{aligned}
+\Var(\widehat{\beta}_{2}) &amp;= E(\Var(\widehat{\beta}_{2} | X)) + \Var(E(\widehat{\beta}_{2}|X)) \\
+&amp;= E\left( \frac{\sigma^{2}}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right) + \Var(\beta_{2}) \\
+&amp;= \sigma^{2} E\left(\frac{1}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \right).
+\end{aligned}
+\]</span></p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are now ready to read how this generalizes to the multiple linear regression model.</p>
+<ul>
+<li>Section 6.6 - 6.8.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="empirical-applications" class="level2">
+<h2 class="anchored" data-anchor-id="empirical-applications">Empirical applications</h2>
+<p>The past weeks’ main focus has been on the theory behind the multiple linear regression model. We have looked at the ideal conditions, derived estimators and their corresponding standard errors as well as confidence intervals, prediction (intervals) and studied how to perform tests for single and multiple linear restrictions on the vector <span class="math inline">\(\beta\)</span>. We have even touched upon the topics model selection and model averaging.</p>
+<p>This puts us in a position to apply the model to real data and to correctly interpret its results. Running these analyses yourself will be addressed in the second part of the course, but let us consider two empirical applications from the book <em>Mastering Econometrics</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="The relationship between price and sales">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The relationship between price and sales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A shop specializing in shoes has sold <span class="math inline">\(n = 420\)</span> pairs of shoes in one week. The shop sells shoes in many price categories, and for each sale we know the price. The shopkeeper wants to understand the relationship between price (<span class="math inline">\(x\)</span>) and sales (<span class="math inline">\(y\)</span>). Estimating the linear regression model <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}
+\qquad
+(i=1,\dots,n),
+\]</span> she obtains the following results:</p>
+<div id="tbl-regression" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Regression results
+</figcaption>
+<div aria-describedby="tbl-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Coefficient</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. error</th>
+<th style="text-align: right;"><span class="math inline">\(t\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;"><span class="math inline">\(24.394\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.664\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(36.730\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Price</td>
+<td style="text-align: right;"><span class="math inline">\(-0.066\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.006\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-11.750\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>graphically represented as <img src="images/week5-salesprices.png" class="img-fluid" style="width:100.0%" alt="The data and the estimated regression line."></p>
+<ol type="a">
+<li>Discuss the relationship between the variables in light of the estimation result. Is the relationship as expected?</li>
+<li>Obtain a <span class="math inline">\(95\%\)</span> confidence interval for <span class="math inline">\(\beta_{2}\)</span>.</li>
+<li>Obtain a prediction for the number of sales given a price of 80. And also for a price of 300. Are these predictions reliable?</li>
+<li>Describe a limitation of the linear model in describing the relationship. Is the linear model useful for this data set?</li>
+</ol>
+<p>We could answer these questions as follows:</p>
+<ol type="a">
+<li><p>The regression line suggests a negative relationship between price and sales. There are about 21 sales at a price of 50 euros, about 18 at a price of 100 euros, and about 15 at a price of 150 euros. Formally, a unit increase in price leads to a decrease of about 0.066 in sales. The relationship is statistically significant at the conventional <span class="math inline">\(5\%\)</span> and <span class="math inline">\(1\%\)</span> significance levels <span class="math inline">\(\alpha\)</span>, which can be verified by comparing the <span class="math inline">\(t\)</span>-statistic with the <span class="math inline">\((\alpha/2)\)</span>-quantiles (for two-sided tests) of the Student <span class="math inline">\(t\)</span>-distribution with 418 degrees of freedom. In practice, we use the normal approximation when the degrees of freedom exceeds <span class="math inline">\(30\)</span>. Since we know that <span class="math inline">\(\Pr(|z|&lt;1.96)=0.95\)</span> and <span class="math inline">\(\Pr(|z|&lt;2.57)=0.99\)</span> when <span class="math inline">\(z \sim N(0,1)\)</span>, and both <span class="math inline">\(36.730\)</span> and <span class="math inline">\(11.750\)</span> are well above 1.96 and 2.57, the two estimates are significant.</p></li>
+<li><p>The <span class="math inline">\(95\%\)</span> confidence interval is given by <span class="math display">\[
+(\hat\beta_{2} - 1.96\sqrt{s^{2}v_{22}},\; \hat\beta_{2} + 1.96\sqrt{s^{2}v_{22}})
+= (-0.078, -0.054),
+\]</span> where the standard error <span class="math inline">\(\sqrt{s^{2}v_{22}}\)</span> equals <span class="math inline">\(0.006\)</span>. Thus, <span class="math inline">\(\beta_{2} = 0\)</span> is not included in the <span class="math inline">\(95\%\)</span> confidence interval, in agreement with the significance of the estimate discussed under (a).</p></li>
+<li><p>For a price <span class="math inline">\(x_{*} = 80\)</span>, the prediction is <span class="math inline">\(\hat{y}_{*} = \hat{\beta}_{1} + \hat{\beta}_{2} \times 80 = 19.114\)</span>, and for <span class="math inline">\(x_{*} = 300\)</span>, the prediction is <span class="math inline">\(19.114\)</span>. The second prediction is less reliable because we have only a few observations for such large prices.</p></li>
+<li><p>One of the limitations of a linear approximation is that it may not be a good approximation when we move away from the center. For example, sales cannot be negative, and a linear model would lead to negative sales whenever the price is (very) large. This does not mean that the model is useless, but it only provides a useful approximation for prices between, say, 30 and 200.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p>The previous empirical application makes use of the simple linear regression model, which is very popular due to its straightforward interpretation and ability to clearly visualize the results. However, a regression model with only one independent variable is often insufficient to capture the essence of the problem. If we regress sales on price, then we explicitly allow sales to only depend on that single factor. It is very likely that sales are also explained by other factors than price, such as the type of shoes, the material of the shoes, the friendliness of the salesperson, et cetera. These variables are currently absorbed in the error term, and they may be correlated with price. Because of this, we may systematically over- or underestimate <span class="math inline">\(\beta_{2}\)</span>. This argument is made clearly in Section 3.8 of ITE: we might include other regressors (auxiliary variables) simply to get a reliable estimate of the coefficient related to our focus variable (i.e., price in this case). We now consider an empirical application making use of the multiple linear regression model.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Returns to scale in electricity supply">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Returns to scale in electricity supply
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>(If you want to run the analysis yourself, you can download the data set ME-data-3-01.xlsx from <a href="https://sites.google.com/view/seantelg/mastering-econometrics">my website</a>. These are real data that are obtained from <em>Nerlove, M. (1963), Returns to scale in electricity supply, Ch. 7 in: Christ, C. et al.&nbsp;(Eds.), Measurement in Economics, Stanford University Press, pp.&nbsp;167–198.</em>).</p>
+<p>The file contains data on 145 electric utility companies in 1955. There are five columns corresponding to total costs in millions of dollars (TC), output in billions of kilowatt hours (<span class="math inline">\(Q\)</span>), price of labor (<span class="math inline">\(p_L\)</span>), price of capital (<span class="math inline">\(p_K\)</span>) and price of fuels (<span class="math inline">\(p_F\)</span>). Estimate model <span class="math inline">\(y = X\beta + u\)</span>, where <span class="math inline">\(y = \log \text{TC}\)</span> and <span class="math display">\[
+X = \left(\imath : \log Q : \log p_L : \log p_K : \log p_F\right).
+\]</span></p>
+<ol type="a">
+<li>Report the parameter estimates and standard errors.</li>
+<li>Perform a <span class="math inline">\(t\)</span>-test on all coefficients to verify which ones are significantly different from zero at the <span class="math inline">\(5\%\)</span> significance level.</li>
+<li>Test and interpret the hypothesis <span class="math inline">\(\beta_{2} = \beta_{3} = \beta_{4} = \beta_5 =0\)</span>.</li>
+<li>Test and interpret the hypothesis <span class="math inline">\(\beta_{2} = \beta_{4} = 0\)</span>.</li>
+</ol>
+<p>(The file ME-code-3-04.R, available on the same website page mentioned above, can be used for the analysis.)</p>
+<ol type="a">
+<li>We obtain the following estimation results:</li>
+</ol>
+<div id="tbl-regression" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Estimated regression results
+</figcaption>
+<div aria-describedby="tbl-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Coefficient</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. error</th>
+<th style="text-align: right;"><span class="math inline">\(t\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;"><span class="math inline">\(-3.527\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1.774\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-1.987\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\log Q\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.720\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.017\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(41.244\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log p_L\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.436\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.291\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1.499\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\log p_F\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.427\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.100\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(4.249\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log p_K\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.220\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.339\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.648\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<ol start="2" type="a">
+<li><p>The column <span class="math inline">\(t\)</span>-value gives the desired information. If we test two-sidedly and use the normal approximation, then we simply ask whether the absolute <span class="math inline">\(t\)</span>-values are larger or smaller than 1.96. This is the case for <span class="math inline">\(\log Q\)</span> and <span class="math inline">\(\log p_F\)</span>, and also (but marginally) for the constant term. Hence, the coefficients of <span class="math inline">\(\log Q\)</span> and <span class="math inline">\(\log p_F\)</span> are significantly different from zero, the intercept is marginally significant, and the coefficients of <span class="math inline">\(\log p_L\)</span> and <span class="math inline">\(\log p_K\)</span> are not significantly different from zero.</p></li>
+<li><p>The null hypothesis states that all coefficients, except for the intercept, are equal to zero. This test is sometimes called the <em>test of overall significance</em>, and it tests whether the <em>intercept-only model</em> fits the data as well as our proposed regression model. In our case, the value of the <span class="math inline">\(F\)</span>-statistic is 14.585, which is higher than the critical value of the <span class="math inline">\(F(4,140)\)</span>-distribution, which is 2.436. Thus, we reject the null hypothesis. Our set of four regressors thus has some bearing on the explanation of total cost.</p></li>
+<li><p>We now test whether the coefficients of <span class="math inline">\(\log Q\)</span> and <span class="math inline">\(\log p_F\)</span> are jointly equal to zero. This test is sometimes called the <em>partial <span class="math inline">\(F\)</span>-test</em>. The value of the <span class="math inline">\(F\)</span>-statistic is now 14.585, which is larger than 3.061, the critical value of the <span class="math inline">\(F(2,140)\)</span>-distribution. Thus, we reject the null hypothesis. Keeping these two regressors in the model is therefore a good idea.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p>These two empirical applications only highlight how we can use the results that we derived over the past weeks. We will consider different applications in more detail during the second part of the course. We then develop misspecification tests, such that we cannot just estimate models and assess their fit, but also test whether they fulfill the assumptions (ideal conditions.)</p>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

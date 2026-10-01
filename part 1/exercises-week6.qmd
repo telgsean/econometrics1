@@ -5,3 +5,10 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+## Exercise 1
+For the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1,\ldots, n).
+$$
+Show that $\widehat{\beta}_{1} = \overline{y} - \widehat{\beta}_{2}\overline{x}$ is unbiased for $\beta_{1}$. First, derive the result when the regressor is nonrandom. Aterwards, repeat the exercise assuming the regressor is random. Comment on the main differences.

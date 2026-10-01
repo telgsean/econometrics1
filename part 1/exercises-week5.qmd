@@ -41,6 +41,10 @@ $$
 $$
 and $M_{1} = I_{n} - X_{1}(X_{1}'X_{1})^{-1}X_{1}'$.
 
+a. Under which conditions is the restricted estimator $\widehat{\beta}_{1r}$ unbiased?
+b. Show that $\Delta$ is positive semidefinite.
+c. Use the given expressions to comment on the statement: 'In a regression, it is always best to include as many explanatory variables as possible. After all, they might have some explanatory power on the dependent variable.'
+
 ::: {.callout-caution title="Solution" collapse = true}
 
 The full solution can be found in the book *Mastering Econometrics*, Exercise 2.19.
