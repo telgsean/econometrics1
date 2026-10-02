@@ -73,7 +73,7 @@ which we already showed in Week 2.
 Note that
 $$
 \begin{aligned}
-\widehat{\beta}_{1\2} &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
+\widehat{\beta}_{2} &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
 &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(\beta_{1} + \beta_{2}x_{i} + u_{i} - (\beta_{1} + \beta_{2}\overline{x} + \overline{u}))}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
 &= \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(\beta_{2}(x_{i} - \overline{x}) + (u_{i} - \overline{u}))}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
 &= \beta_{2} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(u_{i} - \overline{u})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \\
