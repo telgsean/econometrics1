@@ -615,6 +615,12 @@ window.Quarto = {
  <span class="menu-text">Exercises Week 6</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 1/exam-practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exam Practice</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -721,6 +727,9 @@ window.Quarto = {
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
   <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
   <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
+  <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6">Exercise 6</a></li>
+  <li><a href="#exercise-7" id="toc-exercise-7" class="nav-link" data-scroll-target="#exercise-7">Exercise 7</a></li>
+  <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8">Exercise 8</a></li>
   </ul>
 </nav>
     </div>
@@ -812,7 +821,7 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}.
 <li><p>Suppose <span class="math inline">\(x_{i}\)</span> is standard normally distributed and <span class="math inline">\(y_{i} = x_{i}^{2}\)</span>. Determine the correlation between <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(y_{i}\)</span>.</p></li>
 </ol>
 <p><em>Hint:</em> Compute the covariance between <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(y_{i}\)</span> and make use of the fact that <span class="math inline">\(x_{i}\)</span> is normally distributed.</p>
-<ol start="3" type="1">
+<ol start="3" type="a">
 <li><p>The previous exercise gave some interesting insights. If you did it correctly, you found that the correlation is zero. In the code block below, you find code to simulate some data. For <span class="math inline">\(i = 1, \ldots, n\)</span>, generate <span class="math inline">\(x_{i} \sim N(\mu = 0, \sigma = 5)\)</span> and take <span class="math inline">\(y_{i} = x_{i}^{2}\)</span> with <span class="math inline">\(n = 500\)</span>. After that we do the following.</p>
 <ol type="1">
 <li><p>We estimate three different regression models: the intercept-only model, a regression of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span>, and a regression of <span class="math inline">\(x^2\)</span> on <span class="math inline">\(y\)</span>.</p></li>
@@ -884,7 +893,7 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}.
 <section id="exercise-4" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
 <ol type="a">
-<li>Suppose <span class="math inline">\((x_{1}, x_{2}, \ldots, x_{n})\)</span> are independent and identically distributed, each with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>. In the following derivations, indicate at which equality sign(s) we use the properties (i) <em>independence</em>, (ii) <em>identical distribution</em>, (iii) <em>linearity property</em> of the mean or (iv) <em>scaling property</em> of the variance.</li>
+<li>Suppose <span class="math inline">\(x_{1}, x_{2}, \ldots, x_{n}\)</span> are independent and identically distributed, each with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>. In the following derivations, indicate at which equality sign(s) we use the properties (i) <em>independence</em>, (ii) <em>identical distribution</em>, (iii) <em>linearity property</em> of the mean or (iv) <em>scaling property</em> of the variance.</li>
 </ol>
 <ul>
 <li><p><span class="math inline">\(E(\overline{x}) = E(\frac{1}{n}\sum_{i=1}^{n} x_{i}) = \frac{1}{n} E(\sum_{i=1}^{n} x_{i}) = \frac{1}{n} \sum_{i=1}^{n} E(x_{i}) = \frac{1}{n} \sum_{i=1}^{n} \mu = \frac{1}{n} n\mu = \mu\)</span>.</p></li>
@@ -956,8 +965,85 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}.
 <li>In point d., we cannot claim that the expectation of a fraction is the fraction of the expectations (!). One can find easy counterexamples (even under independence of random variables) and a formal proof can be made using Jensen’s Inequality. In general, <span class="math inline">\(E(1/y) \geq 1/E(y)\)</span> because the function <span class="math inline">\(f(y) = 1/y\)</span> is convex for <span class="math inline">\(y &gt; 0\)</span>.</li>
 <li>In point d., it also does not hold that we have to show that “the numerator equals zero” (because the first part is not true). The complete fraction needs to be zero in expectation.</li>
 <li>In point e., the conditioning is wrong. In order to pull <span class="math inline">\(\sum_{i=1}^{n} (x_{i} - \overline{x})\)</span> out of the inner expectation, we need to condition on <strong>all</strong> <span class="math inline">\(x\)</span>, i.e.&nbsp;<span class="math inline">\(X = (x_{1},\ldots,x_{n})\)</span>. It is insufficient to condition on just one <span class="math inline">\(x_{i}\)</span>, as e.g.&nbsp;<span class="math inline">\(\overline{x}\)</span> consists of all <span class="math inline">\(x\)</span>.</li>
-<li>In point e., we therefore use <span class="math inline">\(E(u_{i} | x_{1}, \ldots, x_{n}) = E(u_{i} | x_{i}) = 0\)</span>, where the first equality is due random sampling where respondents <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are independent for <span class="math inline">\(i \neq j\)</span>). The second equality follows by strict exogeneity. Note that the outer expectation, which is applied to the whole fraction, is with respect to the distribution of <span class="math inline">\(X = (x_{1}, \ldots, x_{n})\)</span>, and should thus be denoted <span class="math inline">\(E_{X}\)</span> instead of <span class="math inline">\(E_{x_{i}}\)</span>.</li>
+<li>In point e., we therefore use <span class="math inline">\(E(u_{i} | x_{1}, \ldots, x_{n}) = E(u_{i} | x_{i}) = 0\)</span>, where the first equality is due random sampling where respondents <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are independent for <span class="math inline">\(i \neq j\)</span>. The second equality follows by strict exogeneity. Note that the outer expectation, which is applied to the whole fraction, is with respect to the distribution of <span class="math inline">\(X = (x_{1}, \ldots, x_{n})\)</span>, and should thus be denoted <span class="math inline">\(E_{X}\)</span> instead of <span class="math inline">\(E_{x_{i}}\)</span>.</li>
 </ul>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-6" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
+<p><em>(6.21 in ME)</em> Let <span class="math inline">\(y = X\beta + u\)</span> with <span class="math inline">\(E(u|X) = 0\)</span> and <span class="math inline">\(E(uu'|X) = \sigma^{2}I_{n}\)</span>. Let <span class="math inline">\(\tilde{\beta} = A'y\)</span> be a linear estimator of <span class="math inline">\(\beta\)</span>, which implies that <span class="math inline">\(A\)</span> may depend on <span class="math inline">\(X\)</span> but not on <span class="math inline">\(y\)</span>.</p>
+<ol type="a">
+<li>Show that <span class="math inline">\(E(\tilde{\beta} | X) = A'X\beta\)</span> and $(| X) = ^{2}A’A,</li>
+<li>Find the unconditional mean and variance of <span class="math inline">\(\tilde{\beta}\)</span>.</li>
+<li>Show that <span class="math inline">\(\tilde{\beta}\)</span> is unbiased if and only if <span class="math inline">\(E(A'X) = I_{k}\)</span>.</li>
+<li>Show that <span class="math inline">\(\tilde{\beta}\)</span> is best linear unbiased if <span class="math inline">\(\Pr(A'X = I_{k}) = 1\)</span>.</li>
+<li>What happens when <span class="math inline">\(E(A'X) = I_{k}\)</span> but <span class="math inline">\(\Pr(A'X = I_{k}) &lt; 1\)</span>?</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 6.21.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-7" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-7">Exercise 7</h2>
+<p>Suppose we are given the model <span class="math display">\[
+y = X\beta + u, \quad E(u|X) = 0, \quad \Var(u|X) = \Omega,
+\]</span> where <span class="math inline">\(\Omega\)</span> is a nonrandom positive definite <span class="math inline">\(n \times n\)</span> variance matrix which may be nondiagonal. In Exercise 2.14 of ME, we found the generalized least-squares (GLS) estimator <span class="math inline">\(\hat{\beta} = (X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y\)</span> when <span class="math inline">\(X\)</span> is nonrandom. Now consider the case where <span class="math inline">\(X\)</span> is random.</p>
+<ol type="a">
+<li>Find the GLS estimator <span class="math inline">\(\hat{\beta}\)</span> in case <span class="math inline">\(X\)</span> is random.</li>
+<li>Show that <span class="math inline">\(\hat{\beta}\)</span> is unbiased and find its variance.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 6.22.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-8" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-8">Exercise 8</h2>
+<p>Consider the same model as in Exercise 7. Suppose we estimate <span class="math inline">\(\beta\)</span> by least squares, not by generalized least squares.</p>
+<ol type="a">
+<li>Find the mean and variance of the least-squares estimator.</li>
+<li>Can we determine the distribution of <span class="math inline">\(\hat{\beta} | X\)</span>?</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 6.23.</p>
 </div>
 </div>
 </div>

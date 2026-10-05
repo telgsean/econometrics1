@@ -1,0 +1,311 @@
+---
+title: "Exam Practice"
+author:
+    - name: Sean Telg
+      url: https://research.vu.nl/en/persons/sean-telg/
+html:
+    code-fold: true
+copyright: "Sean Telg, 2026. All Rights Reserved"
+
+
+---
+
+The exercises below are a mix of exam questions of the previous years. Because the course setup has changed, these exercises have been "translated" to the current notation. The emphasis of the course has also shifted, which means that some exercises might be quite lengthy on specific topics. Nonetheless, the present good preparation material (practicing a lot is important!)
+
+# Short exercises
+
+## Exercise 1
+Consider the (simplified) linear regression model given by
+$$
+y_{i} = \beta_{2} x_{i} + u_{i}, \qquad \qquad \qquad (i = 1,2,\ldots,n).
+$$ {#eq-linmod}
+
+a. Show that the least-squares estimator of $\beta_2$ in (@eq-linmod) is given by $\hat{\beta}_2 = \frac{ \sum_{i=1}^{n} x_i y_i }{ \sum_{i=1}^{n} x_i^{2}}$ and show that you indeed solve a *minimization problem*.
+
+b. Write the linear regression model as
+$$
+y = \beta_{2} x + u,
+$$
+and show the same results using vector and matrix calculus.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that we have to minimize $f(\beta_2) = \sum_{i=1}^{n} (y_i - \beta_2 x_i)^2$ with respect to $\beta_2$. We start by computing the first derivative
+$$
+\begin{aligned}
+\frac{d f(\beta_2)}{d \beta_2}
+&= \sum_{i=1}^{n} \frac{d (y_i - \beta_2 x_i )^{2}}{d \beta_2} \\
+&= \sum_{i=1}^{n} \frac{d (y_i - \beta_2 x_i )^{2}}{d (y_i - \beta_2 x_i )} \; \frac{d (y_i - \beta_2 x_i )}{d \beta_2} \\
+&= \sum_{i=1}^{n} 2 (y_i - \beta_2 x_i ) \times (-x_i) \\ 
+&= -2 \sum_{i=1}^{n} (y_i - \beta_2 x_i ) x_i.
+\end{aligned}
+$$
+Setting this derivative equal to zero and solving for $\beta_{2}$ yields the least-squares estimator:
+$$
+\frac{d f(\beta_2)}{d \beta_2}  = 0  \hspace{0.5cm} \Rightarrow \hspace{0.5cm}
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} x_i y_i }{ \sum_{i=1}^{n} x_i^{2}}.
+$$
+The function $f$ achieves a minimum at $\hat{\beta}_{2}$ if the second derivative is strictly positive.  We compute the second derivative as
+$$
+\frac{d^2 f(\beta_2)}{d \beta_2^2} = \frac{d}{d \beta_2} \left[ -2\sum_{i=1}^{n} (x_i y_i - \beta_2 x_i^2) \right] = 2 \sum_{i=1}^{n} x_{i}^2,
+$$
+and note that the expression is strictly positive (otherwise $x$ is not random). This shows that we indeed solved a minimization problem.
+
+b. We want to minimize the function
+$$
+\phi(\beta_{2}) = (y - \beta_{2} x)'(y - \beta_{2} x)
+$$
+with respect to $\beta_{2}$. Expand $\phi(\beta_{2})$ as
+$$
+\phi(\beta_{2}) = y'y - \beta_{2} y'x - \beta_{2} x'y + \beta_{2}^{2} x'x = y'y - 2\beta_{2} x'y + \beta_{2}^{2} x'x.
+$$
+The first derivative is
+$$
+\frac{d\phi(\beta_{2})}{d\beta_{2}} = -2x'y + 2\beta_{2} x'x.
+$$
+Setting the derivative equal to zero gives $2\beta_{2} x'x = 2x'y$, yielding the solution
+$$
+\hat{\beta}_{2} = (x'x)^{-1}x'y = \frac{\sum_{i=1}^{n} x_{i}y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}.
+$$
+The second derivative is given by
+$$
+\frac{d^{2} \phi(\beta_{2})}{d\beta_{2}^{2}} = 2x'x > 0.
+$$
+The inner product $x'x$ is $\geq 0$ for every $x$ with equality if and only if $x=0$, which has been excluded. Hence, $x'x>0$ and the second derivative is strictly positive, which implies that $\phi$ is minimized at~$\hat{\beta}_{2}$.
+
+:::
+
+## Exercise 2
+In the least-squares method we choose $\beta$ such that the squared deviations are as small as possible. Each point $(x_{i},y_{i})$ has the same weight. Now suppose that you wish to allow different weights. Then we wish to minimize $\sum_i (u_i/\omega_{i})^2$ instead of $\sum_i u_i^2$ for some known constants $\omega_i$. This is called *weighted least squares* (which will come back in Part II of this course).
+Letting $\Omega$ be the diagonal matrix with $\omega_i^2$ on the diagonal, we need to minimize the function
+$$
+\phi(\beta) = (y - X\beta)'\Omega^{-1}(y-X\beta)
+$$
+with respect to $\beta$.
+
+a. Find the solution $b$ to this minimization problem.
+b. Show that this solution $b$ constitutes a minimum.
+\eit
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. We write the objective function as
+$$
+\begin{aligned}
+\phi(\beta)
+&= y'\Omega^{-1}y - y'\Omega^{-1}X\beta - \beta'X'\Omega^{-1}y + \beta'X'\Omega^{-1}X\beta \\
+&= y'\Omega^{-1}y - 2y'\Omega^{-1}X\beta + \beta'X'\Omega^{-1}X\beta,
+\end{aligned}
+$$
+and differentiate. This gives
+$$
+\frac{\partial \phi(\beta)}{\partial \beta'} = -2y'\Omega^{-1}X + 2\beta'X'\Omega^{-1}X.
+$$
+Setting this derivative equal to zero and transposing, we find the solution $b$ by solving
+$X'\Omega^{-1}Xb = X'\Omega^{-1}y$,
+which leads to
+$$
+b = (X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y.
+$$
+
+b. The function $\phi$ achieves a minimum at $b$ if the second derivative is positive definite. Transposing the first derivative gives the gradient
+$$
+q = \left( \frac{\partial \phi(\beta)}{\partial \beta'} \right)' = -2X'\Omega^{-1}y + 2X'\Omega^{-1}X\beta,
+$$
+and the second derivative of $\phi$ is the first derivative of $q$:
+$$
+\frac{\partial^2\phi(\beta)}{\partial\beta\,\partial\beta'} =\frac{\partial q}{\partial\beta'} = 2X'\Omega^{-1}X.
+$$
+Since $\Omega^{-1}$ is positive definite, we can write
+$$
+X'\Omega^{-1}X
+= X'\Omega^{-1/2}\Omega^{-1/2}X
+= (\Omega^{-1/2}X)'(\Omega^{-1/2}X) = X_{*}'X_{*}^{},
+$$
+where $X_{*}=\Omega^{-1/2}X$ and using the fact that $\Omega^{-1/2}$ is symmetric.
+Now, $X$ has full column rank (by assumption), and hence $X_{*}$ has full column rank because $\Omega^{-1/2}$ is nonsingular.
+This implies that $X_{*}'X_{*}^{}$ has full rank and hence that $2X'\Omega^{-1}X$ (the second derivative of $\phi$) is positive definite.
+
+:::
+
+
+
+# Long exercises
+
+## Exercise 1
+Consider the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}, \qquad (i=1,\ldots, n).
+$$
+A student in the course Econometrics I reads about the least-squares estimation method to estimate the unknown parameters $\beta_{1}$ and $\beta_{2}$. She wonders why we choose to minimize the sum of *squared* residuals.
+
+a. Show that minimizing $\sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})$ with respect to $\beta_{1}$ and $\beta_{2}$ leads to non-unique solutions for the estimators. *Hint:* What are the first-order conditions in this case?
+
+b. Illustrate the non-uniqueness of the estimators on the data set given below (@tbl-dataset) by finding (at least) two regression lines with a sum of residuals equal to zero.
+
+|$i$ | $x_{i}$ | $y_{i}$ |
+|:---|--------:|--------:|
+|1   | 2       | 4       |
+|2   | 3       | 6       |
+|3   | 2       | 6       |
+|4   | 3       | 8       |
+
+: Data set {#tbl-dataset}
+
+The students reads that minimizing the sum of absolute residuals, i.e. minimizing $\sum_{i=1}^{n} | y_{i} - \beta_{1} - \beta_{2}x_{i} |$ with respect to $\beta_{1}$ and $\beta_{2}$ might also lead to a non-unique solution. However, there are also favors in favor of such an approach.
+
+c. Which weakness of the least-squares method is less prevalent in the case of minimizing the sum of absolute residuals?
+
+d. We derived the least-squares estimators $\widehat{\beta}_{1}$ and $\widehat{\beta}_{2}$. Suppose that we now instead want to find estimators by minimizing $\sum_{i=1}^{n} | y_{i} - \beta_{1} - \beta_{2}x_{i}|$ with respect to $\beta_{1}$ and $\beta_{2}$. What problems do we run into when we solve the minimization problem in the same way as for the least-squares estimators?
+
+The student makes a trade-off between the estimation methods and believes least squares is probably the best choice. Therefore, she wants to show that least squares really **minimizes**. Besides, she is interested in the relationship between two measures of fit $R^{2}$ and $SER$.
+
+e. Show that least squares really solves a minimization problem. *Hint:* You can use that for a function with two arguments $f(x, y)$, the second derivative test can be used. Let $D = \frac{\partial^{2} f(x,y)}{\partial x^{2}} \cdot \frac{\partial^{2} f(x,y)}{\partial y^{2}} - \left( \frac{\partial^{2} f(x,y)}{\partial x \partial y} \right)^{2}$. If $\frac{\partial^{2} f(x,y)}{\partial x^{2}} > 0$ and $D > 0$, we find a minimum.
+
+f. Show that we can write $SER = \sqrt{\frac{SST(1-R^{2})}{n-2}}$ and explain this result intuitively.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Let $f(\beta_{1}, \beta_{2}) = \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})$. To solve $\min_{\beta_{1},\beta_{2}} f(\beta_{1}, \beta_{2})$ compute the following two partial derivatives:
+$$
+\frac{\partial f(\beta_{1}, \beta_{2})}{\delta \beta_{1}} = \sum_{i=1}^{n} -1 = -n, \qquad \frac{\partial f(\beta_{1}, \beta_{2})}{\partial \beta_{2}} = \sum_{i=1}^{n} -x_{i} = -\sum_{i=1}^{n} x_{i}.
+$$
+Setting these derivatives equal to zero yields:
+$$
+\frac{\partial f(\beta_{1}, \beta_{2})}{\partial \beta_{1}} = -n = 0, \qquad \frac{\partial f(\beta_{1}, \beta_{2})}{\partial \beta_{2}} = -\sum_{i=1}^{n} x_{i} = 0.
+$$
+Note that the first result implies that sample size $n$ should be equal to zero. As this is not possible, the minimization problem does not have unique solutions for $\beta_{1}$ and $\beta_{2}$.
+
+b. Note that choosing $\hat{\beta}_{1} = -4$ and $\hat{\beta}_{1} = 4$ yields $\hat{y}_{i} = -4 + 4x_{i}$. This gives $(\hat{y}_{1},\hat{y}_{2},\hat{y}_{3},\hat{y}_{4}) = (4,8,4,8)$ which leads to $(\hat{u}_{1},\hat{u}_{2},\hat{u}_{3},\hat{u}_{4}) = (0,-2,2,0)$ and thus the sum of residuals is equal to zero. However, simply choosing $\hat{\beta}_{1} = 6$ and $\hat{\beta}_{1} = 0$ yields $\hat{y}_{i} = 6$. This gives $(\hat{y}_{1},\hat{y}_{2},\hat{y}_{3},\hat{y}_{4}) = (6,6,6,6)$ which leads to $(\hat{u}_{1},\hat{u}_{2},\hat{u}_{3},\hat{u}_{4}) = (2,0,0,-2)$ and thus the sum of residuals is equal to zero. Since there are two regression lines minimizing the sum of residuals, we know that there is no unique solution.
+
+c. The least-squares method is very sensitive to outliers. This is because our objective function is to minimize the sum of **squared** residuals: the effect of an outlier is very strong because it enters in squared form. In order to ``accommodate" such an outlier, the regression line will be pulled towards the outlier. Squaring extreme points makes their contribution in the objective function much larger compared to taking their absolute values. Hence, the method of taking absolute values will be **more robust** to outliers.
+
+d. If we perform the same derivations as in least squares for $\sum_{i=1}^{n} |y_{i} - \beta_{1} - \beta_{2}x_{i}|$, we already get into trouble at the very beginning: no differentiability. 
+
+e. Note that we have already found the first partial derivatives throughout the course: $\frac{\partial f(\beta_{1},\beta_{2})}{\partial \beta_{1}} = -2\sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})$ and $\frac{\partial f(\beta_{1},\beta_{2})}{\partial \beta_{2}} = -2\sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})x_{i} = -2\sum_{i=1}^{n} (x_{i}y_{i} - \beta_{1}x_{i} - \beta_{2}x_{i}^{2})$. Now, the second partial derivatives are given by:
+$$
+\frac{\partial^2 f(\beta_{1},\beta_{2})}{\partial \beta_{1}^{2}} = 2n, \quad \frac{\partial^2 f(\beta_{1},\beta_{2})}{\partial \beta_{2}^2} = 2\sum_{i=1}^{n} x_{i}^{2}, \quad \frac{\partial^2 f(\beta_{1},\beta_{2})}{\partial \beta_{1}\partial \beta_{2}} = 2\sum_{i=1}^{n} x_{i}.
+$$	
+Note that we have:
+$$
+\begin{aligned}
+D &= \left[(2n)\left(2\sum_{i=1}^{n} x_{i}^{2}\right) - \left(2\sum_{i=1}^{n} x_{i}\right)^{2}\right] \\
+	&= 4n\sum_{i=1}^{n} x_{i}^{2} - 4\left(\sum_{i=1}^{n} x_{i}\right)^{2} \\
+	&= 4n^2 \overline{x^{2}} - 4\left(n\overline{x}\right)^2 \\
+	&= 4n^2 (\overline{x^{2}} - \overline{x}^{2}) \\
+	&= 4n^2 \left(\frac{1}{n}\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}\right) > 0,
+\end{aligned}
+$$
+where we have seen the last equality when we computed the least-squares estimator. Since $D > 0$ and $\frac{\partial^2 f(\beta_{1},\beta_{2})}{\partial \beta_{1}^{2}} = 2n > 0$, we indeed found a minimum.
+
+f. Note that $R^{2} = 1 - \frac{SSR}{SST}$. This implies that $\frac{SSR}{SST} = 1 - R^{2}$ and thus $SSR = SST(1-R^{2})$. Plugging this result in the SER formula $SER = \sqrt{\frac{SSR}{n-2}}$ gives the desired result. It remains to intuitively explain why $SSR = SST(1-R^{2}) = SST - R^{2}SST$. Note that $SST$ is the total variation in $y$ that we want to explain. $R^{2} \in [0,1]$ represents the **fraction of explained variation** of $y$ by $x$, such that $R^{2}SST$ represent exactly that variation of $y$ explained by $x$. The difference between $SST$ and $R^{2}SST$ is then exactly the remaining unexplained variation in $y$, which is the definition of $SSR$.   
+
+:::
+
+## Exercise 2
+Consider the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
+$$
+for which we have shown that the least-squares estimators are given by
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}} \quad \text{ and } \quad \hat{\beta}_{1} = \overline{y} - \hat{\beta}_{2}\overline{x}.
+$$
+Moreover, we assume that the regressor is random.
+
+a. Show that 
+$$
+\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y}) = \sum_{i=1}^{n} (x_{i} - \overline{x})y_{i} = \sum_{i=1}^{n} (y_{i} - \overline{y})x_{i}.
+$$
+
+Note that we can now rewrite $\hat{\beta}_{2}$ as 
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})y_{i}}{\mbox{TSS}_{X}}, 
+$$ {#eq-betaTSSx}
+where $\mbox{TSS}_{X} = \sum_{i=1}^{n} (x_{i} - \overline{x})^{2}$, i.e. the total sum of squares of $x$.
+
+b. Show that (@eq-betaTSSx) can be rewritten as $\hat{\beta}_{2} = \beta_{2} + (1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}u_{i}$, where $W_{i} = (x_{i} - \overline{x})$.
+
+c. Use the result in b. to show $\hat{\beta}_{2}$ is unbiased for $\beta_{2}$.
+
+d. Show that $\hat{\beta}_{1}$ is unbiased for $\beta_{1}$ using c.
+
+e. Show that the difference between $u_{i}$ and $e_{i}$ has an expected value of zero.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that
+$$
+\begin{aligned}
+\sum_{i=1}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y}) &= \sum_{i=1}^{n} (x_{i}y_{i} - \overline{y}x_{i} - \overline{x}y_{i} + \overline{x} \ \overline{y}) \\
+&= \sum_{i=1}^{n} x_{i}y_{i} - n\overline{x} \ \overline{y} - n\overline{x} \ \overline{y} + n\overline{x} \ \overline{y} \\
+&= \sum_{i=1}^{n} x_{i}y_{i} - n\overline{x} \ \overline{y}.
+\end{aligned}
+$$
+From this expression, we have:
+$$
+\begin{aligned}
+& \bullet \sum_{i=1}^{n} x_{i}y_{i} - n\overline{x} \ \overline{y} = \sum_{i=1}^{n} (x_{i} - \overline{x})y_{i} \quad \text{ as } \quad \sum_{i=1}^{n} \overline{x}y_{i} = \overline{x}\sum_{i=1}^{n} y_{i} = n\overline{x} \ \overline{y} \\
+& \bullet \sum_{i=1}^{n} x_{i}y_{i} - n\overline{x} \ \overline{y} = \sum_{i=1}^{n} (y_{i} - \overline{y})x_{i} \quad \text{ as } \quad \sum_{i=1}^{n} \overline{y}x_{i} = \overline{y}\sum_{i=1}^{n} x_{i} = n\overline{x} \ \overline{y}
+\end{aligned}
+$$
+
+b.  From (@eq-betaTSSx), it follows:
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})y_{i}}{\mbox{TSS}_{X}} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})(\beta_{1} + \beta_{2}x_{i} + u_{i})}{\mbox{TSS}_{X}}.
+$$
+Let us focus on the numerator, which can be written in three terms:
+$$
+\underbrace{\beta_{1}\sum_{i=1}^{n} (x_{i} - \overline{x})}_{(A)} + \underbrace{\beta_{2} \sum_{i=1}^{n} (x_{i} - \overline{x})x_{i}}_{(B)} + \underbrace{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}_{(C)}.
+$$
+Note that
+$$
+\begin{aligned}
+&(A): \beta_{1}\sum_{i=1}^{n} (x_{i} - \overline{x}) = \beta_{1}\left(\sum_{i=1}^{n} x_{i} - n\overline{x}\right) = \beta_{1}(n\overline{x} - n\overline{x}) = 0, \\
+&(B): \beta_{2}\sum_{i=1}^{n}(x_{i}-\overline{x})x_{i} = \beta_{2}\left(\sum_{i=1}^{n} x_{i}^{2} - n\overline{x}^{2}\right) = \beta_{2} \sum_{i=1}^{n} (x_{i} - \overline{x})^{2} = \beta_{2}\mbox{TSS}_{X}, \\
+&(C): \sum_{i=1}^{n} (x_{i} - \overline{x})u_{i} = \sum_{i=1}^{n} W_{i}u_{i}.
+\end{aligned}
+$$
+This yields
+$$
+\begin{aligned}
+\hat{\beta}_{2} &= \frac{\beta_{1}\sum_{i=1}^{n} (x_{i} - \overline{x})}{\mbox{TSS}_{X}} + \frac{\beta_{2}\sum_{i=1}^{n}(x_{i}-\overline{x})x_{i}}{\mbox{TSS}_{X}} + \frac{\sum_{i=1}^{n} (x_{i} - \overline{x})u_{i}}{\mbox{TSS}_{X}} \\
+&= \frac{0}{\mbox{TSS}_{X}} + \frac{\beta_{2}\mbox{TSS}_{X}}{\mbox{TSS}_{X}} + \frac{\sum_{i=1}^{n} W_{i}u_{i}}{\mbox{TSS}_{X}} \\
+&= \beta_{2} + (1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}u_{i}.
+\end{aligned}
+$$
+
+c. Let $X = (x_{1}, \ldots, x_{n})$, then
+$$ 
+\begin{aligned}
+E(\hat{\beta}_{2}) &= \beta_{2} + E\left[(1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}u_{i}\right] \\
+&= \beta_{2} + E_{X}\left[ E\left((1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}u_{i} \Bigg{|} X \right)\right] \\
+&= \beta_{2} + E_{X}\left[ (1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}E(u_{i} | X)\right] \\
+&= \beta_{2} + E_{X}\left[ (1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i} \cdot 0 \right] \\
+&= \beta_{2},
+\end{aligned}
+$$
+and note that $E(u_{i} | X) = E(u_{i} | x_{i}) = 0$.
+
+d. Averaging the linear regression model yields $\overline{y} = \beta_{1} + \beta_{2}\overline{x} + \overline{u}$. Plugging this result into the expression for $\hat{\beta}_{1}$ gives:
+$$
+\hat{\beta}_{1} = \overline{y} - \hat{\beta}_{2}\overline{x} = (\beta_{1} + \beta_{2}\overline{x} + \overline{u}) - \hat{\beta}_{2}\overline{x} = \beta_{1} + (\beta_{2} - \hat{\beta}_{2})\overline{x} + \overline{u}.
+$$
+This leads to
+$$
+\begin{aligned}
+E(\hat{\beta}_{1}) &= \beta_{1} + E[(\beta_{2} - \hat{\beta}_{2})\overline{x}] + E(\overline{u}) \\
+&= \beta_{1} + E_{X}\left[\overline{x} \cdot E[(\beta_{2} - \hat{\beta}_{2}) | X]\right] \\
+&= \beta_{1} + E_{X}\left[\overline{x} \cdot 0 \right] \\
+&= \beta_{1},
+\end{aligned}
+$$
+where $E(\overline{u}) = \frac{1}{n}\sum_{i=1}^{n} E(u_{i}) = 0$ (as a consequence of strict exogeneity) and $E[(\beta_{2} - \hat{\beta}_{2})|X] = 0$ (as $\hat{\beta}_{2}$ is unbiased for $\beta_{2}$).
+
+e. Note that $e_{i} = y_{i} - \hat{y}_{i} = y_{i} - \hat{\beta}_{1} - \hat{\beta}_{2}x_{i}$. Substituting $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$ into this expression yields:
+$$
+e_{i} - u_{i} = -(\hat{\beta}_{1} - \beta_{1}) - (\hat{\beta}_{2} - \beta_{2})x_{i}. 
+$$
+Since we have shown that $E[(\hat{\beta}_{1} - \beta_{1})] = 0$ (from d.) and $E[(\hat{\beta}_{2} - \beta_{2})x_{i}] = E_{X}\left[x_{i}E[(\hat{\beta}_{2} - \beta_{2})|x_{i}]\right] = 0$ (from c.). Therefore $E(e_{i} - u_{i}) = 0$.
+
+:::

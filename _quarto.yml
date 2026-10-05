@@ -43,6 +43,8 @@ website:
           text: "Week 6"
         - href: ./part 1/exercises-week6.qmd
           text: "Exercises Week 6"
+        - href: ./part 1/exam-practice.qmd
+          text: "Exam Practice"
       - section: "Part 2"
         href: ./part 2/index.qmd
         contents:

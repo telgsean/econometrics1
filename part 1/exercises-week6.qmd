@@ -50,7 +50,7 @@ b. Suppose $x_{i}$ is standard normally distributed and $y_{i} = x_{i}^{2}$. Det
 
 *Hint:* Compute the covariance between $x_{i}$ and $y_{i}$ and make use of the fact that $x_{i}$ is normally distributed. 
 
-3) The previous exercise gave some interesting insights. If you did it correctly, you found that the correlation is zero. In the code block below, you find code to simulate some data. For $i = 1, \ldots, n$, generate $x_{i} \sim N(\mu = 0, \sigma = 5)$ and take $y_{i} = x_{i}^{2}$ with $n = 500$. After that we do the following.
+c. The previous exercise gave some interesting insights. If you did it correctly, you found that the correlation is zero. In the code block below, you find code to simulate some data. For $i = 1, \ldots, n$, generate $x_{i} \sim N(\mu = 0, \sigma = 5)$ and take $y_{i} = x_{i}^{2}$ with $n = 500$. After that we do the following.
    
    1) We estimate three different regression models: the intercept-only model, a regression of $x$ on $y$, and a regression of $x^2$ on $y$.
    
@@ -104,7 +104,7 @@ c. Plot 1 show that between -5 and 5, the mean of $u$ is below $\widehat{\beta}_
 
 ## Exercise 4
 
-a. Suppose $(x_{1}, x_{2}, \ldots, x_{n})$ are independent and identically distributed, each with mean $\mu$ and variance $\sigma^{2}$. In the following derivations, indicate at which equality sign(s) we use the properties (i) *independence*, (ii) *identical distribution*, (iii) *linearity property* of the mean or (iv) *scaling property* of the variance.
+a. Suppose $x_{1}, x_{2}, \ldots, x_{n}$ are independent and identically distributed, each with mean $\mu$ and variance $\sigma^{2}$. In the following derivations, indicate at which equality sign(s) we use the properties (i) *independence*, (ii) *identical distribution*, (iii) *linearity property* of the mean or (iv) *scaling property* of the variance.
    
 - $E(\overline{x}) = E(\frac{1}{n}\sum_{i=1}^{n} x_{i}) = \frac{1}{n} E(\sum_{i=1}^{n} x_{i}) = \frac{1}{n} \sum_{i=1}^{n} E(x_{i}) = \frac{1}{n} \sum_{i=1}^{n} \mu = \frac{1}{n} n\mu = \mu$.
    
@@ -152,6 +152,49 @@ The mistakes and used assumptions are as follows:
 - In point d., we cannot claim that the expectation of a fraction is the fraction of the expectations (!). One can find easy counterexamples (even under independence of random variables) and a formal proof can be made using Jensen's Inequality. In general, $E(1/y) \geq 1/E(y)$ because the function $f(y) = 1/y$ is convex for $y > 0$.
 - In point d., it also does not hold that we have to show that "the numerator equals zero" (because the first part is not true). The complete fraction needs to be zero in expectation.
 - In point e., the conditioning is wrong. In order to pull $\sum_{i=1}^{n} (x_{i} - \overline{x})$ out of the inner expectation, we need to condition on **all** $x$, i.e. $X = (x_{1},\ldots,x_{n})$. It is insufficient to condition on just one $x_{i}$, as e.g. $\overline{x}$ consists of all $x$.
-- In point e., we therefore use $E(u_{i} | x_{1}, \ldots, x_{n}) = E(u_{i} | x_{i}) = 0$, where the first equality is due random sampling where respondents $i$ and $j$ are independent for $i \neq j$). The second equality follows by strict exogeneity. Note that the outer expectation, which is applied to the whole fraction, is with respect to the distribution of $X = (x_{1}, \ldots, x_{n})$, and should thus be denoted $E_{X}$ instead of $E_{x_{i}}$. 
+- In point e., we therefore use $E(u_{i} | x_{1}, \ldots, x_{n}) = E(u_{i} | x_{i}) = 0$, where the first equality is due random sampling where respondents $i$ and $j$ are independent for $i \neq j$. The second equality follows by strict exogeneity. Note that the outer expectation, which is applied to the whole fraction, is with respect to the distribution of $X = (x_{1}, \ldots, x_{n})$, and should thus be denoted $E_{X}$ instead of $E_{x_{i}}$. 
 
 :::
+
+## Exercise 6
+*(6.21 in ME)* Let $y = X\beta + u$ with $E(u|X) = 0$ and $E(uu'|X) = \sigma^{2}I_{n}$. Let $\tilde{\beta} = A'y$ be a linear estimator of $\beta$, which implies that $A$ may depend on $X$ but not on $y$.
+
+a. Show that $E(\tilde{\beta} | X) = A'X\beta$ and $\Var(\tilde{\beta}| X) = \sigma^{2}A'A,
+b. Find the unconditional mean and variance of $\tilde{\beta}$.
+c. Show that $\tilde{\beta}$ is unbiased if and only if $E(A'X) = I_{k}$.
+d. Show that $\tilde{\beta}$ is best linear unbiased if $\Pr(A'X = I_{k}) = 1$.
+e. What happens when $E(A'X) = I_{k}$ but $\Pr(A'X = I_{k}) < 1$?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 6.21.
+
+::: 
+
+## Exercise 7
+Suppose we are given the model
+$$
+y = X\beta + u, \quad E(u|X) = 0, \quad \Var(u|X) = \Omega,
+$$
+where $\Omega$ is a nonrandom positive definite $n \times n$ variance matrix which may be nondiagonal. In Exercise 2.14 of ME, we found the generalized least-squares (GLS) estimator $\hat{\beta} = (X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y$ when $X$ is nonrandom. Now consider the case where $X$ is random.
+
+a. Find the GLS estimator $\hat{\beta}$ in case $X$ is random.
+b. Show that $\hat{\beta}$ is unbiased and find its variance.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 6.22.
+
+::: 
+
+## Exercise 8
+Consider the same model as in Exercise 7. Suppose we estimate $\beta$ by least squares, not by generalized least squares.
+
+a. Find the mean and variance of the least-squares estimator.
+b. Can we determine the distribution of $\hat{\beta} | X$?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 6.23.
+
+::: 
