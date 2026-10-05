@@ -159,7 +159,7 @@ The mistakes and used assumptions are as follows:
 ## Exercise 6
 *(6.21 in ME)* Let $y = X\beta + u$ with $E(u|X) = 0$ and $E(uu'|X) = \sigma^{2}I_{n}$. Let $\tilde{\beta} = A'y$ be a linear estimator of $\beta$, which implies that $A$ may depend on $X$ but not on $y$.
 
-a. Show that $E(\tilde{\beta} | X) = A'X\beta$ and $\Var(\tilde{\beta}| X) = \sigma^{2}A'A,
+a. Show that $E(\tilde{\beta} | X) = A'X\beta$ and $\Var(\tilde{\beta}| X) = \sigma^{2}A'A$,
 b. Find the unconditional mean and variance of $\tilde{\beta}$.
 c. Show that $\tilde{\beta}$ is unbiased if and only if $E(A'X) = I_{k}$.
 d. Show that $\tilde{\beta}$ is best linear unbiased if $\Pr(A'X = I_{k}) = 1$.

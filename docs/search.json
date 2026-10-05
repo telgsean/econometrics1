@@ -690,7 +690,7 @@
     "href": "part 1/exercises-week6.html#exercise-6",
     "title": "Week 6 - Exercises",
     "section": "Exercise 6",
-    "text": "Exercise 6\n(6.21 in ME) Let \\(y = X\\beta + u\\) with \\(E(u|X) = 0\\) and \\(E(uu'|X) = \\sigma^{2}I_{n}\\). Let \\(\\tilde{\\beta} = A'y\\) be a linear estimator of \\(\\beta\\), which implies that \\(A\\) may depend on \\(X\\) but not on \\(y\\).\n\nShow that \\(E(\\tilde{\\beta} | X) = A'X\\beta\\) and $(| X) = ^{2}A’A,\nFind the unconditional mean and variance of \\(\\tilde{\\beta}\\).\nShow that \\(\\tilde{\\beta}\\) is unbiased if and only if \\(E(A'X) = I_{k}\\).\nShow that \\(\\tilde{\\beta}\\) is best linear unbiased if \\(\\Pr(A'X = I_{k}) = 1\\).\nWhat happens when \\(E(A'X) = I_{k}\\) but \\(\\Pr(A'X = I_{k}) &lt; 1\\)?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 6.21.",
+    "text": "Exercise 6\n(6.21 in ME) Let \\(y = X\\beta + u\\) with \\(E(u|X) = 0\\) and \\(E(uu'|X) = \\sigma^{2}I_{n}\\). Let \\(\\tilde{\\beta} = A'y\\) be a linear estimator of \\(\\beta\\), which implies that \\(A\\) may depend on \\(X\\) but not on \\(y\\).\n\nShow that \\(E(\\tilde{\\beta} | X) = A'X\\beta\\) and \\(\\Var(\\tilde{\\beta}| X) = \\sigma^{2}A'A\\),\nFind the unconditional mean and variance of \\(\\tilde{\\beta}\\).\nShow that \\(\\tilde{\\beta}\\) is unbiased if and only if \\(E(A'X) = I_{k}\\).\nShow that \\(\\tilde{\\beta}\\) is best linear unbiased if \\(\\Pr(A'X = I_{k}) = 1\\).\nWhat happens when \\(E(A'X) = I_{k}\\) but \\(\\Pr(A'X = I_{k}) &lt; 1\\)?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 6.21.",
     "crumbs": [
       "Part 1",
       "Exercises Week 6"

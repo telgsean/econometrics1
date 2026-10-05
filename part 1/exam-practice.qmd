@@ -225,11 +225,8 @@ $$ {#eq-betaTSSx}
 where $\mbox{TSS}_{X} = \sum_{i=1}^{n} (x_{i} - \overline{x})^{2}$, i.e. the total sum of squares of $x$.
 
 b. Show that (@eq-betaTSSx) can be rewritten as $\hat{\beta}_{2} = \beta_{2} + (1/\mbox{TSS}_{X})\sum_{i=1}^{n} W_{i}u_{i}$, where $W_{i} = (x_{i} - \overline{x})$.
-
 c. Use the result in b. to show $\hat{\beta}_{2}$ is unbiased for $\beta_{2}$.
-
 d. Show that $\hat{\beta}_{1}$ is unbiased for $\beta_{1}$ using c.
-
 e. Show that the difference between $u_{i}$ and $e_{i}$ has an expected value of zero.
 
 ::: {.callout-caution title="Solution" collapse = true}
