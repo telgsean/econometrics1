@@ -128,6 +128,83 @@ This implies that $X_{*}'X_{*}^{}$ has full rank and hence that $2X'\Omega^{-1}X
 
 :::
 
+## Exercise 3
+Derive that $\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k)$ and use that result to compute the mean and variance of $s^{2} = e'e/(n-k)$ and $\hat{\sigma}^{2} = e'e/n$.
+
+::: {.callout-caution title="Solution" collapse = true}
+Since $u \sim N(0,\sigma^{2}I_{n})$, we have $v = u/\sigma \sim N(0,I_{n})$. Furthermore, we
+recognize $e = Mu$ and thus
+$$
+\frac{e'e}{\sigma^{2}} = v'Mv \sim \chi^{2}(n-k),
+$$
+using equation (B.6) and $\mbox{r}(M) = n - k$. Since $s^{2} = e'e/(n-k)$, we obtain
+$$
+\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k).
+$$
+Using this result, we know
+$$
+E \left( \frac{(n-k)s^{2}}{\sigma^{2}} \right) = n-k, \qquad \Var\left( \frac{(n-k)s^{2}}{\sigma^{2}} \right) = 2(n-k).
+$$
+Thus, $E(s^{2}) = \sigma^{2}$ and $\Var(s^{2}) = 2\sigma^{4}/(n-k)$. By recognizing that $\hat{\sigma}^{2} = \frac{n-k}{n}s^{2}$,
+it follow directly that
+$$
+\begin{aligned}
+&E(\hat{\sigma}^{2}) = \frac{n-k}{n} E(s^{2}) = \frac{n-k}{n}\sigma^{2}, \\ 
+&\Var(\hat{\sigma}^{2}) = \left(\frac{n-k}{n}\right)^{2} \Var(s^{2}) = \frac{2(n-k)\sigma^{4}}{n^2}.
+\end{aligned}
+$$
+
+:::
+
+## Exercise 4
+Consider the estimator $s_{*}^2= \alpha e'e$ where $\alpha$ is a constant. For which value of $\alpha$ do we obtain the
+lowest mean squared error (under normality)?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+We know that
+$$
+\frac{(n-k)s^2}{\sigma^2}=\frac{e'e}{\sigma^2}\sim\chi^2(n-k).
+$$
+Hence,
+$$
+E(e'e)=(n-k)\sigma^2,
+\qquad
+\Var(e'e)=2(n-k)\sigma^4
+$$
+and
+$$
+\text{bias}(s_{*}^2)= E(s_{*}^2)-\sigma^2=((n-k)\alpha-1)\sigma^2,
+\qquad
+\Var(s_{*}^2)=2(n-k)\alpha^2\sigma^4.
+$$
+This gives
+$$
+\begin{aligned}
+\text{MSE}(s_{*}^2)
+&=\sigma^4\left[((n-k)\alpha-1)^2+2(n-k)\alpha^2\right]\\
+&=\sigma^4\left[(n-k)(n-k+2)\alpha^2 -2(n-k)\alpha + 1 \right]=\sigma^4f(\alpha).
+\end{aligned}
+$$
+Setting the derivative to zero gives
+$$
+f'(\alpha)=2(n-k)(n-k+2)\alpha -2(n-k)=0
+$$
+and hence
+$$
+\alpha^*= 1/(n-k+2).
+$$
+Since $f(\alpha)$ is a simple quadratic function with a positive coefficient of $\alpha^2$, the stationary point corresponds to a minimum.
+Hence,
+$$
+s_{*}^2= \alpha^* e'e = \frac{e'e}{n-k+2}.
+$$
+
+:::
+
+
+
+
 
 
 # Long exercises
@@ -306,3 +383,56 @@ $$
 Since we have shown that $E[(\hat{\beta}_{1} - \beta_{1})] = 0$ (from d.) and $E[(\hat{\beta}_{2} - \beta_{2})x_{i}] = E_{X}\left[x_{i}E[(\hat{\beta}_{2} - \beta_{2})|x_{i}]\right] = 0$ (from c.). Therefore $E(e_{i} - u_{i}) = 0$.
 
 :::
+
+## Exercise 3
+Throughout the course, we have seen that $$s^{2} = e'e/(n − k)$ and $b = (X'X)^{-1}X'y$ are independent (section 3.4 of the book). The book states *This independence is a key result
+in econometrics without which the usual tests and confidence intervals would be much more complicated*.
+
+a. Explain this statement by constructing a *t*-test for $H_{0} : \beta_{j} = 0$.
+b. Show that $e = y - Xb$ and $b$ are uncorrelated by showing $\Cov(e, b) = 0$.
+c. Show that $\overline{R}^{2} = 1 − \frac{s^2}{y'Ay/(n-1)}$ is equal to $1 − \frac{n-1}{n-k}(1 − R^{2})$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. From Appendix B.4., we know that $\frac{x}{\sqrt{w/n}} \sim t(n)$ only if $x$ and $w$ are independent. Therefore $t = \frac{b_{j}}{\sqrt{s^{2}v_{jj}}}$ only follows a Student $t$-distribution if $b$ and $s^{2}$ are independent. 
+
+b. Note that
+$$
+e = (y- Xb) = y- X(X'X)^{-1}X'y = (I - X(X'X)^{-1}X')y = My,
+$$
+where $M$ denotes the residual maker matrix. Note that
+$$
+My = M(X\beta + u) = MX\beta + Mu = Mu,
+$$
+since $MX = (I - X(X'X)^{-1}X')X = X - X = 0$. Therefore, we have
+$$
+E(e) = ME(u) = 0.
+$$
+This yields
+$$
+\begin{aligned}
+\Cov(e, b) &= E(e - E(e))(b - E(b))' = E[e(b-\beta)'] \\
+&= E(eb') - E(e)\beta' = E(Mu[(X'X)^{-1}X'y]') \\
+&=  ME(uy')X(X'X)^{-1}.
+\end{aligned}
+$$
+Now, note that $E(uy') = E(u(X\beta + u)) = E(uu') + \beta X'E(u) = \sigma^{2}I_{n}$. Plugging this result
+in the covariance yields
+$$
+\Cov(e, b) = M \sigma^{2}I_{n} X(X'X)^{-1} = \sigma^{2}MX(X'X)^{-1} = 0,
+$$
+as $MX=0$. *Small note: this year, we officially did not consider variance and covariance matrices for which the inputs have different lengths*.
+
+c. Note that
+$$
+\begin{aligned}
+\overline{R}^{2} &= 1 - \frac{s^{2}}{y'Ay/(n-1)} \\
+								 &= 1 - \frac{e'e/(n-k)}{y'Ay/(n-1)} \\
+								 &= 1 - \left(\frac{n-1}{n-k}\right)\left(\frac{e'e}{y'Ay}\right) \\
+								 &= 1 - \left(\frac{n-1}{n-k}\right)\left(\frac{y'Ay - \hat{y}'A\hat{y}}{y'Ay}\right) \\
+								 &= 1 - \left(\frac{n-1}{n-k}\right)(1-R^{2}).
+\end{aligned}
+$$
+
+:::
+

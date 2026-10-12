@@ -691,11 +691,14 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a></li>
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
   </ul></li>
   <li><a href="#long-exercises" id="toc-long-exercises" class="nav-link" data-scroll-target="#long-exercises">Long exercises</a>
   <ul class="collapse">
   <li><a href="#exercise-1-1" id="toc-exercise-1-1" class="nav-link" data-scroll-target="#exercise-1-1">Exercise 1</a></li>
   <li><a href="#exercise-2-1" id="toc-exercise-2-1" class="nav-link" data-scroll-target="#exercise-2-1">Exercise 2</a></li>
+  <li><a href="#exercise-3-1" id="toc-exercise-3-1" class="nav-link" data-scroll-target="#exercise-3-1">Exercise 3</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -833,6 +836,79 @@ X'\Omega^{-1}X
 </div>
 </div>
 </section>
+<section id="exercise-3" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>Derive that <span class="math inline">\(\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k)\)</span> and use that result to compute the mean and variance of <span class="math inline">\(s^{2} = e'e/(n-k)\)</span> and <span class="math inline">\(\hat{\sigma}^{2} = e'e/n\)</span>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Since <span class="math inline">\(u \sim N(0,\sigma^{2}I_{n})\)</span>, we have <span class="math inline">\(v = u/\sigma \sim N(0,I_{n})\)</span>. Furthermore, we recognize <span class="math inline">\(e = Mu\)</span> and thus <span class="math display">\[
+\frac{e'e}{\sigma^{2}} = v'Mv \sim \chi^{2}(n-k),
+\]</span> using equation (B.6) and <span class="math inline">\(\mbox{r}(M) = n - k\)</span>. Since <span class="math inline">\(s^{2} = e'e/(n-k)\)</span>, we obtain <span class="math display">\[
+\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k).
+\]</span> Using this result, we know <span class="math display">\[
+E \left( \frac{(n-k)s^{2}}{\sigma^{2}} \right) = n-k, \qquad \Var\left( \frac{(n-k)s^{2}}{\sigma^{2}} \right) = 2(n-k).
+\]</span> Thus, <span class="math inline">\(E(s^{2}) = \sigma^{2}\)</span> and <span class="math inline">\(\Var(s^{2}) = 2\sigma^{4}/(n-k)\)</span>. By recognizing that <span class="math inline">\(\hat{\sigma}^{2} = \frac{n-k}{n}s^{2}\)</span>, it follow directly that <span class="math display">\[
+\begin{aligned}
+&amp;E(\hat{\sigma}^{2}) = \frac{n-k}{n} E(s^{2}) = \frac{n-k}{n}\sigma^{2}, \\
+&amp;\Var(\hat{\sigma}^{2}) = \left(\frac{n-k}{n}\right)^{2} \Var(s^{2}) = \frac{2(n-k)\sigma^{4}}{n^2}.
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
+<p>Consider the estimator <span class="math inline">\(s_{*}^2= \alpha e'e\)</span> where <span class="math inline">\(\alpha\)</span> is a constant. For which value of <span class="math inline">\(\alpha\)</span> do we obtain the lowest mean squared error (under normality)?</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We know that <span class="math display">\[
+\frac{(n-k)s^2}{\sigma^2}=\frac{e'e}{\sigma^2}\sim\chi^2(n-k).
+\]</span> Hence, <span class="math display">\[
+E(e'e)=(n-k)\sigma^2,
+\qquad
+\Var(e'e)=2(n-k)\sigma^4
+\]</span> and <span class="math display">\[
+\text{bias}(s_{*}^2)= E(s_{*}^2)-\sigma^2=((n-k)\alpha-1)\sigma^2,
+\qquad
+\Var(s_{*}^2)=2(n-k)\alpha^2\sigma^4.
+\]</span> This gives <span class="math display">\[
+\begin{aligned}
+\text{MSE}(s_{*}^2)
+&amp;=\sigma^4\left[((n-k)\alpha-1)^2+2(n-k)\alpha^2\right]\\
+&amp;=\sigma^4\left[(n-k)(n-k+2)\alpha^2 -2(n-k)\alpha + 1 \right]=\sigma^4f(\alpha).
+\end{aligned}
+\]</span> Setting the derivative to zero gives <span class="math display">\[
+f'(\alpha)=2(n-k)(n-k+2)\alpha -2(n-k)=0
+\]</span> and hence <span class="math display">\[
+\alpha^*= 1/(n-k+2).
+\]</span> Since <span class="math inline">\(f(\alpha)\)</span> is a simple quadratic function with a positive coefficient of <span class="math inline">\(\alpha^2\)</span>, the stationary point corresponds to a minimum. Hence, <span class="math display">\[
+s_{*}^2= \alpha^* e'e = \frac{e'e}{n-k+2}.
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="long-exercises" class="level1">
 <h1>Long exercises</h1>
@@ -896,7 +972,7 @@ Table&nbsp;1: Data set
 <li><p>Show that we can write <span class="math inline">\(SER = \sqrt{\frac{SST(1-R^{2})}{n-2}}\)</span> and explain this result intuitively.</p></li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -905,7 +981,7 @@ Table&nbsp;1: Data set
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="a">
 <li><p>Let <span class="math inline">\(f(\beta_{1}, \beta_{2}) = \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})\)</span>. To solve <span class="math inline">\(\min_{\beta_{1},\beta_{2}} f(\beta_{1}, \beta_{2})\)</span> compute the following two partial derivatives: <span class="math display">\[
@@ -956,7 +1032,7 @@ y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
 <li>Show that the difference between <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(e_{i}\)</span> has an expected value of zero.</li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -965,7 +1041,7 @@ y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="a">
 <li><p>Note that <span class="math display">\[
@@ -1019,6 +1095,57 @@ E(\hat{\beta}_{1}) &amp;= \beta_{1} + E[(\beta_{2} - \hat{\beta}_{2})\overline{x
 <li><p>Note that <span class="math inline">\(e_{i} = y_{i} - \hat{y}_{i} = y_{i} - \hat{\beta}_{1} - \hat{\beta}_{2}x_{i}\)</span>. Substituting <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}\)</span> into this expression yields: <span class="math display">\[
 e_{i} - u_{i} = -(\hat{\beta}_{1} - \beta_{1}) - (\hat{\beta}_{2} - \beta_{2})x_{i}.
 \]</span> Since we have shown that <span class="math inline">\(E[(\hat{\beta}_{1} - \beta_{1})] = 0\)</span> (from d.) and <span class="math inline">\(E[(\hat{\beta}_{2} - \beta_{2})x_{i}] = E_{X}\left[x_{i}E[(\hat{\beta}_{2} - \beta_{2})|x_{i}]\right] = 0\)</span> (from c.). Therefore <span class="math inline">\(E(e_{i} - u_{i}) = 0\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3-1" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-1">Exercise 3</h2>
+<p>Throughout the course, we have seen that $<span class="math inline">\(s^{2} = e'e/(n − k)\)</span> and <span class="math inline">\(b = (X'X)^{-1}X'y\)</span> are independent (section 3.4 of the book). The book states <em>This independence is a key result in econometrics without which the usual tests and confidence intervals would be much more complicated</em>.</p>
+<ol type="a">
+<li>Explain this statement by constructing a <em>t</em>-test for <span class="math inline">\(H_{0} : \beta_{j} = 0\)</span>.</li>
+<li>Show that <span class="math inline">\(e = y - Xb\)</span> and <span class="math inline">\(b\)</span> are uncorrelated by showing <span class="math inline">\(\Cov(e, b) = 0\)</span>.</li>
+<li>Show that <span class="math inline">\(\overline{R}^{2} = 1 − \frac{s^2}{y'Ay/(n-1)}\)</span> is equal to <span class="math inline">\(1 − \frac{n-1}{n-k}(1 − R^{2})\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>From Appendix B.4., we know that <span class="math inline">\(\frac{x}{\sqrt{w/n}} \sim t(n)\)</span> only if <span class="math inline">\(x\)</span> and <span class="math inline">\(w\)</span> are independent. Therefore <span class="math inline">\(t = \frac{b_{j}}{\sqrt{s^{2}v_{jj}}}\)</span> only follows a Student <span class="math inline">\(t\)</span>-distribution if <span class="math inline">\(b\)</span> and <span class="math inline">\(s^{2}\)</span> are independent.</p></li>
+<li><p>Note that <span class="math display">\[
+e = (y- Xb) = y- X(X'X)^{-1}X'y = (I - X(X'X)^{-1}X')y = My,
+\]</span> where <span class="math inline">\(M\)</span> denotes the residual maker matrix. Note that <span class="math display">\[
+My = M(X\beta + u) = MX\beta + Mu = Mu,
+\]</span> since <span class="math inline">\(MX = (I - X(X'X)^{-1}X')X = X - X = 0\)</span>. Therefore, we have <span class="math display">\[
+E(e) = ME(u) = 0.
+\]</span> This yields <span class="math display">\[
+\begin{aligned}
+\Cov(e, b) &amp;= E(e - E(e))(b - E(b))' = E[e(b-\beta)'] \\
+&amp;= E(eb') - E(e)\beta' = E(Mu[(X'X)^{-1}X'y]') \\
+&amp;=  ME(uy')X(X'X)^{-1}.
+\end{aligned}
+\]</span> Now, note that <span class="math inline">\(E(uy') = E(u(X\beta + u)) = E(uu') + \beta X'E(u) = \sigma^{2}I_{n}\)</span>. Plugging this result in the covariance yields <span class="math display">\[
+\Cov(e, b) = M \sigma^{2}I_{n} X(X'X)^{-1} = \sigma^{2}MX(X'X)^{-1} = 0,
+\]</span> as <span class="math inline">\(MX=0\)</span>. <em>Small note: this year, we officially did not consider variance and covariance matrices for which the inputs have different lengths</em>.</p></li>
+<li><p>Note that <span class="math display">\[
+\begin{aligned}
+\overline{R}^{2} &amp;= 1 - \frac{s^{2}}{y'Ay/(n-1)} \\
+                              &amp;= 1 - \frac{e'e/(n-k)}{y'Ay/(n-1)} \\
+                              &amp;= 1 - \left(\frac{n-1}{n-k}\right)\left(\frac{e'e}{y'Ay}\right) \\
+                              &amp;= 1 - \left(\frac{n-1}{n-k}\right)\left(\frac{y'Ay - \hat{y}'A\hat{y}}{y'Ay}\right) \\
+                              &amp;= 1 - \left(\frac{n-1}{n-k}\right)(1-R^{2}).
+\end{aligned}
+\]</span></p></li>
 </ol>
 </div>
 </div>
