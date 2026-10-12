@@ -12,8 +12,6 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 
 The exercises below are a mix of exam questions of the previous years. Because the course setup has changed, these exercises have been "translated" to the current notation. The emphasis of the course has also shifted, which means that some exercises might be quite lengthy on specific topics. Nonetheless, the present good preparation material (practicing a lot is important!)
 
-# Short exercises
-
 ## Exercise 1
 Consider the (simplified) linear regression model given by
 $$
@@ -203,13 +201,7 @@ $$
 :::
 
 
-
-
-
-
-# Long exercises
-
-## Exercise 1
+## Exercise 5
 Consider the simple linear regression model
 $$
 y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}, \qquad (i=1,\ldots, n).
@@ -279,7 +271,7 @@ f. Note that $R^{2} = 1 - \frac{SSR}{SST}$. This implies that $\frac{SSR}{SST} =
 
 :::
 
-## Exercise 2
+## Exercise 6
 Consider the simple linear regression model
 $$
 y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i},
@@ -384,7 +376,7 @@ Since we have shown that $E[(\hat{\beta}_{1} - \beta_{1})] = 0$ (from d.) and $E
 
 :::
 
-## Exercise 3
+## Exercise 7
 Throughout the course, we have seen that $$s^{2} = e'e/(n − k)$ and $b = (X'X)^{-1}X'y$ are independent (section 3.4 of the book). The book states *This independence is a key result
 in econometrics without which the usual tests and confidence intervals would be much more complicated*.
 
@@ -433,6 +425,274 @@ $$
 								 &= 1 - \left(\frac{n-1}{n-k}\right)(1-R^{2}).
 \end{aligned}
 $$
+
+:::
+
+## Exercise 8
+For the linear regression model $y=X\beta + u$, where $X$ is of order $n \times k$, we have shown that the LS estimator is given by $\widehat{\beta} = (X'X)^{-1}X'y$. In part a. and b. of this exercise, we revisit the simple linear regression model
+$$ 
+y_{i} = \beta_0 + \beta_1 x_i + u_i, \qquad (i=1,\ldots,n),
+$$ {#eq-simplin}
+and show some results specific to this case. Assumptions (2.1)-(2.4) hold.
+
+a.  Show that the estimated slope coefficient in $\widehat{\beta} = (X'X)^{-1}X'y$ for model (@eq-simplin) can indeed be
+written as 
+$$
+\widehat{\beta}_{1} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i}  -  \overline{x} \ \overline{y}}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^2  -  \overline{x}^2}.
+$$ 
+*Important: The goal is to verify that the LS estimator based on matrix notation (Part II) and sum notation (Part I) indeed coincide.*
+
+In class, we derived an unbiased estimator for the error variance $\sigma^2$ of the form $s^2 = y'By$ (with $B$ positive semidefinite). In particular, we found that
+$$
+E(s^2) = \sigma^2 \text{tr}(B) + \beta'X'BX\beta.
+$$
+
+b. Use this result to derive that the standard error of the regression is given by $SER = \sqrt{SSR/(n-2)}$ for model (@eq-simplin). Clearly specify how you define the matrix $B$ and why.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that $X = (\iota : x)$, which yields 
+$$
+X'X = 
+\begin{pmatrix}
+\iota'\iota & \iota'x \\
+\iota'x & x'x
+\end{pmatrix}
+\qquad \text{and} \qquad
+X'y =
+\begin{pmatrix}
+\iota'y \\
+x'y
+\end{pmatrix},
+$$
+where we recognize $\iota'\iota = n$. From this, we derive
+$$
+(X'X)^{-1} = \frac{1}{n(x'x) - (\iota'x)^2}
+\begin{pmatrix}
+x'x & -\iota'x \\
+-\iota'x & n 
+\end{pmatrix}.
+$$
+We realize that $\widehat{\beta} = (\widehat{\beta}_0, \widehat{\beta}_1)'$ and thus that slope estimator is
+given by the second element of the vector
+$$
+\widehat{\beta} = 
+\begin{pmatrix}
+\widehat{\beta}_0 \\ \widehat{\beta}_1
+\end{pmatrix}
+= (X'X)^{-1} X'y =
+\frac{1}{n(x'x) - (\iota'x)^2}
+\begin{pmatrix}
+x'x & -\iota'x \\
+-\iota'x & n 
+\end{pmatrix}
+\begin{pmatrix}
+\iota' y \\ x'y
+\end{pmatrix}.
+$$
+That is, we obtain:
+$$
+\begin{aligned}
+\widehat{\beta}_1 &= \frac{-(\iota'x)(\iota'y) + n(x'y)}{n(x'x) - (\iota'x)^2} \\
+&= \frac{\frac{1}{n}x'y - \left(\frac{1}{n}\iota'x \right)\left(\frac{1}{n}\iota'x \right)}{\left(\frac{1}{n}x'x\right) - \left(\frac{1}{n}\iota'x \right)^2} \\
+&= \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^2 - \overline{x}^2}.
+\end{aligned}
+$$
+
+b. To obtain unbiasedness, we require $\text{tr}(B) = 1$ and $X'BX = 0$ (which is equivalent to $BX = 0$, as $B$ is positive semidefinite). Thus, we have to find a matrix $B$ that fulfills those conditions. For the matrix $M$, we know that 
+$$
+MX = (I_{n} - X(X'X)^{-1}X')X = X - X = 0. 
+$$
+However, the trace of $M$ is given by
+$$
+\begin{aligned}
+\text{tr}(M) &= \text{tr}(I_{n} - X(X'X)^{-1}X') = \text{tr}(I_{n}) - \text{tr}((X'X)^{-1}X'X) \\ 
+&= n - \text{tr}(I_{2}) = n - 2, 
+\end{aligned}
+$$
+where we used the sum and cyclical property of the trace at the second equality and recognize that $X'X$ is of order $2 \times 2$ at the third equality. Thus, we choose the matrix $B = M/(n-2)$ and obtain the estimator 
+$$
+s^2 = \frac{y'My}{n-2} = \frac{y'M'My}{n-2} = \frac{(My)'(My)}{n-2} = \frac{e'e}{n-2} = \frac{SSR}{n-2},
+$$
+where we use that $M$ is symmetric and idempotent. Finally, we note that the SER is simply the square root of this estimator, as the SER is an estimator of the standard deviation of the error term.
+
+:::
+
+## Exercise 9
+Suppose we have estimated $y = X\beta + u$ given observations $(y, X)$. Now we are given an $m \times k$ matrix $X_{*}$ and we
+want to predict the corresponding value of $y_{*}$ using the predictor $\hat{y}_{*} = X_{*}\widehat{\beta}$.
+
+a. Show that $E(\widehat{y}_{*}) = X_{*}\beta$ and $\Var(\widehat{y}_{*}) = \sigma^{2} X_{*}(X'X)^{-1}X_{*}'$.
+
+b. Show that $\widehat{y}_{*} = X_{*}\widehat{\beta}$ is the best linear unbiased estimator (BLUE) of $E(y_{*}) = X_{*}\beta$.
+
+Make sure you show the following in your proof:
+
+- The estimator $\widehat{y}_{*}$ is indeed a *linear* estimator.
+- For another linear estimator $A'y$ of $X_{*}\beta$, \textit{unbiasedness} leads to the condition $X'A = X_{*}'$.
+- *Minimizing the variance* of $A'y$ yields $A = X(X'X)^{-1}X_{*}'$.
+
+c. Explain briefly (maximum 4 sentences) how the proof in b. would differ if we are interested in the best linear unbiased estimator
+of $y_{*}$ instead of $E(y_{*})$.  
+
+So far, we assumed that we have a specific model at our disposal. In reality, econometricians often have to choose between models. Suppose we have the model
+$$
+y = X_{1}\beta_{1} + X_{2}\beta_{2} + u,
+$$
+which has $k$ regressors, residuals denoted by $e$ and error variance estimator $s^2$. If we omit $X_{2}$ from the model, we obtain the restricted model
+$$
+y = X_{1}\beta_{1} + u_{1},
+$$
+with $k_{1} < k$ regressors, residuals denoted by $e_{1}$ and error variance estimator $s_{1}^{2}$. 
+
+d. Show that the $F$-statistic for testing $\beta_{2} = 0$ can be written as
+$$
+F_{2} = 1 + \frac{(n-k_{1})(s_{1}^{2} - s^{2})}{k_{2}s^{2}}.
+$$
+
+e. Based on d., under what condition can we obtain $F_{2} < 1$? Explain briefly in what situation this could happen.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that 
+$$
+\begin{aligned}
+E(\widehat{y}_{*}) &= E(X_{*}\widehat{\beta}) = X_{*} E[(X'X)^{-1}X'y] = X_{*}(X'X)^{-1}X'E(y) \\
+                   &= X_{*}(X'X)^{-1}X'X\beta = X_{*}\beta,
+\end{aligned}
+$$
+where we used that $E(u) = 0$ (by Assumption 2.3). For the variance of the predictor, we find
+$$
+\Var(\widehat{y}_{*}) = \Var(X_{*}\widehat{\beta}) = X_{*}\Var(\widehat{\beta})X_{*}' = \sigma^{2}X_{*}(X'X)^{-1}X_{*}',
+$$
+where we used the result that
+$$
+\begin{align*}
+\Var(\widehat{\beta}) &= \Var[(X'X)^{-1}X'y] = (X'X)^{-1}X'\Var(y)X(X'X)^{-1} \\
+                      &= (X'X)^{-1}X'\sigma^{2}I_{n} X(X'X)^{-1} = \sigma^{2}(X'X)^{-1},
+\end{align*}
+$$
+as $\Var(y) = \Var(u) = \sigma^{2}I_{n}$ (by Assumption 2.3).
+
+b. The proof goes exactly along the lines of Section 2.10 in ITE.
+
+- We have $X_{*}\widehat{\beta} = X_{*}(X'X)^{-1}X'y$, which means that the estimator is a linear combination of $y$. Therefore,
+it is indeed a linear estimator with $X$ and $X_{*}$ that make up the nonrandom weights.
+- For $A'y$ to be unbiased, we need $E(A'y) = X_{*}\beta$. Note that
+$$
+E(A'y) = A'E(y) = A'X\beta = X_{*}\beta,
+$$
+which implies $A'X = X_{*}$ or equivalently, $X'A = X_{*}'$. We once again used $E(y) = X\beta$ as $E(u) = 0$ by Assumption 2.3.
+
+c. The variance of our linear estimator $A'y$ is given by
+$$
+\Var(A'y) = A'\Var(y)A = A'(\sigma^{2}I_{n})A = \sigma^{2}A'A.
+$$
+We define $D = A - X(X'X)^{-1}X_{*}'$ and show that the BLUE yields $D=0$. First, we note that
+$$
+D'X = A'X - X_{*}(X'X)^{-1}X'X = A'X - X_{*} = 0,
+$$
+which follows from unbiasedness. Thus, the expression for $A$ is a decomposition. To minimize the variance of $A'y$ we need to minimize 
+$$
+\begin{aligned}
+A'A &= (D + X(X'X)^{-1}X_{*}')'(D + X(X'X)^{-1}X_{*}') \\
+    &= D'D + X_{*}(X'X)^{-1}X'X(X'X)^{-1}X_{*}' \\
+		&= D'D + X_{*}(X'X)^{-1}X_{*} \\
+		&\geq X_{*}(X'X)^{-1}X_{*},
+\end{aligned}
+$$
+with equality if and only if $D=0$. Hence, under the restriction $A'X = X_{*}$, the matrix $A'A$ achieves a lower bound which is reached when $D=0$, that is, when $A = X(X'X)^{-1}X_{*}'$ so that 
+$$
+A'y = X_{*}(X'X)^{-1}X'y = X_{*}\widehat{\beta}.
+$$
+
+c. It is important to note that $y_{*}$ is a random vector, while $E(y_{*}) = X_{*}\beta$ is not. To take this
+randomness into account, we consider the prediction error $\widehat{y}_{*} - y_{*}$. To get the BLUE, we minimize the variance of this prediction
+error and verify that it has mean zero (unbiasedness).
+
+d. Note that the $F$-statistic for testing $\beta_{2} = 0$ is given by
+$$
+F_{2} = \frac{(e_{1}'e_{1} - e'e)/k_{2}}{e'e/(n-k)}.
+$$
+By noting that $s_{1}^2 = e_{1}'e_{1}/(n-k_{1})$, $s^{2} = e'e/(n-k)$ and $k = k_{1} + k_{2}$, we note that we can write
+$$
+\begin{aligned}
+F_{2} &= \frac{(n-k_{1})s_{1}^{2} - (n-k_{1}-k_{2})s^{2}}{k_{2}s^2} = \frac{(n-k_{1})(s_{1}^{2} - s^{2}) + k_{2}s^{2}}{k_{2}s^{2}} \\
+      &= 1 + \frac{(n-k_{1})(s_{1}^{2} - s^{2})}{k_{2}s^{2}}.
+\end{aligned}
+$$
+
+e. Note that $s^2 > s_{1}^{2} \Longleftrightarrow F_{2} < 1$. This can easily happen when $\widehat{\beta}_{2}$
+is *close to zero* and the null hypothesis $\beta_{2} = 0$ cannot be rejected at the appropriate significance level. (The error variance
+of the unrestricted model is larger than that of the restricted model, because the added regressors are not informative/noisy and their
+parameters are thus difficult to estimate).
+
+:::
+
+## Exercise 10
+Suppose we are given the linear regression model
+$$
+y = X\beta + u, \quad \E(u) = 0, \quad \Var(u) = \Omega,
+$$
+with $X$ a nonrandom $n \times k$ matrix of full column rank, $\beta$ a $k \times 1$ coefficient vector, and $\Omega$ a positive definite $n \times n$ variance matrix, which may be nondiagonal.
+
+a. Consider the linear unbiased estimator $A'y$ of the linear combination $W'\beta$ for some given matrix $W$. Show that $A'X = W'$.
+
+b. For the case $\Omega = \sigma^{2}I_{n}$, find the choice of $A$ that minimizes $\Var(A'y)$. Use the decomposition $D = A - X(X'X)^{-1}W$ in your solution.
+
+c. Apply a transformation to the linear regression model to derive the best linear unbiased estimator in the case where $\Omega$ is a known positive definite matrix.
+
+d. Suppose $\Omega$ is diagonal. What potential problem could we model in this way?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Unbiasedness requires
+$$
+E(A'y) = A'E(y) = A'X\beta = W'\beta.
+$$
+Since this has to hold for all $\beta$, we must have $A'X=W'$.
+
+b. Since $A'X = W'$, we see that
+$$
+D'X = A'X - W'(X'X)^{-1}X'X = A'X - W' = 0,
+$$
+and hence,
+$$
+\begin{aligned}
+A'A
+&=(D + X(X'X)^{-1}W)'(D + X(X'X)^{-1}W)\\
+&=D'D + W'(X'X)^{-1}X'X(X'X)^{-1}W\\
+&= D'D + W'(X'X)^{-1}W.
+\end{aligned}
+$$
+Since $\Var(A'y) = A'\sigma^{2}I_{n}A=\sigma^2 A'A$, this is minimized when $D'D=0$, that is, when $D=0$, so that $A = X(X'X)^{-1}W$.
+
+c. Because $\Omega$ is positive definite, its unique square root is defined and we can write $\Omega = \Omega^{1/2}\Omega^{1/2}$.
+This square root is also positive definite, hence nonsingular. If we transform
+$$
+y_{*} = \Omega^{-1/2}y, \qquad X_{*} = \Omega^{-1/2}X, \qquad u_{*} = \Omega^{-1/2}u,
+$$
+then we can write the regression model equivalently as
+$$
+y_{*} = X_{*}\beta + u_{*},
+$$
+where $E(u_{*}) = 0$ and
+$$
+\Var(u_{*}) = \Omega^{-1/2}\Var(u)\Omega^{-1/2}= \Omega^{-1/2}\Omega\Omega^{-1/2}=I_{n}.
+$$
+This is now the classical linear regression model, and hence the LS estimator for $\beta$,
+$$
+\hat{\beta} = (X_{*}'X_{*}^{})^{-1}X_{*}'y_{*}^{} = (X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y,
+$$ is the best linear unbiased estimator of $\beta$. This procedure is known as *generalized least squares* (GLS),
+and it allows for more general error variance specifications, such as autocorrelation and heteroskedasticity.
+
+d. In the LS method we choose $\beta$ such that the squared deviations are as small as possible.
+Each point $(x_{i},y_{i})$ has the same weight. Now suppose that we wish to allow different weights.
+Then we should minimize $\sum_i (u_i/\omega_{i})^2$ instead of $\sum_i u_i^2$ for some known constants $\omega_i$.
+This method is called *weighted least squares*. If we weight the $i$th observation by the inverse of the square
+root of the conditional variance of $u_{i}$ given $X$, we can deal with the problem of heteroskedasticity. Because of
+the weighting scheme (in $\Omega$), the errors in this weighted regression are homoskedastic, such that OLS is BLUE
+(as we have seen above).
 
 :::
 
