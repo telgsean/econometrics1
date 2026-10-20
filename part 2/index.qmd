@@ -1,9 +1,23 @@
 ---
-title: "Why this online book?"
+title: "Short introduction"
 author:
     - name: Sean Telg
       url: https://research.vu.nl/en/persons/sean-telg/
-copyright: "Ronald de Vlaming and Sean Telg, 2026. All Rights Reserved"
+copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
 
-# Preface
+# How do we proceed?
+In the first part, we have focused on the foundations of the **linear regression model**. To estimate its coefficients,
+we made use of the **least-squares (LS) estimator**, which is very popular for multiple reasons. We looked at **ideal
+conditions**, also called the **assumptions**, and we showed optimality results based on them. For example, under Assumption
+2.1-2.3, we could show that $\hat{\beta} = (X'X)^{-1}X'y$ is the **best linear unbiased estimator** (which is known as the **Gauss-Markov theorem**). If we add Assumption 2.4 on top, we can also perform **inference** based on well-known $t$-tests and $F$-tests, which are
+used to test **single** and **multiple linear restrictions**, respectively. Using the same information, we also derived **confidence**
+and **prediction intervals**. Moreover, we spent some time on how to assess whether our model fits the data well (**measures of fit**) and 
+how to compare across models (**model selection**) or even combine multiple models (**model averaging**).
+
+In the second part, we extend our world of estimators. We consider **maximum likelihood estimation** as an alternative estimation method and
+show that it has other important properties (such as **invariance**) compared to least squares (which prioritizes **unbiasedness**). Similar to
+least squares, we focus on how we can perform **inference** and **restricted estimation** in this framework. Afterwards, we turn to **asymptotics**, in which we consider the situation where $n \to \infty$. We make a clear distinction between **exact distributions** and **limiting distributions**. Whereas the former often require (restrictive) assumptions, such as normality of the error term, this is not the case for the latter. However, it can only be used as a **finite-sample approximation** whenever sample size is sufficiently large. During the last weeks of the course, we are going to revisit our set of **assumptions**. We discuss how to check or formally test whether they hold and propose possible remedies. The concept of **heteroskedasticity** is elaborately studied, and we show how the LS estimator can be appropriately adapted in this situation. This gives rise to the **weighted least-squares (WLS) estimator**.
+
+Compared to the first part, we have more eye for **empirical applications**, **simulation studies** and how to implement them. This way, we can let the theoretical results guide us in practical setups and study the properties of our estimators and tests in a controlled environment. This will prove useful for future courses in econometrics and beyond.   
+

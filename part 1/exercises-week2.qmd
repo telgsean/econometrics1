@@ -174,7 +174,7 @@ as we have shown before. We like to think of $e$ as a predictor of $u$, but this
 ## Assumptions
 
 ### Exercise 7
-Determine whether linear regression is warrented for the following models:
+Determine whether linear regression is warranted for the following models:
 
 a. $y_{i} = \beta_{1}x_{1,i} + \sqrt{\beta_{2}}x_{2,i} + u_{i}$
 b. $y_{i} = \beta_{1}x_{1,i} + \beta_{2} x_{1,i}^{2} + u_{i}$
@@ -182,7 +182,7 @@ c. $y_{i} = \beta_{1}x_{1,i} + \beta_{2}x_{2,i} + \beta_{3}x_{1,i}x_{2,i} + u_{i
 d. $y_{i} = \beta_{1} \exp(\beta_{2}x_{1,i})u_{i}$ for $\beta_{1} > 0$, $u_{i} >0$, $y_{i} > 0$ for all $i$.
 
 ::: {.callout-caution title="Hint" collapse = true}
-The model needs to be linear in the parameters. If need and possible, rewrite the model to make it linear.
+The model needs to be linear in the parameters. If needed and possible, rewrite the model to make it linear.
 
 :::
 

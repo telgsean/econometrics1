@@ -84,7 +84,8 @@ In period 2, we dig a bit deeper and consider three themes:
 - Cram\'er-Rao inequality
 
 ### [Week 2 - Restricted estimation and testing](part%202/week2.qmd)
-- Restricted least squares and maximum likelihood
+- Revisiting restricted least squares, and compare to maximum likelihood
+- Restricted maximum likelihood
 - Wald, Lagrange Multiplier (LM) and Likelihood-Ratio (LR) tests
 - Revisiting assumptions and sampling distributions
 

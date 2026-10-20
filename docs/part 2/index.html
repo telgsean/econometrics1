@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sean Telg">
 
-<title>Why this online book? – Econometrics I</title>
+<title>Short introduction – Econometrics I</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -571,7 +600,7 @@ window.MathJax = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part 2/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction to Part 2</span></a>
+ <span class="menu-text">Short Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -646,6 +675,12 @@ window.MathJax = {
  <span class="menu-text">Exercises Week 6</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part 2/exam-practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exam Practice</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -658,7 +693,7 @@ window.MathJax = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#how-do-we-proceed" id="toc-how-do-we-proceed" class="nav-link active" data-scroll-target="#how-do-we-proceed">How do we proceed?</a></li>
   </ul>
 </nav>
     </div>
@@ -668,7 +703,7 @@ window.MathJax = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Why this online book?</h1>
+<h1 class="title">Short introduction</h1>
 </div>
 
 
@@ -691,13 +726,16 @@ window.MathJax = {
 </header>
 
 
-<section id="preface" class="level1">
-<h1>Preface</h1>
+<section id="how-do-we-proceed" class="level1">
+<h1>How do we proceed?</h1>
+<p>In the first part, we have focused on the foundations of the <strong>linear regression model</strong>. To estimate its coefficients, we made use of the <strong>least-squares (LS) estimator</strong>, which is very popular for multiple reasons. We looked at <strong>ideal conditions</strong>, also called the <strong>assumptions</strong>, and we showed optimality results based on them. For example, under Assumption 2.1-2.3, we could show that <span class="math inline">\(\hat{\beta} = (X'X)^{-1}X'y\)</span> is the <strong>best linear unbiased estimator</strong> (which is known as the <strong>Gauss-Markov theorem</strong>). If we add Assumption 2.4 on top, we can also perform <strong>inference</strong> based on well-known <span class="math inline">\(t\)</span>-tests and <span class="math inline">\(F\)</span>-tests, which are used to test <strong>single</strong> and <strong>multiple linear restrictions</strong>, respectively. Using the same information, we also derived <strong>confidence</strong> and <strong>prediction intervals</strong>. Moreover, we spent some time on how to assess whether our model fits the data well (<strong>measures of fit</strong>) and how to compare across models (<strong>model selection</strong>) or even combine multiple models (<strong>model averaging</strong>).</p>
+<p>In the second part, we extend our world of estimators. We consider <strong>maximum likelihood estimation</strong> as an alternative estimation method and show that it has other important properties (such as <strong>invariance</strong>) compared to least squares (which prioritizes <strong>unbiasedness</strong>). Similar to least squares, we focus on how we can perform <strong>inference</strong> and <strong>restricted estimation</strong> in this framework. Afterwards, we turn to <strong>asymptotics</strong>, in which we consider the situation where <span class="math inline">\(n \to \infty\)</span>. We make a clear distinction between <strong>exact distributions</strong> and <strong>limiting distributions</strong>. Whereas the former often require (restrictive) assumptions, such as normality of the error term, this is not the case for the latter. However, it can only be used as a <strong>finite-sample approximation</strong> whenever sample size is sufficiently large. During the last weeks of the course, we are going to revisit our set of <strong>assumptions</strong>. We discuss how to check or formally test whether they hold and propose possible remedies. The concept of <strong>heteroskedasticity</strong> is elaborately studied, and we show how the LS estimator can be appropriately adapted in this situation. This gives rise to the <strong>weighted least-squares (WLS) estimator</strong>.</p>
+<p>Compared to the first part, we have more eye for <strong>empirical applications</strong>, <strong>simulation studies</strong> and how to implement them. This way, we can let the theoretical results guide us in practical setups and study the properties of our estimators and tests in a controlled environment. This will prove useful for future courses in econometrics and beyond.</p>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Ronald de Vlaming and Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
