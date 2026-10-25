@@ -6,7 +6,7 @@ author:
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
 
-# How do we proceed?
+# What did we do so far?
 In the first part, we have focused on the foundations of the **linear regression model**. To estimate its coefficients,
 we made use of the **least-squares (LS) estimator**, which is very popular for multiple reasons. We looked at **ideal
 conditions**, also called the **assumptions**, and we showed optimality results based on them. For example, under Assumption
@@ -15,9 +15,19 @@ used to test **single** and **multiple linear restrictions**, respectively. Usin
 and **prediction intervals**. Moreover, we spent some time on how to assess whether our model fits the data well (**measures of fit**) and 
 how to compare across models (**model selection**) or even combine multiple models (**model averaging**).
 
+# How do we proceed?
 In the second part, we extend our world of estimators. We consider **maximum likelihood estimation** as an alternative estimation method and
 show that it has other important properties (such as **invariance**) compared to least squares (which prioritizes **unbiasedness**). Similar to
 least squares, we focus on how we can perform **inference** and **restricted estimation** in this framework. Afterwards, we turn to **asymptotics**, in which we consider the situation where $n \to \infty$. We make a clear distinction between **exact distributions** and **limiting distributions**. Whereas the former often require (restrictive) assumptions, such as normality of the error term, this is not the case for the latter. However, it can only be used as a **finite-sample approximation** whenever sample size is sufficiently large. During the last weeks of the course, we are going to revisit our set of **assumptions**. We discuss how to check or formally test whether they hold and propose possible remedies. The concept of **heteroskedasticity** is elaborately studied, and we show how the LS estimator can be appropriately adapted in this situation. This gives rise to the **weighted least-squares (WLS) estimator**.
 
 Compared to the first part, we have more eye for **empirical applications**, **simulation studies** and how to implement them. This way, we can let the theoretical results guide us in practical setups and study the properties of our estimators and tests in a controlled environment. This will prove useful for future courses in econometrics and beyond.   
+
+# Why is this second part useful?
+Working with data is not easy. Before getting to the modelling step, data needs to be collected and prepared. In many data applications, the analysts face problems, e.g., the data does not exactly measure what the analyst is looking for, data entries are missing, there are unlikely values in the data set (human mistake? or maybe real outliers?). As an econometrician, you have to be able to take good decision at this stage already, because it is a general rule that the quality of the data that goes into the model determines how reliable the outcomes of the model are. People often describe this in the not-so-flattering saying "garbage in, garbage out". 
+
+When all of these problems are out of the way, other difficult trade-offs have to be made. For example, what model should I use? Should I include few or many regressors? And which ones exactly? You might want to have a good fit, but the model also needs to adhere to the imposed assumptions to be reliable. What if one assumption appears violated? Can we make the necessary adjustments and still perform trustworthy inference? How can you make a good judgement call in this situation? That is exactly what we investigate in this second part.
+
+Moreover, we consider Monte Carlo simulation studies as an effective way to investigate the finite-sample behavior of estimators and tests. In this course, it is mostly used to verify our theoretical findings once more. However, simulation studies are powerful tools, because it also allows the researcher to study the properties of statistical quantities that are not theoretically grounded yet. Imagine you develop a new estimator, the [INSERT YOUR NAME HERE]-estimator, and it is still unclear whether it is unbiased, consistent and follows an asymptotically normal distribution. Of course, you could take a piece of paper and start doing the math. Alternatively, you could first check in a simulation study whether the estimator indeed has desirable properties. If you value your time, this latter route is probably the safer one to take. If simulations show that the estimator is biased for some data generation process that adheres to all the assumptions, then you could interpret this as finding a counterexample. Thus, there is no need to go through all the difficult math: you simply won't be able to show the result.
+
+Another application of simulation studies is to deviate from the set of ideal conditions, and to see what happens when one of them is not fulfilled. If the estimator or test still performs well, then the condition can probably be weakened. This is generally a good thing, as we do not want to impose assumptions that are too stringent or unrealistic in real life studies. In conclusion, you learn a lot of extremely useful tools that help you, not only in future course but also beyond. They need to be in the toolbox of any econometrician or data scientist. 
 
