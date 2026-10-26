@@ -88,6 +88,7 @@ In period 2, we dig a bit deeper and consider three themes:
 - Restricted maximum likelihood
 - Wald, Lagrange Multiplier (LM) and Likelihood-Ratio (LR) tests
 - Revisiting assumptions and sampling distributions
+- Monte Carlo simulation study
 
 ### [Week 3 - Asymptotics](part%202/week3.qmd)
 - Why asymptotics?
