@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -659,8 +688,19 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#ml-estimation-in-the-simple-linear-regression-model" id="toc-ml-estimation-in-the-simple-linear-regression-model" class="nav-link" data-scroll-target="#ml-estimation-in-the-simple-linear-regression-model">ML estimation in the simple linear regression model</a>
+  <ul class="collapse">
+  <li><a href="#deriving-the-maximum-likelihood-estimator" id="toc-deriving-the-maximum-likelihood-estimator" class="nav-link" data-scroll-target="#deriving-the-maximum-likelihood-estimator">Deriving the maximum likelihood estimator</a></li>
+  <li><a href="#extension-to-the-multiple-linear-regression" id="toc-extension-to-the-multiple-linear-regression" class="nav-link" data-scroll-target="#extension-to-the-multiple-linear-regression">Extension to the multiple linear regression</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -703,11 +743,150 @@ window.MathJax = {
 <div class="callout-body-container callout-body">
 <ul>
 <li>Chapter 4, Section 4.1 - 4.7.</li>
+<li>Appendix B, Section B.3.</li>
+</ul>
+</div>
+</div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>We introduce a new estimator, the <strong>maximum likelihood (ML) estimator</strong>, to estimate linear regression models. We derive its <strong>regularity</strong> properties and conclude that ML estimators are generally not unbiased. Instead, they preserve another property, which is called <strong>invariance</strong>. In the derivation of the ML estimator the <strong>score</strong> and the <strong>Hessian</strong>, which collect the first and second derivatives respectively, are important quantities to verify the regularity conditions. We use the <strong>Cramér-Rao Inequality</strong> to show that the LS and ML estimator of <span class="math inline">\(\beta\)</span> is <strong>efficient</strong>, i.e., within the class of unbiased estimators it attains the lowest variance possible.</p>
+<p>We proceed similarly as for least squares: we first derive the maximum likelihood estimator in the <strong>simple linear regression model</strong>. This aids our understanding of how to extend to the case of multiple regressors. In fact, it might be a good idea to keep an eye on Section B.3. during this derivation, because it helps to build up from unit-specific notation to the vector and matrix notation that we need afterwards.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do you want to refresh some of your knowledge on maximum likelihood estimation that you obtained in previous statistics courses?</p>
+<ul>
+<li>Section 4.1 - 4.3.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="ml-estimation-in-the-simple-linear-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="ml-estimation-in-the-simple-linear-regression-model">ML estimation in the simple linear regression model</h2>
+<p>Suppose we have observations <span class="math inline">\(y = (y_{1}, \ldots, y_{n})'\)</span> from some distribution characterized by a parameter vector <span class="math inline">\(\theta\)</span>. The <em>density</em> of <span class="math inline">\(y\)</span> is written as <span class="math inline">\(f(y;\theta)\)</span>, where the notation emphasizes the different roles of <span class="math inline">\(y\)</span> and <span class="math inline">\(\theta\)</span>. Instead of thinking of the density as a function of <span class="math inline">\(y\)</span> given <span class="math inline">\(\theta\)</span>, we could also think of it as a function of <span class="math inline">\(\theta\)</span> given <span class="math inline">\(y\)</span>. This is the <em>likelihood function</em>, which we denote by <span class="math inline">\(L(\theta;y)\)</span>. For ML estimation, we are going to rely on Assumption 2.4, i.e.&nbsp;normality of the error term. Our goal is to maximize the likelihood function with respect to the unknown parameters <span class="math inline">\(\theta\)</span>. The ML estimator has strong intuitive appeal because it is the most likely, after we have observed <span class="math inline">\(y\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Reminder normal distribution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reminder normal distribution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Suppose <span class="math inline">\(z \sim N(\mu, \sigma^{2})\)</span>, then the density of <span class="math inline">\(z\)</span> is given by <span class="math display">\[
+f(z;\mu,\sigma^{2}) = (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (z - \mu)^{2} \right).
+\]</span></p>
+</div>
+</div>
+</div>
+<p>Suppose we are given the simple linear regression model <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad u_{i} \sim N(0, \sigma^{2}),
+\]</span> where we assume that <span class="math inline">\(X\)</span> is nonrandom. Since we know the distribution of the error term and <span class="math inline">\(E(y_{i}) = \beta_{1} + \beta_{2}x_{i}\)</span>, we can write the density of <span class="math inline">\(y_{i}\)</span> as <span class="math display">\[
+\begin{aligned}
+f(y_{i};\beta_{1},\beta_{2},\sigma^{2}) &amp;= (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&amp;= L(\beta_{1},\beta_{2},\sigma^{2};y_{i}).
+\end{aligned}
+\]</span> As you can see, this function does not only contain <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>, but also the error variance <span class="math inline">\(\sigma^{2}\)</span>. Contrary to LS, our objective function allows us to find an estimator for both the model coefficients and the distribution parameter.</p>
+<section id="deriving-the-maximum-likelihood-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="deriving-the-maximum-likelihood-estimator">Deriving the maximum likelihood estimator</h3>
+<p>To derive the maximum likelihood estimator, we need not just <span class="math inline">\(L(\beta_{1},\beta_{2},\sigma^{2};y_{i})\)</span> but rather <span class="math inline">\(L(\beta_{1},\beta_{2},\sigma^{2};y)\)</span>, i.e., the likelihood based on all observed values for <span class="math inline">\(y\)</span>. From our assumptions, we know that <span class="math inline">\(y_{1}, y_{2}, \ldots, y_{n}\)</span> are independent and normally distributed. Thus, <span class="math display">\[
+\begin{aligned}
+L(\beta_{1},\beta_{2},\sigma^{2};y) &amp;= \prod_{i=1}^{n} L(\beta_{1},\beta_{2},\sigma^{2};y_{i}) \\
+&amp;= \prod_{i=1}^{n} (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&amp;= (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \prod_{i=1}^{n} \exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&amp;= (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \exp\left(-\frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right)
+\end{aligned}
+\]</span> Now, instead of maximimizing the likelihood directly, we consider the <em>loglikelihood</em>. This is mathematically convenient and equivalent because the logarithmic transformation is a monotone transformation. Therefore, it strictly preserves the location of the maximum.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="(Log)likelihood">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>(Log)likelihood
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In fact, there are multiple reasons to consider the loglikelihood instead of the likelihood. Analytically, it is easier to differentiate a sum than using the product rule on several chains of multiplications. However, it also ensures more computational stability. Likelihoods involve multiplying many probabilities together, which lead to tiny numbers and causes numerical underflow in computers. Loglikelihoods turns these into sums however, which avoids this issue altogether.</p>
+</div>
+</div>
+</div>
+<p>For notational convenience, we omit the arguments of the function <span class="math inline">\(\log L\)</span>. Moreover, we note that in the literature <span class="math inline">\(\log\)</span> denotes the natural logarithm <span class="math inline">\(\ln\)</span> (unless indicated differently). Then we can write <span class="math display">\[
+\begin{aligned}
+\log L &amp;= \log \left( (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \exp\left(-\frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \right) \\
+&amp;= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^{2}) - \frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}.
+\end{aligned}
+\]</span> The optimal value of <span class="math inline">\(\sigma^{2}\)</span> (given <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>) can be solved from its respective first order condition. That is, if we compute the derivative of the loglikelihood with respect to <span class="math inline">\(\sigma^{2}\)</span>, we obtain <span class="math display">\[
+\frac{\partial \log L}{\partial \sigma^{2}} = -\frac{n}{2} \cdot \frac{1}{\sigma^{2}} + \frac{1}{2(\sigma^{2})^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2},
+\]</span> and setting it equal to zero yields <span class="math display">\[
+\begin{aligned}
+-\frac{n}{2} \cdot \frac{1}{\sigma^{2}} + \frac{1}{2(\sigma^{2})^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &amp;= 0 \\
+-\frac{n}{2}\sigma^{2} + \frac{1}{2} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &amp;= 0 \\
+-\sigma^{2} + \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &amp;= 0,
+\end{aligned}
+\]</span> where we multiplied each side by <span class="math inline">\((\sigma^{2})^{2}\)</span> and <span class="math inline">\(2/n\)</span>. Thus, the optimal value of <span class="math inline">\(\sigma^{2}\)</span> (given <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span>) is given by <span class="math display">\[
+\sigma^{2} = \sigma^{2}(\beta_{1}, \beta_{2}) = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}.
+\]</span> Substituting this equation into <span class="math inline">\(\log L\)</span> yields the so-called <em>concentrated loglikelihood</em>: <span class="math display">\[
+\begin{aligned}
+\log L &amp;= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^{2}) - \frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2} \\
+&amp;= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log \left(\frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2} \right) - \frac{1}{2 \cdot \frac{1}{n}},   
+\end{aligned}
+\]</span> where the optimal values of <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> (that maximize the loglikelihood) are found by minimizing the sum of squared deviations <span class="math display">\[
+\sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2}.
+\]</span> We directly recognize this from the least-squares derivations. Thus, we find <span class="math display">\[
+\begin{aligned}
+&amp;\hat{\beta}_{1,ML} = \hat{\beta}_{1,LS} = \overline{y} - \hat{\beta}_{2, LS} \overline{x} \\
+&amp;\hat{\beta}_{2,ML} = \hat{\beta}_{2,LS} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}}{\frac{1}{n} \sum_{i=1}^{n}x_{i}^{2} - \overline{x}^{2}} \\
+&amp;\hat{\sigma}^{2} = \frac{1}{n}\sum_{i=1}^{n} (y_{i} - \hat{\beta}_{1,ML} - \hat{\beta}_{2,ML}x_{i})^{2} = \frac{1}{n}\sum_{i=1}^{n} e_{i}^{2}.
+\end{aligned}
+\]</span> Thus, note that the least-squares variance estimator <span class="math inline">\(s^{2} = e'e/(n-k)\)</span> and maximum likelihood estimator <span class="math inline">\(\hat{\sigma}^{2} = e'e/n\)</span> are different.</p>
+</section>
+<section id="extension-to-the-multiple-linear-regression" class="level3">
+<h3 class="anchored" data-anchor-id="extension-to-the-multiple-linear-regression">Extension to the multiple linear regression</h3>
+<p>It is quite straightforward to extend these results to the case of multiple linear regression. ITE (Section 4.4) does not take the path of the concentrated loglikelihood, but rather derives the estimators directly. It does so by collecting the (transpose of) the first derivatives in a vector <span class="math inline">\(q\)</span>, which is called the <em>score</em>. Setting the score to zero directly yields <span class="math display">\[
+\hat{\beta} = (X'X)^{-1}X'y, \qquad \hat{\sigma} = \frac{e'e}{n}.
+\]</span> The different variance estimator reveals that maximum likelihood generally does not produce estimators that are unbiased. However, ML estimators have the property that they are <strong>invariant</strong>. It means that if <span class="math inline">\(\hat{\theta}\)</span> is the ML estimator of <span class="math inline">\(\theta\)</span>, then <span class="math inline">\(g(\hat{\theta})\)</span> is the ML estimator <span class="math inline">\(g(\theta)\)</span> provided <span class="math inline">\(g(\hat{\theta})\)</span> is defined.</p>
+<p>The method of maximum likelihood is shown to fulfill first- and second-order regularity. First-order regularity means <span class="math display">\[
+E(q) = 0.
+\]</span> Another property of the second is that the inverse of its variance provides (approximately) the variances of the ML estimators. Second-order regularity is now given by <span class="math display">\[
+\Var(q) = \mathcal{F},
+\]</span> where <span class="math inline">\(\mathcal{F} = - E(H)\)</span> is called Fisher’s <em>information matrix</em>, and <span class="math inline">\(H\)</span> denotes the Hessian, i.e.&nbsp;the matrix collecting all second derivatives. The information matrix plays an important role when we discuss the <em>Cramér-Rao inquality</em> (or also sometimes called <em>Cramér-Rao lower bound</em>) which says that the variance of an unbiased estimator has a lower bound which is given by the inverse of <span class="math inline">\(\Var(q)\)</span> or, equivalently, by <span class="math inline">\(\mathcal{F}^{-1}\)</span>. If an unbiased estimator achieves this bound, then it has the lowest possible variance, and we call the estimator <em>efficient</em>.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The derivations of ML estimators in combination with first- and second-order regularity are covered in:</p>
+<ul>
+<li>Section 4.4 - 4.5.</li>
+</ul>
+<p>The remaining two sections for this week, show that the regularity conditions extend beyond the linear regression model. It is particularly important to understand the Cramér-Rao inequality and how the mean squared error can be used to compare biased and unbiased estimators:</p>
+<ul>
+<li>Section 4.6 - 4.7.</li>
 </ul>
 </div>
 </div>
 
 
+</section>
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

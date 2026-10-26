@@ -10,5 +10,136 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 ## 📚 This week's roadmap
 
 - Chapter 4, Section 4.1 - 4.7.
+- Appendix B, Section B.3.
+
+:::
+
+## This week's contents
+We introduce a new estimator, the **maximum likelihood (ML) estimator**, to estimate linear regression models. We derive its **regularity** properties and conclude that ML estimators are generally not unbiased. Instead, they preserve another property, which is called **invariance**. In the derivation of the ML estimator the **score** and the **Hessian**, which collect the first and second derivatives respectively, are important quantities to verify the regularity conditions. We use the **Cramér-Rao Inequality** to show that the LS and ML estimator of $\beta$ is **efficient**, i.e., within the class of unbiased estimators it attains the lowest variance possible.
+
+We proceed similarly as for least squares: we first derive the maximum likelihood estimator in the **simple linear regression model**. This aids our understanding of how to extend to the case of multiple regressors. In fact, it might be a good idea to keep an eye on Section B.3. during this derivation, because it helps to build up from unit-specific notation to the vector and matrix notation that we need afterwards. 
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Do you want to refresh some of your knowledge on maximum likelihood estimation that you obtained in previous statistics courses?
+
+- Section 4.1 - 4.3.
+
+:::
+
+## ML estimation in the simple linear regression model
+Suppose we have observations $y = (y_{1}, \ldots, y_{n})'$ from some distribution characterized by a parameter vector $\theta$. The *density* of $y$ is written as $f(y;\theta)$, where the notation emphasizes the different roles of $y$ and $\theta$. Instead of thinking of the density as a function of $y$ given $\theta$, we could also think of it as a function of $\theta$ given $y$. This is the *likelihood function*, which we denote by $L(\theta;y)$. For ML estimation, we are going to rely on Assumption 2.4, i.e. normality of the error term. Our goal is to maximize the likelihood function with respect to the unknown parameters $\theta$. The ML estimator has strong intuitive appeal because it is the most likely, after we have observed $y$.
+
+::: {.callout-note title="Reminder normal distribution" collapse = "true"}
+Suppose $z \sim N(\mu, \sigma^{2})$, then the density of $z$ is given by
+$$
+f(z;\mu,\sigma^{2}) = (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (z - \mu)^{2} \right).
+$$
+
+:::
+
+Suppose we are given the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad u_{i} \sim N(0, \sigma^{2}),
+$$
+where we assume that $X$ is nonrandom. Since we know the distribution of the error term and $E(y_{i}) = \beta_{1} + \beta_{2}x_{i}$, we can write the density of $y_{i}$ as
+$$
+\begin{aligned}
+f(y_{i};\beta_{1},\beta_{2},\sigma^{2}) &= (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&= L(\beta_{1},\beta_{2},\sigma^{2};y_{i}).
+\end{aligned}
+$$
+As you can see, this function does not only contain $\beta_{1}$ and $\beta_{2}$, but also the error variance $\sigma^{2}$. Contrary to LS, our objective function allows us to find an estimator for both the model coefficients and the distribution parameter.
+
+### Deriving the maximum likelihood estimator
+To derive the maximum likelihood estimator, we need not just $L(\beta_{1},\beta_{2},\sigma^{2};y_{i})$ but rather $L(\beta_{1},\beta_{2},\sigma^{2};y)$, i.e., the likelihood based on all observed values for $y$. From our assumptions, we know that $y_{1}, y_{2}, \ldots, y_{n}$ are independent and normally distributed. Thus,
+$$
+\begin{aligned}
+L(\beta_{1},\beta_{2},\sigma^{2};y) &= \prod_{i=1}^{n} L(\beta_{1},\beta_{2},\sigma^{2};y_{i}) \\
+&= \prod_{i=1}^{n} (2\pi)^{-1/2}(\sigma^{2})^{-1/2}\exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&= (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \prod_{i=1}^{n} \exp\left(-\frac{1}{2\sigma^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \\
+&= (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \exp\left(-\frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right)
+\end{aligned}
+$$
+Now, instead of maximimizing the likelihood directly, we consider the *loglikelihood*. This is mathematically convenient and equivalent because the logarithmic transformation is a monotone transformation. Therefore, it strictly preserves the location of the maximum.
+
+::: {.callout-note title="(Log)likelihood" collapse = "true"}
+
+In fact, there are multiple reasons to consider the loglikelihood instead of the likelihood. Analytically, it is easier to differentiate a sum than using the product rule on several chains of multiplications. However, it also ensures more computational stability. Likelihoods involve multiplying many probabilities together, which lead to tiny numbers and causes numerical underflow in computers. Loglikelihoods turns these into sums however, which avoids this issue altogether.
+
+:::
+
+For notational convenience, we omit the arguments of the function $\log L$. Moreover, we note that in the literature $\log$ denotes the natural logarithm $\ln$ (unless indicated differently). Then we can write
+$$
+\begin{aligned}
+\log L &= \log \left( (2\pi)^{-n/2}(\sigma^{2})^{-n/2} \exp\left(-\frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} \right) \right) \\
+&= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^{2}) - \frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}.
+\end{aligned}
+$$
+The optimal value of $\sigma^{2}$ (given $\beta_{1}$ and $\beta_{2}$) can be solved from its respective first order condition. That is, if we compute the derivative of the loglikelihood with respect to $\sigma^{2}$, we obtain
+$$
+\frac{\partial \log L}{\partial \sigma^{2}} = -\frac{n}{2} \cdot \frac{1}{\sigma^{2}} + \frac{1}{2(\sigma^{2})^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}, 
+$$
+and setting it equal to zero yields
+$$
+\begin{aligned}
+-\frac{n}{2} \cdot \frac{1}{\sigma^{2}} + \frac{1}{2(\sigma^{2})^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &= 0 \\
+-\frac{n}{2}\sigma^{2} + \frac{1}{2} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &= 0 \\
+-\sigma^{2} + \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2} &= 0, 
+\end{aligned}
+$$
+where we multiplied each side by $(\sigma^{2})^{2}$ and $2/n$. Thus, the optimal value of $\sigma^{2}$ (given $\beta_{1}$ and $\beta_{2}$) is given by
+$$
+\sigma^{2} = \sigma^{2}(\beta_{1}, \beta_{2}) = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}.
+$$
+Substituting this equation into $\log L$ yields the so-called *concentrated loglikelihood*:
+$$
+\begin{aligned}
+\log L &= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^{2}) - \frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2} \\
+&= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log \left(\frac{1}{n} \sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2} \right) - \frac{1}{2 \cdot \frac{1}{n}},   
+\end{aligned}
+$$
+where the optimal values of $\beta_{1}$ and $\beta_{2}$ (that maximize the loglikelihood) are found by minimizing the sum of squared deviations
+$$
+\sum_{i=1}^{n} (y_{i} - \beta_{1} - \beta_{2} x_{i})^{2}.
+$$
+We directly recognize this from the least-squares derivations. Thus, we find
+$$
+\begin{aligned}
+&\hat{\beta}_{1,ML} = \hat{\beta}_{1,LS} = \overline{y} - \hat{\beta}_{2, LS} \overline{x} \\
+&\hat{\beta}_{2,ML} = \hat{\beta}_{2,LS} = \frac{\frac{1}{n}\sum_{i=1}^{n} x_{i}y_{i} - \overline{x} \ \overline{y}}{\frac{1}{n} \sum_{i=1}^{n}x_{i}^{2} - \overline{x}^{2}} \\
+&\hat{\sigma}^{2} = \frac{1}{n}\sum_{i=1}^{n} (y_{i} - \hat{\beta}_{1,ML} - \hat{\beta}_{2,ML}x_{i})^{2} = \frac{1}{n}\sum_{i=1}^{n} e_{i}^{2}.
+\end{aligned}
+$$
+Thus, note that the least-squares variance estimator $s^{2} = e'e/(n-k)$ and maximum likelihood estimator $\hat{\sigma}^{2} = e'e/n$ are different.
+
+### Extension to the multiple linear regression
+It is quite straightforward to extend these results to the case of multiple linear regression. ITE (Section 4.4) does not take the path of the concentrated loglikelihood, but rather derives the estimators directly. It does so by collecting the (transpose of) the first derivatives in a vector $q$, which is called the *score*. Setting the score to zero directly yields
+$$
+\hat{\beta} = (X'X)^{-1}X'y, \qquad \hat{\sigma} = \frac{e'e}{n}.
+$$
+The different variance estimator reveals that maximum likelihood generally does not produce estimators that are unbiased. However, ML estimators have the property that they are **invariant**. It means that if $\hat{\theta}$ is the ML estimator of $\theta$, then $g(\hat{\theta})$ is the ML estimator $g(\theta)$ provided $g(\hat{\theta})$ is defined.
+
+The method of maximum likelihood is shown to fulfill first- and second-order regularity. First-order regularity means
+$$
+E(q) = 0.
+$$
+Another property of the second is that the inverse of its variance provides (approximately) the variances of the ML estimators. Second-order regularity is now given by
+$$
+\Var(q) = \mathcal{F},
+$$
+where $\mathcal{F} = - E(H)$ is called Fisher's *information matrix*, and $H$ denotes the Hessian, i.e. the matrix collecting all second derivatives. The information matrix plays an important role when we discuss the *Cramér-Rao inquality* (or also sometimes called *Cramér-Rao lower bound*) which says that the variance of an unbiased estimator has a lower bound which is given by the inverse of $\Var(q)$ or, equivalently, by $\mathcal{F}^{-1}$. If an unbiased estimator achieves this bound, then it has the lowest possible variance, and we call the estimator *efficient*.
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+The derivations of ML estimators in combination with first- and second-order regularity are covered in:
+
+- Section 4.4 - 4.5.
+
+The remaining two sections for this week, show that the regularity conditions extend beyond the linear regression model. It is particularly important to understand the Cramér-Rao inequality and how the mean squared error can be used to compare biased and unbiased estimators:
+
+- Section 4.6 - 4.7.
 
 :::

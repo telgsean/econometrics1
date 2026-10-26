@@ -81,7 +81,7 @@ In period 2, we dig a bit deeper and consider three themes:
 - Simple linear regression model
 - Generalization to multiple linear regression
 - First-order and second-order regularity
-- Cram\'er-Rao inequality
+- Cramér-Rao inequality
 
 ### [Week 2 - Restricted estimation and testing](part%202/week2.qmd)
 - Revisiting restricted least squares, and compare to maximum likelihood
