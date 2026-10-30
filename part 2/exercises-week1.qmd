@@ -26,7 +26,7 @@ The full solution can be found in the book *Mastering Econometrics*, Exercise 4.
 :::
 
 ## Exercise 2
-Find the ML estimator of the unknown parameter $\theta>0$ for each of the following probability densities on the basis of a random sample of size $n$.
+*(4.4 in ME)* Find the ML estimator of the unknown parameter $\theta>0$ for each of the following probability densities on the basis of a random sample of size $n$.
 
 a. (beta distr.) $\qquad$    $f(x;\theta) = \theta x^{\theta - 1}$ $\qquad \qquad \qquad$      ($0<x<1$).
 b. (Pareto distr.) $\quad$ \text{  }          $f(x;\theta) = \theta x^{-\theta-1}$   $\qquad  \qquad \qquad$        ($x>1$).
@@ -40,7 +40,7 @@ The full solution can be found in the book *Mastering Econometrics*, Exercise 4.
 :::
 
 ## Exercise 3
-Consider a sample of size $n$ from the Bernoulli distribution, as in Exercise~1.
+*(4.6 in ME)* Consider a sample of size $n$ from the Bernoulli distribution, as in Exercise~1.
 
 a. Obtain the information matrix $\mathcal{F}(p)$ (a scalar in this case) and show that $\mathcal{F}^{-1}(p) = \Var(\hat{p})$.
 b. Show that $\hat{p}$ is efficient.
@@ -52,7 +52,7 @@ The full solution can be found in the book *Mastering Econometrics*, Exercise 4.
 :::
 
 ## Exercise 4
-Consider a sample of size $n$ from the Bernoulli distribution, as in Exercises 1 and 3.
+*(4.7 in ME)* Consider a sample of size $n$ from the Bernoulli distribution, as in Exercises 1 and 3.
 Let $\theta=p/(1-p)$ (the *odds ratio*).
 
 a. Obtain the ML estimator $\hat\theta$ of $\theta$.

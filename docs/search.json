@@ -1115,6 +1115,94 @@
     ]
   },
   {
+    "objectID": "part 2/exercises-week1.html#exercise-1",
+    "href": "part 2/exercises-week1.html#exercise-1",
+    "title": "Week 1 - Exercises",
+    "section": "",
+    "text": "(4.2 in ME) We toss a coin, which may be biased. Define a random variable \\(x\\), which takes the value \\(1\\) when heads comes up and \\(0\\) when tails come up. These events happen with probabilities \\(p\\) and \\(1-p\\), respectively (\\(0\\leq p\\leq 1\\)). Thus, \\(x\\) follows a Bernoulli distribution, and we can write its density as \\[\nf(x;p)=p^{x}(1-p)^{1-x} \\qquad (x\\in\\{0,1\\}).\n\\]\n\nShow that \\(\\E(x) = p\\) and \\(\\Var(x) = p(1-p)\\).\nNow we toss the coin \\(n\\) times and assume that the tosses are independent. Write down the likelihood function and obtain the maximum-likelihood (ML) estimator \\(\\hat{p}\\) of \\(p\\).\nWhat are the mean and variance of \\(\\hat{p}\\)?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.2.",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-2",
+    "href": "part 2/exercises-week1.html#exercise-2",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 2",
+    "text": "Exercise 2\n(4.4 in ME) Find the ML estimator of the unknown parameter \\(\\theta&gt;0\\) for each of the following probability densities on the basis of a random sample of size \\(n\\).\n\n(beta distr.) \\(\\qquad\\) \\(f(x;\\theta) = \\theta x^{\\theta - 1}\\) \\(\\qquad \\qquad \\qquad\\) (\\(0&lt;x&lt;1\\)).\n(Pareto distr.) \\(\\quad\\) \\(f(x;\\theta) = \\theta x^{-\\theta-1}\\) \\(\\qquad  \\qquad \\qquad\\) (\\(x&gt;1\\)).\n(gamma distr.) \\(\\quad\\) \\(f(x;\\theta) = \\theta^{2}x\\exp(-\\theta x)\\) \\(\\qquad \\quad\\) (\\(x&gt;0\\)).\n(Laplace distr.) \\(\\quad\\) \\(f(x;\\theta) = (\\theta/2)\\exp(-\\theta|x|)\\) \\(\\quad\\) (\\(-\\infty &lt; x &lt; \\infty\\)).\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.4.",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-3",
+    "href": "part 2/exercises-week1.html#exercise-3",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 3",
+    "text": "Exercise 3\n(4.6 in ME) Consider a sample of size \\(n\\) from the Bernoulli distribution, as in Exercise~1.\n\nObtain the information matrix \\(\\mathcal{F}(p)\\) (a scalar in this case) and show that \\(\\mathcal{F}^{-1}(p) = \\Var(\\hat{p})\\).\nShow that \\(\\hat{p}\\) is efficient.\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.6.",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-4",
+    "href": "part 2/exercises-week1.html#exercise-4",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 4",
+    "text": "Exercise 4\n(4.7 in ME) Consider a sample of size \\(n\\) from the Bernoulli distribution, as in Exercises 1 and 3. Let \\(\\theta=p/(1-p)\\) (the odds ratio).\n\nObtain the ML estimator \\(\\hat\\theta\\) of \\(\\theta\\).\nShow that \\(\\hat\\theta\\) is biased. Can you say anything about the direction of the bias?\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\nEither use the invariance property or reparameterize the loglikelihood.\nHow can Jensen’s inequality be used?",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-5",
+    "href": "part 2/exercises-week1.html#exercise-5",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 5",
+    "text": "Exercise 5\n(4.9 in ME) Consider the model \\(y_i=\\beta + u_i\\), where the \\(u_i\\) are independent and identically distributed as \\(N(0,\\sigma^2)\\). Try to solve part (a) in two ways: using unit-specific and vector/matrix notation.\n\nShow that the ML estimators for \\(\\beta\\) and \\(\\sigma^2\\) are given by \\(\\hat\\beta = \\bar{y}\\) and \\(\\hat\\sigma^2 = \\sum_{i=1}^{n} (y_{i} - \\bar{y})^{2}/n\\).\nCompare \\(\\hat\\beta\\) and \\(\\hat\\sigma^2\\) to the LS estimators of \\(\\beta\\) and \\(\\sigma^{2}\\).\nAre \\(\\hat{\\beta}\\) and \\(\\hat{\\sigma}^{2}\\) unbiased? In case the estimator is biased, what can you say about the direction of the bias?\nWhat is the ML estimator of \\(\\sigma\\)? And why?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution based on vector/matrix notation can be found in the book Mastering Econometrics, Exercise 4.9.\n\nThe loglikelihood can be written as \\[\n\\begin{aligned}\n\\log L &= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} \\sum_{i=1}^{n} (y_{i} - \\beta)^{2} \\\\\n&= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} \\sum_{i=1}^{n} (y^{2}_{i} - 2\\beta y_{i} + \\beta^{2}) \\\\\n&= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} (n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2})\n\\end{aligned}\n\\] Differentiating now gives \\[\n\\begin{aligned}\n\\frac{\\partial \\log L}{\\partial \\beta} &= -\\frac{-2n\\overline{y} + 2n\\beta}{2\\sigma^{2}} \\\\\n\\frac{\\partial \\log L}{\\partial \\sigma^{2}} &= -\\frac{n}{2\\sigma^{2}} + \\frac{n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2}}{2\\sigma^{4}}.\n\\end{aligned}\n\\] Setting these first derivatives equal to zero yields: \\[\n-\\frac{2n\\beta -2n\\overline{y}}{2\\sigma^{2}} = 0 \\iff n\\beta = n\\overline{y} \\implies \\hat{\\beta} = \\overline{y}.\n\\] and \\[\n\\begin{aligned}\n\\frac{n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2}}{2\\sigma^{4}} = \\frac{n}{2\\sigma^{2}} &\\iff \\sigma^{2} = \\beta^{2} - 2\\overline{y}\\beta + \\overline{y^{2}} \\\\\n&\\implies \\hat{\\sigma}^{2} = \\overline{y}^{2} - 2\\overline{y}^{2} + \\overline{y^{2}} = \\frac{1}{n}\\sum_{i=1}^{n} (y_{i} - \\overline{y})^{2},\n\\end{aligned}\n\\] using the identity \\(\\overline{y^{2}} - \\overline{y}^{2} = \\frac{1}{n}\\sum_{i=1}^{n} (y_{i} - \\overline{y})^{2}\\).",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-6",
+    "href": "part 2/exercises-week1.html#exercise-6",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 6",
+    "text": "Exercise 6\n(4.10 in ME) Given is the linear model \\(y = X\\beta + u\\) with \\(u \\sim N(0,\\sigma^{2}I_{n})\\). Let \\(\\hat{\\beta}_{j}\\) denote the ML estimator of \\(\\beta_{j}\\) and define \\(\\omega^{2}_{j}= \\Var(\\hat{\\beta}_{j})\\).\n\nFind an expression for \\(\\omega^{2}_{j}\\). How would you estimate \\(\\omega^{2}_{j}\\)?\nConsider the following ratios: \\[\n\\tau_j=\\frac{\\beta_j}{\\omega_j}, \\qquad \\hat\\tau_j=\\frac{\\hat\\beta_j}{\\omega_j}, \\qquad t_j=\\frac{\\hat\\beta_j}{\\hat\\omega_j}.\n\\] Show that \\(\\hat\\tau_j\\) is normally distributed and determine its mean and variance. How are \\(\\hat\\tau_j\\) and the \\(t\\)-ratio \\(t_j\\) related?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\n\nLet \\(V = (X'X)^{-1}\\) with elements \\(v_{ij}\\). Since \\(\\hat\\beta\\) is normally distributed with mean \\(\\beta\\) and \\(\\Var(\\hat\\beta)=\\sigma^2 V\\), it follows that \\(\\hat\\beta_j\\) is normally distributed with mean \\(\\beta_j\\) and variance \\(\\omega_{j}^{2}=\\sigma^2 v_{jj}\\). In a ML framework, we estimate \\(\\omega_{j}^{2}\\) by \\(\\hat\\omega_j^2=\\hat\\sigma^2 v_{jj}\\) with \\(\\hat\\sigma^2=e'e/n\\). In a LS framework we would use \\(s^2=e'e/(n-k)\\) instead of \\(\\hat\\sigma^2\\).\nSince \\(\\hat{\\beta}_{j} \\sim N(\\beta_j,\\omega^2_{j})\\), it follows that \\(\\hat\\tau_j \\sim N(\\tau_j,1)\\). The \\(t\\)-ratio is the estimator divided by its estimated standard deviation. Hence, if we replace \\(\\sigma^{2}\\) by its estimator \\(\\hat{\\sigma}^{2}\\), we obtain the \\(t\\)-ratio \\(t_j\\).",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-7",
+    "href": "part 2/exercises-week1.html#exercise-7",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 7",
+    "text": "Exercise 7\n(4.14 in ME) Consider the linear model \\(y = X\\beta + u\\) with \\(u \\sim N(0,\\sigma^{2}I_n)\\) and loglikelihood \\[\n\\log L(\\beta,\\sigma^2) = -(n/2)\\log(2\\pi) - (n/2)\\log\\sigma^{2} - \\frac{(y-X\\beta)'(y-X\\beta)}{2\\sigma^{2}}.\n\\]\n\nShow that the score \\(q\\) equals \\[\nq=\n\\begin{pmatrix}\nX'u/\\sigma^{2} \\\\\n-n/(2\\sigma^{2}) + u'u/(2\\sigma^{4})\n\\end{pmatrix}.\n\\]\nProve that \\[\n\\E(q)=0,\n\\qquad\n\\Var(q) =\n\\begin{pmatrix}\nX'X/\\sigma^{2} & 0 \\\\\n0 & n/(2\\sigma^{4})\n\\end{pmatrix}.\n\\]\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.14.",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
+    "objectID": "part 2/exercises-week1.html#exercise-8",
+    "href": "part 2/exercises-week1.html#exercise-8",
+    "title": "Week 1 - Exercises",
+    "section": "Exercise 8",
+    "text": "Exercise 8\n(4.15 in ME) Suppose the likelihood depends on two sets of parameters, say \\(\\beta\\) and \\(\\theta\\). We differentiate the (log)likelihood with respect to \\(\\beta\\) and \\(\\theta\\). This gives two vectors of partial derivatives: \\[\nq_{\\beta}'(\\beta,\\theta)=\\frac{\\partial\\log L(\\beta,\\theta)}{\\partial\\beta'},\n\\qquad\nq_{\\theta}'(\\beta,\\theta)=\\frac{\\partial\\log L(\\beta,\\theta)}{\\partial\\theta'}.\n\\] To obtain the ML estimators we solve \\(\\beta\\) and \\(\\theta\\) from the two equations \\(q_{\\beta}=0\\) and \\(q_{\\theta}=0\\) (the first-order conditions).\nLet’s consider a different method, called concentrated maximum likelihood. Here we take one of the first-order conditions, say \\(q_{\\beta}=0\\), and ‘solve’ \\(\\beta\\). The solution \\(\\beta_c(\\theta)\\) will, in general, be a function of \\(\\theta\\). Next we substitute \\(\\beta=\\beta_c(\\theta)\\) in the likelihood \\(L(\\beta,\\theta)\\) and obtain the concentrated likelihood function \\(L_c(\\theta)=L(\\beta_c(\\theta),\\theta)\\), which is now a function of only \\(\\theta\\). Then, we maximize \\(\\log L_c\\) with respect to~\\(\\theta\\). The solution \\(\\hat\\theta_c\\) maximizes the concentrated loglikelihood.\nObtain the ML estimators of \\(\\beta\\) and \\(\\sigma^{2}\\) in the classical normal linear model by concentrating with respect to \\(\\beta\\).\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.15.",
+    "crumbs": [
+      "Part 2",
+      "Exercises Week 1"
+    ]
+  },
+  {
     "objectID": "part 2/exercises-week3.html",
     "href": "part 2/exercises-week3.html",
     "title": "Week 3 - Exercises",
@@ -1177,94 +1265,6 @@
     "crumbs": [
       "Part 2",
       "Week 6"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-1",
-    "href": "part 2/exercises-week1.html#exercise-1",
-    "title": "Week 1 - Exercises",
-    "section": "",
-    "text": "(4.2 in ME) We toss a coin, which may be biased. Define a random variable \\(x\\), which takes the value \\(1\\) when heads comes up and \\(0\\) when tails come up. These events happen with probabilities \\(p\\) and \\(1-p\\), respectively (\\(0\\leq p\\leq 1\\)). Thus, \\(x\\) follows a Bernoulli distribution, and we can write its density as \\[\nf(x;p)=p^{x}(1-p)^{1-x} \\qquad (x\\in\\{0,1\\}).\n\\]\n\nShow that \\(\\E(x) = p\\) and \\(\\Var(x) = p(1-p)\\).\nNow we toss the coin \\(n\\) times and assume that the tosses are independent. Write down the likelihood function and obtain the maximum-likelihood (ML) estimator \\(\\hat{p}\\) of \\(p\\).\nWhat are the mean and variance of \\(\\hat{p}\\)?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.2.",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-2",
-    "href": "part 2/exercises-week1.html#exercise-2",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 2",
-    "text": "Exercise 2\nFind the ML estimator of the unknown parameter \\(\\theta&gt;0\\) for each of the following probability densities on the basis of a random sample of size \\(n\\).\n\n(beta distr.) \\(\\qquad\\) \\(f(x;\\theta) = \\theta x^{\\theta - 1}\\) \\(\\qquad \\qquad \\qquad\\) (\\(0&lt;x&lt;1\\)).\n(Pareto distr.) \\(\\quad\\) \\(f(x;\\theta) = \\theta x^{-\\theta-1}\\) \\(\\qquad  \\qquad \\qquad\\) (\\(x&gt;1\\)).\n(gamma distr.) \\(\\quad\\) \\(f(x;\\theta) = \\theta^{2}x\\exp(-\\theta x)\\) \\(\\qquad \\quad\\) (\\(x&gt;0\\)).\n(Laplace distr.) \\(\\quad\\) \\(f(x;\\theta) = (\\theta/2)\\exp(-\\theta|x|)\\) \\(\\quad\\) (\\(-\\infty &lt; x &lt; \\infty\\)).\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.4.",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-3",
-    "href": "part 2/exercises-week1.html#exercise-3",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 3",
-    "text": "Exercise 3\nConsider a sample of size \\(n\\) from the Bernoulli distribution, as in Exercise~1.\n\nObtain the information matrix \\(\\mathcal{F}(p)\\) (a scalar in this case) and show that \\(\\mathcal{F}^{-1}(p) = \\Var(\\hat{p})\\).\nShow that \\(\\hat{p}\\) is efficient.\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.6.",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-4",
-    "href": "part 2/exercises-week1.html#exercise-4",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 4",
-    "text": "Exercise 4\nConsider a sample of size \\(n\\) from the Bernoulli distribution, as in Exercises 1 and 3. Let \\(\\theta=p/(1-p)\\) (the odds ratio).\n\nObtain the ML estimator \\(\\hat\\theta\\) of \\(\\theta\\).\nShow that \\(\\hat\\theta\\) is biased. Can you say anything about the direction of the bias?\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\nEither use the invariance property or reparameterize the loglikelihood.\nHow can Jensen’s inequality be used?",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-5",
-    "href": "part 2/exercises-week1.html#exercise-5",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 5",
-    "text": "Exercise 5\n(4.9 in ME) Consider the model \\(y_i=\\beta + u_i\\), where the \\(u_i\\) are independent and identically distributed as \\(N(0,\\sigma^2)\\). Try to solve part (a) in two ways: using unit-specific and vector/matrix notation.\n\nShow that the ML estimators for \\(\\beta\\) and \\(\\sigma^2\\) are given by \\(\\hat\\beta = \\bar{y}\\) and \\(\\hat\\sigma^2 = \\sum_{i=1}^{n} (y_{i} - \\bar{y})^{2}/n\\).\nCompare \\(\\hat\\beta\\) and \\(\\hat\\sigma^2\\) to the LS estimators of \\(\\beta\\) and \\(\\sigma^{2}\\).\nAre \\(\\hat{\\beta}\\) and \\(\\hat{\\sigma}^{2}\\) unbiased? In case the estimator is biased, what can you say about the direction of the bias?\nWhat is the ML estimator of \\(\\sigma\\)? And why?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution based on vector/matrix notation can be found in the book Mastering Econometrics, Exercise 4.9.\n\nThe loglikelihood can be written as \\[\n\\begin{aligned}\n\\log L &= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} \\sum_{i=1}^{n} (y_{i} - \\beta)^{2} \\\\\n&= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} \\sum_{i=1}^{n} (y^{2}_{i} - 2\\beta y_{i} + \\beta^{2}) \\\\\n&= -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^{2}) - \\frac{1}{2\\sigma^{2}} (n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2})\n\\end{aligned}\n\\] Differentiating now gives \\[\n\\begin{aligned}\n\\frac{\\partial \\log L}{\\partial \\beta} &= -\\frac{-2n\\overline{y} + 2n\\beta}{2\\sigma^{2}} \\\\\n\\frac{\\partial \\log L}{\\partial \\sigma^{2}} &= -\\frac{n}{2\\sigma^{2}} + \\frac{n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2}}{2\\sigma^{4}}.\n\\end{aligned}\n\\] Setting these first derivatives equal to zero yields: \\[\n-\\frac{2n\\beta -2n\\overline{y}}{2\\sigma^{2}} = 0 \\iff n\\beta = n\\overline{y} \\implies \\hat{\\beta} = \\overline{y}.\n\\] and \\[\n\\begin{aligned}\n\\frac{n \\overline{y^{2}} - 2n\\overline{y}\\beta + n\\beta^{2}}{2\\sigma^{4}} = \\frac{n}{2\\sigma^{2}} &\\iff \\sigma^{2} = \\beta^{2} - 2\\overline{y}\\beta + \\overline{y^{2}} \\\\\n&\\implies \\hat{\\sigma}^{2} = \\overline{y}^{2} - 2\\overline{y}^{2} + \\overline{y^{2}} = \\frac{1}{n}\\sum_{i=1}^{n} (y_{i} - \\overline{y})^{2},\n\\end{aligned}\n\\] using the identity \\(\\overline{y^{2}} - \\overline{y}^{2} = \\frac{1}{n}\\sum_{i=1}^{n} (y_{i} - \\overline{y})^{2}\\).",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-6",
-    "href": "part 2/exercises-week1.html#exercise-6",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 6",
-    "text": "Exercise 6\n(4.10 in ME) Given is the linear model \\(y = X\\beta + u\\) with \\(u \\sim\\rN(0,\\sigma^{2}I_{n})\\). Let \\(\\hat{\\beta}_{j}\\) denote the ML estimator of \\(\\beta_{j}\\) and define \\(\\omega^{2}_{j}=\\var(\\hat{\\beta}_{j})\\).\n\nFind an expression for \\(\\omega^{2}_{j}\\). How would you estimate \\(\\omega^{2}_{j}\\)?\nConsider the following ratios: \\[\n\\tau_j=\\frac{\\beta_j}{\\omega_j}, \\qquad \\hat\\tau_j=\\frac{\\hat\\beta_j}{\\omega_j}, \\qquad t_j=\\frac{\\hat\\beta_j}{\\hat\\omega_j}.\n\\] Show that \\(\\hat\\tau_j\\) is normally distributed and determine its mean and variance. How are \\(\\hat\\tau_j\\) and the \\(t\\)-ratio \\(t_j\\) related?\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\n\nLet \\(V = (X'X)^{-1}\\) with elements \\(v_{ij}\\). Since \\(\\hat\\beta\\) is normally distributed with mean \\(\\beta\\) and \\(\\var(\\hat\\beta)=\\sigma^2 V\\), it follows that \\(\\hat\\beta_j\\) is normally distributed with mean \\(\\beta_j\\) and variance \\(\\omega_{j}^{2}=\\sigma^2 v_{jj}\\). In a ML framework, we estimate \\(\\omega_{j}^{2}\\) by \\(\\hat\\omega_j^2=\\hat\\sigma^2 v_{jj}\\) with \\(\\hat\\sigma^2=e'e/n\\). In a LS framework we would use \\(s^2=e'e/(n-k)\\) instead of \\(\\hat\\sigma^2\\).\nSince \\(\\hat{\\beta}_{j} \\sim N(\\beta_j,\\omega^2_{j})\\), it follows that \\(\\hat\\tau_j \\sim N(\\tau_j,1)\\). The \\(t\\)-ratio is the estimator divided by its estimated standard deviation. Hence, if we replace \\(\\sigma^{2}\\) by its estimator \\(\\hat{\\sigma}^{2}\\), we obtain the \\(t\\)-ratio \\(t_j\\).",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-7",
-    "href": "part 2/exercises-week1.html#exercise-7",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 7",
-    "text": "Exercise 7\n(4.14 in ME) Consider the linear model \\(y = X\\beta + u\\) with \\(u \\sim N(0,\\sigma^{2}I_n)\\) and loglikelihood \\[\n\\log L(\\beta,\\sigma^2) = -(n/2)\\log(2\\pi) - (n/2)\\log\\sigma^{2} - \\frac{(y-X\\beta)'(y-X\\beta)}{2\\sigma^{2}}.\n\\]\n\nShow that the score \\(q\\) equals \\[\nq=\n\\begin{pmatrix}\nX'u/\\sigma^{2} \\\\\n-n/(2\\sigma^{2}) + u'u/(2\\sigma^{4})\n\\end{pmatrix}.\n\\]\nProve that \\[\n\\E(q)=0,\n\\qquad\n\\Var(q) =\n\\begin{pmatrix}\nX'X/\\sigma^{2} & 0 \\\\\n0 & n/(2\\sigma^{4})\n\\end{pmatrix}.\n\\]\n\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.14.",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
-    ]
-  },
-  {
-    "objectID": "part 2/exercises-week1.html#exercise-8",
-    "href": "part 2/exercises-week1.html#exercise-8",
-    "title": "Week 1 - Exercises",
-    "section": "Exercise 8",
-    "text": "Exercise 8\n(4.15 in ME) Suppose the likelihood depends on two sets of parameters, say \\(\\beta\\) and \\(\\theta\\). We differentiate the (log)likelihood with respect to \\(\\beta\\) and \\(\\theta\\). This gives two vectors of partial derivatives: \\[\nq_{\\beta}'(\\beta,\\theta)=\\frac{\\partial\\log L(\\beta,\\theta)}{\\partial\\beta'},\n\\qquad\nq_{\\theta}'(\\beta,\\theta)=\\frac{\\partial\\log L(\\beta,\\theta)}{\\partial\\theta'}.\n\\] To obtain the ML estimators we solve \\(\\beta\\) and \\(\\theta\\) from the two equations \\(q_{\\beta}=0\\) and \\(q_{\\theta}=0\\) (the first-order conditions).\nLet’s consider a different method, called concentrated maximum likelihood. Here we take one of the first-order conditions, say \\(q_{\\beta}=0\\), and ‘solve’ \\(\\beta\\). The solution \\(\\beta_c(\\theta)\\) will, in general, be a function of \\(\\theta\\). Next we substitute \\(\\beta=\\beta_c(\\theta)\\) in the likelihood \\(L(\\beta,\\theta)\\) and obtain the concentrated likelihood function \\(L_c(\\theta)=L(\\beta_c(\\theta),\\theta)\\), which is now a function of only \\(\\theta\\). Then, we maximize \\(\\log L_c\\) with respect to~\\(\\theta\\). The solution \\(\\hat\\theta_c\\) maximizes the concentrated loglikelihood.\nObtain the ML estimators of \\(\\beta\\) and \\(\\sigma^{2}\\) in the classical normal linear model by concentrating with respect to \\(\\beta\\).\n\n\n\n\n\n\nCautionSolution\n\n\n\n\n\nThe full solution can be found in the book Mastering Econometrics, Exercise 4.15.",
-    "crumbs": [
-      "Part 2",
-      "Exercises Week 1"
     ]
   }
 ]
