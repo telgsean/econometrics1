@@ -12,3 +12,21 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 4, Section 4.8 - 4.10.
 
 :::
+
+## This week's contents
+We focus on **restricted maximum likelihood**, which involves estimating the linear regression model under single or multiple linear restrictions. This topic is not completely new, as we considered restricted least squares before. Moreover, we consider three well-known tests for multiple restrictions in the framework of maximum likelihood. These are the **Wald test** (which uses the unrestricted estimates), the **Lagrange Multiplier test** (which uses the restricted estimates) and the **Likelihood Ratio test** (which uses both estimates). In practice, the tests can also be used to decide between an unrestricted and restricted model.
+
+We finish this week by revisiting the concept of **sampling distribution**. To study the behavior of an estimator or test statistic, we require a large number of samples from the same data generation process. We can use **Monte Carlo simulation studies** for this. This way, we can investigate what happens under **correct specification** and **misspecification**.
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+For restricted maximum likelihood and testing multiple restrictions, there is no extra material besides the sections in ITE.
+
+- Section 4.8 - 4.10.
+
+:::
+
+## Sampling distribution
+
+## Monte Carlo simulation study
