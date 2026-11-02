@@ -28,5 +28,7 @@ For restricted maximum likelihood and testing multiple restrictions, there is no
 :::
 
 ## Sampling distribution
+Continue here.
+
 
 ## Monte Carlo simulation study
