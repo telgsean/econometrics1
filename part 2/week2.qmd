@@ -28,7 +28,7 @@ For restricted maximum likelihood and testing multiple restrictions, there is no
 :::
 
 ## Sampling distribution
-Continue here.
+During this course, we discussed at various occassions that many of our statistical quantities of interest are functions of the data. Because of this, they take different values from the one sample to the other. 
 
 
 ## Monte Carlo simulation study
