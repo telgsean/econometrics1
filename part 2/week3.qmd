@@ -12,3 +12,209 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 5, Section 5.1 - 5.11.
 
 :::
+
+## This week's contents
+We have derived two estimators for the linear regression model: the least-squares (LS) estimator and the maximum likelihood (ML) estimator. We have shown several **finite-sample properties** of those estimators, such as unbiasedness (typical for LS) and invariance (typical for ML). This week, we are going to focus on **asymptotic theory**. In particular, we investigate properties such as **consistency** and **asymptotic normality** of our estimators. By means of Monte Carlo simulations, we cannot only study these properties theoretically but also based on simulated data in which we control the properties of the data-generating process (DGP).
+
+### Why asymptotics?
+Before delving deeper into the world of asymptotic theory, it is worth asking the question why the scenario $n \to \infty$ is even of interest at all? In reality, we never observe sample sizes that go to infinity. We might have a very large sample, but it will always be finite. However, there are various reasons why econometricians are interested in asymptotic theory:
+
+- In small-sample LS inference, assuming the error terms are normally distributed is strictly required to make $t$-tests and $F$-tests exact. If we invoke asymptotic normality, the errors are allowed to follow different distributions while valid inference can still be executed without the normality assumption. Thus, it allows us to **drop possibly unrealistic assumptions** on the error term's distribution.
+
+- Asymptotic theory allows for showing **consistency** of an estimator, i.e., an estimator converges to the true population parameter as data accumulates. This ensures your method is **reliable**.
+
+- If you have multiple consistent estimators at your disposal, asymptotic theory (like the Cramér-Rao bound) helps to determine which estimator has the **smallest variance in large samples**.
+
+- Exact small-sample distributions for complex estimators or nonlinear models are often mathematically impossible to derive. Limiting distributions serve as a **practical approximation** for real-world, finite sample sizes.
+
+As you can see, asymptotic theory is an important part of the econometrician's toolbox. In this course, the first three scenarios mainly apply since the theoretical properties of our model, estimators and test statistics well-known. However, the latter scenario might become increasingly relevant in case you decide to major in econometrics. 
+
+During these two weeks of the course, we are going to consider two different scenarios:
+- In the book, we retain the assumption that the error term follows a normal distribution. This allows us to show asymptotic properties such as consistency and asymptotic normality of both the LS and ML estimator (remember: the latter estimator is based on normality of the error!).
+- On this website, we consider the case in which we do not assume normality of the error term. We focus only on the simple linear regression model, as notation becomes more involved while the used arguments do not change much for the case of multiple regressors. 
+
+::: {.callout-note title="Remark on notation" collapse = "true"}
+
+When we use asymptotic theory, we often denote our estimators slightly differently. Because we consider the framework where $n \to \infty$, we make it explicit that our estimators are functions of sample size $n$. For example, the sample mean $\overline{x}$ is then denoted $overline{x}_{n}$ but its interpretation remains exactly the same.
+
+To enhance understanding, just keep in mind that we are considering our estimators as sequences of random variables. So, we consider
+$$
+\overline{x}_{1} = \frac{x_{1}}{1}, \overline{x}_{2} = \frac{x_{1} + x_{2}}{2}, \ldots, \overline{x}_{n} = \frac{x_{1} + \ldots + x_{n}}{n},
+$$
+and we study the behavior of this estimator for increasingly larger sample sizes (where $n \to \infty$ is the *asymptotic*, also called *limiting*, case).
+
+
+:::
+
+### Asymptotic concepts
+The first sections of Chapter 5 mainly contain theory that you are already familiar with. When deriving consistency and asymptotic normality, we rely on some theorems specifically. Let us repeat some of those here. 
+
+::: {.callout-warning title="Weak law of large numbers" collapse="true"}
+
+Let $x_{1}, x_{2}, \ldots, x_{n}$ be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean $\mu$ and finite variance $\sigma^{2}$. Let $\overline{x}_{n}$ be the average of the first $n$ random variables. The weak law of large numbers states that
+$$
+\overline{x}_{n} \overset{p}{\to} \mu \qquad \text{or equivalently, } \qquad \text{plim}(\overline{x}_{n}) = \mu,
+$$
+i.e., the sample mean $\overline{x}_{n}$ converges to the population mean $E(x_{i}) = \mu$.
+
+Note that you need a good understanding of **convergence in probability** for the law of large numbers. Proving convergence in probability can be done directly using its definition, but this is often difficult. Proposition 5.1 in Section 5.7 of the book provides a useful shortcut in many cases. To prove the law of large numbers, we can use **Chebyshev's inequality**, which is a special case of **Markov's inequality**. These inequalities can be applied to find bounds to probability statements, which can be very useful in practice. However, it needs to be mentioned that these bounds are not always the tightest ones possible. 
+
+Lastly, note that we call this the weak law of large numbers because it involves convergence in probability. The strong law of large numbers is based on almost sure convergence, which is (as the name suggests) a stronger form of convergence.
+
+:::
+
+::: {.callout-warning title="Slutsky's theorem and the continuous mapping theorem" collapse="true"}
+
+Let $x_{1}, \ldots, x_{n}$ be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean $\mu$ and finite variance $\sigma^{2}$. If $\text{plim}(x_{n}) = \xi$ and $g$ is a continuous function, then
+$$
+\text{plim} g(x_{n}) = g(\text{plim} x_{n}) = g(\xi).
+$$
+In the book, this result is seen as part of *Slutsky's theorem* but is also known as the *continuous mapping theorem*. In words, it states that the limit is preserved when a continuous function $g$ is applied.
+
+Slutsky's theorem is important in combining two or more sequences. It provides arithmetic rules for the addition, subtraction, multiplication and division of sequences of random variables that have a limit. Slutsky's theorem does not only allow for combining sequences who converge in probability, but also for combining sequences that converge in probability and converge in distribution. Since we only consider convergence in probability this week, the results as stated in Section 5.5 suffice. Next week, we will consider a broader set of rules in Slutsky's theorem.
+
+:::
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read the following sections in ITE:
+
+- Section 5.1 - 5.3, which provide an applied introduction to the topic of limits.
+- Section 5.4 - 5.9, which contain all theory to enable us to show consistency of estimators in the context of linear regression.
+
+:::
+
+## Consistency
+We continue now by showing consistency of the LS and ML estimators in the linear regression model. We start by considering the estimator of the slope coefficient $\beta_{2}$ in the simple linear regression model. Note that the proof does not require any assumption of normality on the error term. This means that the results hold for the ML estimator (which is based on this normality assumption), but also for the LS estimator which does not require such a condition.
+
+### The simple linear regression model
+Consider once again the simple linear regression model given by
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
+$$
+Let us assume that **the regressor is random**, as this is the more difficult case. We need to show that $\hat{\beta}_{2} \xrightarrow{p} \beta_{2}$ or equivalently $\mbox{plim}(\hat \beta_2) = \beta_2$. The notation $\mbox{plim}$ is typically more useful than $\xrightarrow{p}$ when writing down arithmetic results such as Slutsky's theorem. Therefore, we adhere to this notation in what follows. Note that we also write $E(x_{i}) = \mu_{x}$ and $\Var(x_{i}) = \sigma^{2}_{x}$ with subscript '$x$' to avoid confusion with the mean and variance of the error term.
+
+Note that the LS and ML estimator of $\beta_{2}$ is given by
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n} ) (y_i - \overline{y}_{n} )}{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }.
+$$
+By plugging in the true data-generation process for $y_{i}$ and $\overline{y}_{n}$, we obtain
+$$
+\begin{aligned}
+\hat{\beta}_2 &= \beta_2 + \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}} \\
+              &= \beta_2 + \frac{\textcolor{red}{\frac{1}{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\textcolor{red}{\frac{1}{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
+\end{aligned}
+$$
+where we multiply the numerator and denominator of the second term by the scaling factor $\frac{1}{n}$ (remember: we need sequences that actually converge(!)). To prove consistency, first step is to take the probability limit of the above expression, i.e. 
+$$
+\mbox{plim}(\hat \beta_2) =  \mbox{plim} \left( \beta_2 + \frac{ \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} } \right). 
+$$
+Using Slutsky's theorem (sum rule), we can now write 
+$$
+\mbox{plim}(\hat \beta_2)  = \mbox{plim}(\beta_2) + \mbox{plim} \left( \frac{ \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }  \right),
+$$
+provided that both separate terms converge. For the first term, this is trivial because $\beta_{2}$ is a constant. For the second term, this is more difficult to see directly. For now, we assume this operation is valid. We continue with the product rule of Slutsky's theorem. This yields
+$$
+\begin{aligned}
+&\mbox{plim}(\hat \beta_2)  \\
+&= \mbox{plim}(\beta_2) + \mbox{plim} \left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) \;
+\mbox{plim} \left( \frac{1}{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} } \right), 
+\end{aligned}
+$$
+where we again assume that these operations are valid. Using the *continuous mapping theorem* (with $g(x) = 1/x$), we write
+$$
+\mbox{plim}(\hat \beta_2) =  \mbox{plim}(\beta_2) + \frac{ \mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i ) }{\mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} )}.
+$$
+Now, we use the fact that $\mbox{plim}(\beta_2) = \beta_2$ and the fact that $\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}$ converges in probability to the variance of $x_i$ (this is one of the weekly exercises), such that,
+$$
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} \right) =  \mbox{var}(x_i) = \sigma_{x}^{2}.
+$$ 
+Thus, we can write
+$$
+\begin{aligned}
+\mbox{plim}(\hat \beta_2) &= \mbox{plim}(\beta_2) + \frac{\mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i )}{
+\mbox{plim}( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2})} \\
+&=
+\beta_1 + \frac{ \mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i )}{\sigma_{x}^{2}}.
+\end{aligned}
+$$
+For consistency, the numerator of the second term has to be equal to zero. So, in the remainder of this proof we will prove that
+$$
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) = 0.
+$$
+
+::: {.callout-warning title="Be careful!"}
+
+It does **not** immediately follow from the law of large numbers that
+$$
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) = E\left[(x_i - \overline{x}_{n} ) u_i \right],
+$$
+because the terms $(x_i - \overline{x}_{n} ) u_i$  ($ i = 1, 2, \ldots, n$) are **not** independent due to the occurrence of the same random variable $\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i$ in each term.
+
+:::
+
+We add and subtract $\mu_x$ and apply the sum rule of Slutsky's theorem again to write
+$$
+\begin{aligned}
+&\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) \\
+&= \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x + \mu_x - \overline{x}_{n} ) u_i \right) \\
+&= \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x) u_i \right)  +
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i \right).
+\end{aligned}
+$$ {#eq-twoterms}
+The next step is now to show that both terms are zero. The first term is equal to zero by using the law of large numbers and the law of total expectations:
+$$
+\begin{aligned}
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x) u_i \right) &=  E \left( (x_i - \mu_x) u_i \right) \\
+&= E \left\{ E[ (x_i - \mu_x) u_i | x_i]   \right\} \\
+&= E \left\{ (x_i - \mu_x) E (u_i|x_i)   \right\} \\
+&= E \left\{ (x_i - \mu_x) 0 \right\} \\
+&= 0,
+\end{aligned}
+$$
+where we used the adapted assumption 2.3, i.e. $E(u_{i} | x_{i}) = 0$ in this case. Now we show that the second term in (@eq-twoterms) is equal to zero by using the product and sum rule of Slutsky's theorem and the law of large numbers:
+$$
+\begin{aligned}
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i \right)
+&= \mbox{plim}\left( (\mu_x - \overline{x}_{n} ) \frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&= \mbox{plim}\left( \mu_x - \overline{x}_{n} \right) \cdot \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&= \left( \mu_x - \mbox{plim}\left(\overline{x}_{n}\right) \right) \cdot \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&= \left( \mu_x - E\left(x_i \right) \right) \cdot E \left(u_i \right) \\
+&= 0 \cdot 0 = 0.
+\end{aligned}
+$$
+This concludes the proof of consistency of $\hat{\beta}_{2}$, since
+$$
+\mbox{plim}(\hat{\beta}_{2}) = \beta_{2} + \frac{0}{\sigma^{2}_{x}} = \beta_{2}.
+$$
+Consistency of $\hat{\beta}_{1}$ is left as a weekly exercise (no worries, this proof is quite a bit shorter!).
+
+
+### The multiple linear regression model
+In Section 5.10 of the book, consistency of $\hat{\beta}$ and $s^{2}$ is shown based on the multiple linear regression model. The derivation is rather short and makes extensive use of Proposition 5.1 and Assumption 2.5. In particular, if the variance of an estimator collapses to zero and the estimator is unbiased, then it is consistent. However, there are two important observations to be made (which we will study in more detail in the weekly exercises):
+
+- An unbiased estimator need not be consistent, and a consistent estimator need not be unbiased.
+- Note that the variance of an estimator collapsing to zero is a *sufficient* condition for consistency, but not a *necessary* condition. That is, there exist consistent estimators for which the variance is not equal to zero in the limit. However, these mostly occur in rather extreme scenarios which are not typical for the problems we face.
+
+::: {.callout-warning title="Be careful!"}
+
+There is a typo in the second equation of Section 5.10. The equation should be
+$$
+\hat{\beta} = \beta + (X'X/n)^{-1}(X'u/n) = \beta + Q_{n}^{-1}(X'u/n).
+$$
+In the book, the last $\beta$ is not included.
+
+:::
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read the following sections in ITE:
+
+- Section 5.10, which establishes consistency of $\hat{\beta}$ and $s^2$.
+- Section 5.11, focusing on small-oh and big-Oh notation. We will need these notions next week.
+
+:::

@@ -5,3 +5,190 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+## Exercise 1
+Let $x_{1}, x_{2}, \ldots, x_{n}$ be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean $\mu$ and finite variance $\sigma^{2}$.
+
+a. Show that $E(\overline{x}_{n}) = \mu$. Indicate at each step what properties you use.
+b. Show that $\Var(\overline{x}_{n}) = \sigma^{2}/n$. Indicate at each step what properties you use.
+c. Using these results, we can show $\overline{x}_{n} \overset{p}{\to} \mu$ using Proposition 5.1 in Section 5.7 of the book. Explain intuitively what happens in the limit.
+d. Use your favorite programming language to investigate the behavior of $\overline{x}_{n}$ for increasing $n$. Take $x_{i} \sim N(\mu, \sigma^{2})$ with $\mu = 5$ and $\sigma^{2} = 1$, for $i = 1, \ldots, n$. Make a graph with $\overline{x}_{n}$ on the vertical axis and $n$ on the horizontal axis. *Hint: When extending your sample, make sure you retain the values that you have already drawn.*
+
+::: {.callout-caution title="Solution" collapse = true}
+
+To follow.
+
+:::
+
+## Exercise 2
+Repeat d. of Exercise 1 but consider a case where $x_{1}, \ldots, x_{n}$ does not have finite mean and variance. For example, consider $x_{i} \sim \text{Cauchy}(0,1)$, i.e., standard Cauchy, for $i = 1, \ldots, n$. Note that the standard Cauchy distribution is the same as a Student's $t$-distribution with one degree of freedom. What happens to your graph compared to Exercise 1? Explain intuitively what happens.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+To follow.
+
+:::
+
+## Exercise 3
+We are going to show the consistency of the sample variance $s_{x}^{2} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}$. Let 
+$x_1, \ldots, x_n be i.i.d. with finite mean $\mu_x$, finite variance $\sigma_x^{2}$ and with $E(x_i^{4}) < \infty$. Show the following results. 
+
+a. $\overline{x}_{n} \xrightarrow{p} \mu_{x}$.
+b. $E(x_{i}^{2}) = \mu_{x}^{2} + \sigma_{x}^{2}$.
+c. $\frac{1}{n} \sum_{i=1}^{n} x_{i}^{2} \xrightarrow{p} \mu_{x}^{2} + \sigma_{x}^{2}$.
+d. $\frac{1}{n} \sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2} = \frac{1}{n} \sum_{i=1}^{n} x_{i}^{2} - \overline{x}_{n}^{2}$.
+e. $\frac{1}{n} \sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2} \xrightarrow{p} \sigma_{x}^{2}$.
+f. $s^{2}_{x} = \frac{1}{n-1} \sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2} \xrightarrow{p} \sigma_{x}^{2}$.
+g. Combine the results a.-f. to prove that the sample variance is a consistent estimator 
+of the population variance. Explain why it is now straightforward to show that the sample standard deviation 
+is a consistent estimator of the population standard deviation.
+
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Since $\mbox{Var}(x_{i}) = \sigma_{x}^{2} < \infty$, it follows from the law of large numbers that $\overline{x}_{n} \xrightarrow{p} \mu_{x}$.
+
+b. This is a direct application of the variance identity: $\mbox{Var}(x_{i}) = E(x_{i}^{2}) - E(x_{i})^{2}$. Since $\mbox{Var}(x_{i}) = \sigma_{x}^{2}$ and $E(x_{i})^{2} = \mu_{x}^{2}$, we have $E(x_{i}^{2}) = \mu_{x}^{2} + \sigma_{x}^{2}$.
+
+c. Since $\mbox{Var}(x_{i}^{2}) = E(x_{i}^{4}) - E(x_{i}^{2})^{2} < \infty$, we have that the law of large numbers implies: $\frac{1}{n} \sum_{i=1}^{n} x_{i}^{2} \xrightarrow{p} E(x_{i}^{2}) = \mu_{x}^{2} + \sigma_{x}^{2}$ (where we used the result of item b).
+
+d. Note that
+$$
+\begin{aligned}
+&&\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2}
+ &= \frac{1}{n} \sum_{i=1}^{n} (x_i^{2}  - 2 x_i \overline{x}_{n} + \overline{x}_{n}^{2})  \\
+ &&&= \frac{1}{n} \sum_{i=1}^{n} x_i^{2}  - 2  {\overline{x}_{n}  \frac{1}{n} \sum_{i=1}^{n} x_i}  + \overline{x}_{n}^{2}  \\
+ &&&= \frac{1}{n} \sum_{i=1}^{n} x_i^{2}  - 2  {\overline{x}_{n}^{2}}  + \overline{x}_{n}^{2}  = \frac{1}{n} \sum_{i=1}^{n} x_i^{2}  - \overline{x}_{n}^{2}.
+\end{aligned}
+$$
+
+e. We know from item d. that $\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} = \frac{1}{n} \sum_{i=1}^{n} x_i^{2}  - \overline{x}_{n}^{2}$. From item c: $\frac{1}{n} \sum_{i=1}^{n} x_{i}^{2} \xrightarrow{p} \mu_{x}^{2} + \sigma_{x}^{2}$. We have $\Var(x_i) < \infty$, so that the law of large numbers implies: $\overline{x}_{n}  \xrightarrow{p} \mu_x$ (item a). Applying the continuous mapping theorem (with $g(x) = x^2$), we obtain: $\overline{x}_{n}^{2} \xrightarrow{p}  \mu_x^2$. So from Slutsky's theorem,  we have:
+$$
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} \xrightarrow{p} (\sigma_x^{2} + \mu_x^{2}) - \mu_x^2 = \sigma_x^{2}.
+$$
+Thus, we have shown that $\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x})^{2} \xrightarrow{p}  \sigma_x^{2}$.
+
+f. In item e., we have shown that $\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} \xrightarrow{p}  \sigma_x^{2}$. Instead we should consider $\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2}$. We have the following equality:
+$$
+\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2}  =  \frac{n}{n-1} \; \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2}
+$$
+with $\frac{n}{n-1}  \xrightarrow{p} 1$ (deterministically, so also in probability) and $\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2}  \xrightarrow{p} \sigma_x^{2}$. So by using the product rule of Slutsky's theorem, we can show that
+$$
+s_{x}^{2} = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \overline{x})^{2}   \xrightarrow{p} 1 \cdot \sigma_x^{2} =   \sigma_x^{2}.
+$$
+
+g. Note that a.-f. are the complete proof in right order. To show that the sample standard deviation is consistent for the population
+standard deviation, we only have to apply the continuous mapping theorem with $g(x) = \sqrt{x}$.  
+
+:::
+
+## Exercise 4
+In the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
+$$
+with $E(u_{i}) = 0$, $\Var(u_{i}) = \sigma^{2}$, $\mbox{Cov}(u_{i}, u_{j}) = 0$ for $i \neq j$ and $x_{i}$ fixed, nonrandom constants. We also assume $\sigma_{x}^{2} > 0$. 
+
+a. Express $\hat{\beta}_{2}$ as a linear combination of $y_{i}$, i.e., $\hat{\beta}_{2} = \sum_{i=1}^{n} a_{i} y_{i}$.
+b. Show that $\Var(\hat{\beta}_{2}) = \sigma^{2} \sum_{i=1}^{n} a_{i}^{2}$.
+c. Show that $\Var(\hat{\beta}_{2}) = \sigma^{2}/(n-1)s_{x}^{2}$.
+d. How does this help in showing $\hat{\beta}_{2}$ is consistent? Explain what we exactly need to apply Proposition 5.1 in this setup.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. Note that we can write
+$$
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})(y_{i} - \overline{y}_{n})}{\sum_{i=1}(x_{i} - \overline{x}_{n})} = \sum_{i=1}^{n} \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}} y_{i},
+$$
+such that we can define $a_{i} = \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}$. Note that these are nonrandom weights.
+
+b. We have
+$$
+\Var(\hat{\beta}_{2}) = \Var \left( \sum_{i=1}^{n} a_{i} y_{i} \right) = \sum_{i=1}^{n} a_{i}^{2} \Var(y_{i}).
+$$
+Since $\Var(y_{i}) = \Var(\beta_{1} + \beta_{2}x_{i} + u_{i}) = \Var(u_{i}) = \sigma^{2}$. This gives the desired result.
+
+c. Note that $s_{x}^{2} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}$ such that $(n-1)s_{x}^{2} = \sum_{i=1}^{n} (x_{i} - \overline{x})^{2}$.
+
+d. We have previously shown in this course that $\hat{\beta}_{2}$ is unbiased for $\beta_{2}$. In Exercise 3, we have shown that $s_{x}^{2} \xrightarrow{p} \sigma_{x}^{2} > 0$. Thus,
+$$
+\Var(\hat{\beta}_{2}) = \frac{\sigma^{2}}{(n-1)s_{x}^{2}} = \frac{\sigma^{2}}{n-1} \cdot s_{x}^{-2} \xrightarrow{p} 0 \times \sigma_{x}^{-2} = 0,
+$$
+by Slutsky's theorem (and the continuous mapping theorem).
+
+:::
+
+## Exercise 5
+*(5.10 in ME)* Let $x = (x_{1}, \ldots, x_{n})'$ be a random sample from the $N(\mu_{x}, \sigma_{x}^{2})$ distribution and let $s_{n}^{2} = \sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}/(n-1)$ be an estimator of $\sigma^{2}_{x}$.
+
+a. Show that $(n-1)s_{n}^{2} = x'Ax$, where $A = I_{n} - \imath\imath'/n$.
+b. Obtain the expectation and variance of $s^{2}_{n}$.
+c. Show that $\mbox{plim}(s_{n}^{2}) = \sigma^{2}$ using Proposition 5.1.
+d. Let $\hat{\sigma}_{n}^{2} = \sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}/n$. What is $\mbox{plim}(\hat{\sigma}_{n}^{2})$?
+e. Is it true that $\mbox{plim}(s_{n}) = \sigma_{x}$ and $\mbox{plim}(1/s_{n}) = 1/\sigma_{x}$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The solution to this exercise can be found in *Mastering Econometrics*, Exercise 5.10.
+
+:::
+
+## Exercise 6
+*(5.12 in ME)* You play a game with a fair coin, which is tossed $n$ times. You put one euro in the pot. If heads comes up, the amount is doubled; if tails comes up, you lose your money and the game is over.
+
+a. Let $x_{n}$ be the amount of money in the pot after $n$ rounds. Show that $x_{n}$ converges in probability to zero.
+b. Calculate the mean and variance of $x_{n}$.
+c. Does convergence in probability imply that $\Var(x_{n})$ tends to zero?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The solution to this exercise can be found in *Mastering Econometrics*, Exercise 5.12.
+
+:::
+
+## Exercise 7
+We have shown that $\hat{\beta}_{2}$ is consistent for $\beta_{2}$ in the simple linear regression model. Use this result to show that $\hat{\beta}_{1}$ is consistent for $\beta_{1}$.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+Note that 
+$$
+\begin{aligned}
+\hat{\beta}_{1} &= \overline{y}_{n} - \hat{\beta}_{2}\overline{x}_{n} \\ 
+&= (\beta_{1} + \beta_{2}\overline{x}_{n} + \overline{u}_{n}) - \hat{\beta}_{2}\overline{x}_{n} \\
+&= \beta_{1} + (\beta_{2} - \hat{\beta}_{2})\overline{x}_{n} + \overline{u}_{n}. 
+\end{aligned}
+$$
+The law of large numbers implies $\mbox{plim}(\overline{x}_{n}) = E(x_{i})$ and $\mbox{plim}(\overline{u}_{n}) = E(u_{i}) = 0$ by Assumption 2.3. The consistency of $\hat{\beta}_{2}$ means that $\mbox{plim}(\beta_{2} - \hat{\beta}_{2}) = 0$. Thus, from applying Slutsky's theorem, we obtain
+$$
+\begin{aligned}
+\mbox{plim}(\hat{\beta}_{1}) &= \mbox{plim}(\beta_{1}) + \mbox{plim}(\beta_{2} - \hat{\beta}_{2}) \mbox{plim}(\overline{x}_{n}) + \mbox{plim}(\overline{u}_{n}) \\
+&= \beta_{1} + 0 \times E(x_{i}) + 0 \\
+&= \beta_{1}.
+\end{aligned}
+$$
+
+:::
+
+## Exercise 8
+Let's consider *unbiasedness* and *consistency*.
+
+a. Does unbiasedness imply consistency? Give a (counter)example.
+b. Does consistency imply unbiasedness? Give a (counter)example.
+c. Let $\overline{x}_{n}$ be an unbiased estimator of $\mu_{x}$. Is $\overline{x}_{n}^{2}$ an unbiased estimator of $\mu_{x}^{2}$?
+d. Let $\overline{x}_{n}$ be a consistent estimator of $\mu_{x}$. Is $\overline{x}_{n}^{2}$ a consistent estimator of $\mu_{x}^{2}$?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+
+a. No. There are no implicative relations between unbiasedness and consistency. An estimator can be unbiased but inconsistent. An example for this situation is the following. Consider the estimator $\hat{\mu}_x = x_1$, for the population mean $\mu_x$ of a random variable $x_i$. This estimator can be shown to be unbiased, such that $E(x_1)  = \mu_x$ but inconsistent, such that $x_i \nrightarrow \mu_x$ as $n \to \infty$.
+
+b. An estimator can be consistent but biased. Consider $\hat \mu_x = \overline{x}_{n} + \frac{1}{n}$ as an estimator for $\mu_x$, the population mean. This estimator is biased because $E(\hat \mu_x)  = \mu_x + \frac{1}{n}$ but it is consistent because $\mbox{plim}(\hat \mu_x) = \mu_x$, because $1/n \to 0$ as $n\to\infty$.
+
+c. No. We can use the variance identity for $\overline{x}_{n}$: $\mbox{Var}(\overline{x}_{n}) = E(\overline{x}_{n}^{2}) - E(\overline{x}_{n})^{2}$. Since $E(\overline{x}_{n})^{2} = \mu_{x}^{2}$, we know that $E(\overline{x}_{n}^{2}) = \mbox{Var}(\overline{x}_{n}) + \mu_{x}^{2}$. Note that $\mbox{Var}(\overline{x}_{n}) = \frac{1}{n^2}\sum_{i=1}^{n}\mbox{Var}(x_{i}) = \frac{\sigma^{2}_{x}}{n}$ using that $x_{i}$ is i.i.d. Thus, $E(\overline{x}_{n}^{2}) = \mu_{x}^{2} + \frac{\sigma^{2}_{x}}{n} \neq \mu_{x}^{2}$.
+
+d. Yes, this is a direct application of the continuous mapping theorem with $g(x) = x^{2}$.
+
+:::
+
+

@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -659,8 +688,23 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a>
+  <ul class="collapse">
+  <li><a href="#why-asymptotics" id="toc-why-asymptotics" class="nav-link" data-scroll-target="#why-asymptotics">Why asymptotics?</a></li>
+  <li><a href="#asymptotic-concepts" id="toc-asymptotic-concepts" class="nav-link" data-scroll-target="#asymptotic-concepts">Asymptotic concepts</a></li>
+  </ul></li>
+  <li><a href="#consistency" id="toc-consistency" class="nav-link" data-scroll-target="#consistency">Consistency</a>
+  <ul class="collapse">
+  <li><a href="#the-simple-linear-regression-model" id="toc-the-simple-linear-regression-model" class="nav-link" data-scroll-target="#the-simple-linear-regression-model">The simple linear regression model</a></li>
+  <li><a href="#the-multiple-linear-regression-model" id="toc-the-multiple-linear-regression-model" class="nav-link" data-scroll-target="#the-multiple-linear-regression-model">The multiple linear regression model</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -706,8 +750,228 @@ window.MathJax = {
 </ul>
 </div>
 </div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>We have derived two estimators for the linear regression model: the least-squares (LS) estimator and the maximum likelihood (ML) estimator. We have shown several <strong>finite-sample properties</strong> of those estimators, such as unbiasedness (typical for LS) and invariance (typical for ML). This week, we are going to focus on <strong>asymptotic theory</strong>. In particular, we investigate properties such as <strong>consistency</strong> and <strong>asymptotic normality</strong> of our estimators. By means of Monte Carlo simulations, we cannot only study these properties theoretically but also based on simulated data in which we control the properties of the data-generating process (DGP).</p>
+<section id="why-asymptotics" class="level3">
+<h3 class="anchored" data-anchor-id="why-asymptotics">Why asymptotics?</h3>
+<p>Before delving deeper into the world of asymptotic theory, it is worth asking the question why the scenario <span class="math inline">\(n \to \infty\)</span> is even of interest at all? In reality, we never observe sample sizes that go to infinity. We might have a very large sample, but it will always be finite. However, there are various reasons why econometricians are interested in asymptotic theory:</p>
+<ul>
+<li><p>In small-sample LS inference, assuming the error terms are normally distributed is strictly required to make <span class="math inline">\(t\)</span>-tests and <span class="math inline">\(F\)</span>-tests exact. If we invoke asymptotic normality, the errors are allowed to follow different distributions while valid inference can still be executed without the normality assumption. Thus, it allows us to <strong>drop possibly unrealistic assumptions</strong> on the error term’s distribution.</p></li>
+<li><p>Asymptotic theory allows for showing <strong>consistency</strong> of an estimator, i.e., an estimator converges to the true population parameter as data accumulates. This ensures your method is <strong>reliable</strong>.</p></li>
+<li><p>If you have multiple consistent estimators at your disposal, asymptotic theory (like the Cramér-Rao bound) helps to determine which estimator has the <strong>smallest variance in large samples</strong>.</p></li>
+<li><p>Exact small-sample distributions for complex estimators or nonlinear models are often mathematically impossible to derive. Limiting distributions serve as a <strong>practical approximation</strong> for real-world, finite sample sizes.</p></li>
+</ul>
+<p>As you can see, asymptotic theory is an important part of the econometrician’s toolbox. In this course, the first three scenarios mainly apply since the theoretical properties of our model, estimators and test statistics well-known. However, the latter scenario might become increasingly relevant in case you decide to major in econometrics.</p>
+<p>During these two weeks of the course, we are going to consider two different scenarios: - In the book, we retain the assumption that the error term follows a normal distribution. This allows us to show asymptotic properties such as consistency and asymptotic normality of both the LS and ML estimator (remember: the latter estimator is based on normality of the error!). - On this website, we consider the case in which we do not assume normality of the error term. We focus only on the simple linear regression model, as notation becomes more involved while the used arguments do not change much for the case of multiple regressors.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Remark on notation">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Remark on notation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When we use asymptotic theory, we often denote our estimators slightly differently. Because we consider the framework where <span class="math inline">\(n \to \infty\)</span>, we make it explicit that our estimators are functions of sample size <span class="math inline">\(n\)</span>. For example, the sample mean <span class="math inline">\(\overline{x}\)</span> is then denoted <span class="math inline">\(overline{x}_{n}\)</span> but its interpretation remains exactly the same.</p>
+<p>To enhance understanding, just keep in mind that we are considering our estimators as sequences of random variables. So, we consider <span class="math display">\[
+\overline{x}_{1} = \frac{x_{1}}{1}, \overline{x}_{2} = \frac{x_{1} + x_{2}}{2}, \ldots, \overline{x}_{n} = \frac{x_{1} + \ldots + x_{n}}{n},
+\]</span> and we study the behavior of this estimator for increasingly larger sample sizes (where <span class="math inline">\(n \to \infty\)</span> is the <em>asymptotic</em>, also called <em>limiting</em>, case).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="asymptotic-concepts" class="level3">
+<h3 class="anchored" data-anchor-id="asymptotic-concepts">Asymptotic concepts</h3>
+<p>The first sections of Chapter 5 mainly contain theory that you are already familiar with. When deriving consistency and asymptotic normality, we rely on some theorems specifically. Let us repeat some of those here.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Weak law of large numbers">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Weak law of large numbers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(x_{1}, x_{2}, \ldots, x_{n}\)</span> be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean <span class="math inline">\(\mu\)</span> and finite variance <span class="math inline">\(\sigma^{2}\)</span>. Let <span class="math inline">\(\overline{x}_{n}\)</span> be the average of the first <span class="math inline">\(n\)</span> random variables. The weak law of large numbers states that <span class="math display">\[
+\overline{x}_{n} \overset{p}{\to} \mu \qquad \text{or equivalently, } \qquad \text{plim}(\overline{x}_{n}) = \mu,
+\]</span> i.e., the sample mean <span class="math inline">\(\overline{x}_{n}\)</span> converges to the population mean <span class="math inline">\(E(x_{i}) = \mu\)</span>.</p>
+<p>Note that you need a good understanding of <strong>convergence in probability</strong> for the law of large numbers. Proving convergence in probability can be done directly using its definition, but this is often difficult. Proposition 5.1 in Section 5.7 of the book provides a useful shortcut in many cases. To prove the law of large numbers, we can use <strong>Chebyshev’s inequality</strong>, which is a special case of <strong>Markov’s inequality</strong>. These inequalities can be applied to find bounds to probability statements, which can be very useful in practice. However, it needs to be mentioned that these bounds are not always the tightest ones possible.</p>
+<p>Lastly, note that we call this the weak law of large numbers because it involves convergence in probability. The strong law of large numbers is based on almost sure convergence, which is (as the name suggests) a stronger form of convergence.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Slutsky's theorem and the continuous mapping theorem">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Slutsky’s theorem and the continuous mapping theorem
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(x_{1}, \ldots, x_{n}\)</span> be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean <span class="math inline">\(\mu\)</span> and finite variance <span class="math inline">\(\sigma^{2}\)</span>. If <span class="math inline">\(\text{plim}(x_{n}) = \xi\)</span> and <span class="math inline">\(g\)</span> is a continuous function, then <span class="math display">\[
+\text{plim} g(x_{n}) = g(\text{plim} x_{n}) = g(\xi).
+\]</span> In the book, this result is seen as part of <em>Slutsky’s theorem</em> but is also known as the <em>continuous mapping theorem</em>. In words, it states that the limit is preserved when a continuous function <span class="math inline">\(g\)</span> is applied.</p>
+<p>Slutsky’s theorem is important in combining two or more sequences. It provides arithmetic rules for the addition, subtraction, multiplication and division of sequences of random variables that have a limit. Slutsky’s theorem does not only allow for combining sequences who converge in probability, but also for combining sequences that converge in probability and converge in distribution. Since we only consider convergence in probability this week, the results as stated in Section 5.5 suffice. Next week, we will consider a broader set of rules in Slutsky’s theorem.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read the following sections in ITE:</p>
+<ul>
+<li>Section 5.1 - 5.3, which provide an applied introduction to the topic of limits.</li>
+<li>Section 5.4 - 5.9, which contain all theory to enable us to show consistency of estimators in the context of linear regression.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="consistency" class="level2">
+<h2 class="anchored" data-anchor-id="consistency">Consistency</h2>
+<p>We continue now by showing consistency of the LS and ML estimators in the linear regression model. We start by considering the estimator of the slope coefficient <span class="math inline">\(\beta_{2}\)</span> in the simple linear regression model. Note that the proof does not require any assumption of normality on the error term. This means that the results hold for the ML estimator (which is based on this normality assumption), but also for the LS estimator which does not require such a condition.</p>
+<section id="the-simple-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-simple-linear-regression-model">The simple linear regression model</h3>
+<p>Consider once again the simple linear regression model given by <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
+\]</span> Let us assume that <strong>the regressor is random</strong>, as this is the more difficult case. We need to show that <span class="math inline">\(\hat{\beta}_{2} \xrightarrow{p} \beta_{2}\)</span> or equivalently <span class="math inline">\(\mbox{plim}(\hat \beta_2) = \beta_2\)</span>. The notation <span class="math inline">\(\mbox{plim}\)</span> is typically more useful than <span class="math inline">\(\xrightarrow{p}\)</span> when writing down arithmetic results such as Slutsky’s theorem. Therefore, we adhere to this notation in what follows. Note that we also write <span class="math inline">\(E(x_{i}) = \mu_{x}\)</span> and <span class="math inline">\(\Var(x_{i}) = \sigma^{2}_{x}\)</span> with subscript ‘<span class="math inline">\(x\)</span>’ to avoid confusion with the mean and variance of the error term.</p>
+<p>Note that the LS and ML estimator of <span class="math inline">\(\beta_{2}\)</span> is given by <span class="math display">\[
+\hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n} ) (y_i - \overline{y}_{n} )}{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }.
+\]</span> By plugging in the true data-generation process for <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(\overline{y}_{n}\)</span>, we obtain <span class="math display">\[
+\begin{aligned}
+\hat{\beta}_2 &amp;= \beta_2 + \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}} \\
+              &amp;= \beta_2 + \frac{\textcolor{red}{\frac{1}{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\textcolor{red}{\frac{1}{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
+\end{aligned}
+\]</span> where we multiply the numerator and denominator of the second term by the scaling factor <span class="math inline">\(\frac{1}{n}\)</span> (remember: we need sequences that actually converge(!)). To prove consistency, first step is to take the probability limit of the above expression, i.e.&nbsp; <span class="math display">\[
+\mbox{plim}(\hat \beta_2) =  \mbox{plim} \left( \beta_2 + \frac{ \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} } \right).
+\]</span> Using Slutsky’s theorem (sum rule), we can now write <span class="math display">\[
+\mbox{plim}(\hat \beta_2)  = \mbox{plim}(\beta_2) + \mbox{plim} \left( \frac{ \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }  \right),
+\]</span> provided that both separate terms converge. For the first term, this is trivial because <span class="math inline">\(\beta_{2}\)</span> is a constant. For the second term, this is more difficult to see directly. For now, we assume this operation is valid. We continue with the product rule of Slutsky’s theorem. This yields <span class="math display">\[
+\begin{aligned}
+&amp;\mbox{plim}(\hat \beta_2)  \\
+&amp;= \mbox{plim}(\beta_2) + \mbox{plim} \left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) \;
+\mbox{plim} \left( \frac{1}{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} } \right),
+\end{aligned}
+\]</span> where we again assume that these operations are valid. Using the <em>continuous mapping theorem</em> (with <span class="math inline">\(g(x) = 1/x\)</span>), we write <span class="math display">\[
+\mbox{plim}(\hat \beta_2) =  \mbox{plim}(\beta_2) + \frac{ \mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i ) }{\mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} )}.
+\]</span> Now, we use the fact that <span class="math inline">\(\mbox{plim}(\beta_2) = \beta_2\)</span> and the fact that <span class="math inline">\(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}\)</span> converges in probability to the variance of <span class="math inline">\(x_i\)</span> (this is one of the weekly exercises), such that, <span class="math display">\[
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} \right) =  \mbox{var}(x_i) = \sigma_{x}^{2}.
+\]</span> Thus, we can write <span class="math display">\[
+\begin{aligned}
+\mbox{plim}(\hat \beta_2) &amp;= \mbox{plim}(\beta_2) + \frac{\mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i )}{
+\mbox{plim}( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2})} \\
+&amp;=
+\beta_1 + \frac{ \mbox{plim}(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i )}{\sigma_{x}^{2}}.
+\end{aligned}
+\]</span> For consistency, the numerator of the second term has to be equal to zero. So, in the remainder of this proof we will prove that <span class="math display">\[
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) = 0.
+\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Be careful!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Be careful!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It does <strong>not</strong> immediately follow from the law of large numbers that <span class="math display">\[
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) = E\left[(x_i - \overline{x}_{n} ) u_i \right],
+\]</span> because the terms <span class="math inline">\((x_i - \overline{x}_{n} ) u_i\)</span> ($ i = 1, 2, , n$) are <strong>not</strong> independent due to the occurrence of the same random variable <span class="math inline">\(\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i\)</span> in each term.</p>
+</div>
+</div>
+<p>We add and subtract <span class="math inline">\(\mu_x\)</span> and apply the sum rule of Slutsky’s theorem again to write <span id="eq-twoterms"><span class="math display">\[
+\begin{aligned}
+&amp;\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i \right) \\
+&amp;= \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x + \mu_x - \overline{x}_{n} ) u_i \right) \\
+&amp;= \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x) u_i \right)  +
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i \right).
+\end{aligned}
+\tag{1}\]</span></span> The next step is now to show that both terms are zero. The first term is equal to zero by using the law of large numbers and the law of total expectations: <span class="math display">\[
+\begin{aligned}
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x) u_i \right) &amp;=  E \left( (x_i - \mu_x) u_i \right) \\
+&amp;= E \left\{ E[ (x_i - \mu_x) u_i | x_i]   \right\} \\
+&amp;= E \left\{ (x_i - \mu_x) E (u_i|x_i)   \right\} \\
+&amp;= E \left\{ (x_i - \mu_x) 0 \right\} \\
+&amp;= 0,
+\end{aligned}
+\]</span> where we used the adapted assumption 2.3, i.e.&nbsp;<span class="math inline">\(E(u_{i} | x_{i}) = 0\)</span> in this case. Now we show that the second term in (<a href="#eq-twoterms" class="quarto-xref">1</a>) is equal to zero by using the product and sum rule of Slutsky’s theorem and the law of large numbers: <span class="math display">\[
+\begin{aligned}
+\mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i \right)
+&amp;= \mbox{plim}\left( (\mu_x - \overline{x}_{n} ) \frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&amp;= \mbox{plim}\left( \mu_x - \overline{x}_{n} \right) \cdot \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&amp;= \left( \mu_x - \mbox{plim}\left(\overline{x}_{n}\right) \right) \cdot \mbox{plim}\left(\frac{1}{n} \sum_{i=1}^{n} u_i \right) \\
+&amp;= \left( \mu_x - E\left(x_i \right) \right) \cdot E \left(u_i \right) \\
+&amp;= 0 \cdot 0 = 0.
+\end{aligned}
+\]</span> This concludes the proof of consistency of <span class="math inline">\(\hat{\beta}_{2}\)</span>, since <span class="math display">\[
+\mbox{plim}(\hat{\beta}_{2}) = \beta_{2} + \frac{0}{\sigma^{2}_{x}} = \beta_{2}.
+\]</span> Consistency of <span class="math inline">\(\hat{\beta}_{1}\)</span> is left as a weekly exercise (no worries, this proof is quite a bit shorter!).</p>
+</section>
+<section id="the-multiple-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-multiple-linear-regression-model">The multiple linear regression model</h3>
+<p>In Section 5.10 of the book, consistency of <span class="math inline">\(\hat{\beta}\)</span> and <span class="math inline">\(s^{2}\)</span> is shown based on the multiple linear regression model. The derivation is rather short and makes extensive use of Proposition 5.1 and Assumption 2.5. In particular, if the variance of an estimator collapses to zero and the estimator is unbiased, then it is consistent. However, there are two important observations to be made (which we will study in more detail in the weekly exercises):</p>
+<ul>
+<li>An unbiased estimator need not be consistent, and a consistent estimator need not be unbiased.</li>
+<li>Note that the variance of an estimator collapsing to zero is a <em>sufficient</em> condition for consistency, but not a <em>necessary</em> condition. That is, there exist consistent estimators for which the variance is not equal to zero in the limit. However, these mostly occur in rather extreme scenarios which are not typical for the problems we face.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Be careful!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Be careful!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is a typo in the second equation of Section 5.10. The equation should be <span class="math display">\[
+\hat{\beta} = \beta + (X'X/n)^{-1}(X'u/n) = \beta + Q_{n}^{-1}(X'u/n).
+\]</span> In the book, the last <span class="math inline">\(\beta\)</span> is not included.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📚 Read in ITE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read the following sections in ITE:</p>
+<ul>
+<li>Section 5.10, which establishes consistency of <span class="math inline">\(\hat{\beta}\)</span> and <span class="math inline">\(s^2\)</span>.</li>
+<li>Section 5.11, focusing on small-oh and big-Oh notation. We will need these notions next week.</li>
+</ul>
+</div>
+</div>
 
 
+</section>
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
