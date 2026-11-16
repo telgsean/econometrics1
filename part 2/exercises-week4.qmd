@@ -142,7 +142,7 @@ b. Implement this in a simulation study. In addition to $n=5, 20, 80, 320$, also
 
 a. To show that
 $$
-&&\frac{1}{n} \frac{\Var[(x_i - \mu_x)u_i]}{[\Var(x_i)]^{2} } = \frac{4}{n},
+\frac{1}{n} \frac{\Var[(x_i - \mu_x)u_i]}{[\Var(x_i)]^{2} } = \frac{4}{n},
 $$
 we first consider the numerator. Because $x_i$ and $u_i$ are independent, we have
 $$
