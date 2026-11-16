@@ -25,7 +25,7 @@ $$
             &= \beta + o_{p}(1),
 \end{aligned}
 $$
-because $(X'X/n)^{-1} \to Q$ (a finite and positive definite matrix) by Assumption 2.5, $X'u \to 0$ by application of Proposition 5.1, and thus $(X'X/n)^{-1}(X'u/n) \rightarrow{p} 0$ by Slutsky's theorem. The last equation $\hat{beta} = \beta + o_{p}(1)$ only tells us that the estimator $\hat{\beta}$ is consistent for the true value $\beta$, but it says nothing about the speed (or equivalently, rate) of convergence. The statement
+because $(X'X/n)^{-1} \to Q$ (a finite and positive definite matrix) by Assumption 2.5, $X'u \to 0$ by application of Proposition 5.1, and thus $(X'X/n)^{-1}(X'u/n) \xrightarrow{p} 0$ by Slutsky's theorem. The last equation $\hat{\beta} = \beta + o_{p}(1)$ only tells us that the estimator $\hat{\beta}$ is consistent for the true value $\beta$, but it says nothing about the speed (or equivalently, rate) of convergence. The statement
 $$
 \hat{\beta} = \beta + O_{p}(n^{-1/2})
 $$

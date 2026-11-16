@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -243,6 +278,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -659,8 +723,17 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -691,8 +764,311 @@ window.MathJax = {
 </header>
 
 
+<section id="exercise-1" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
+<p>Consider the simple linear regression model. We revisit the asymptotic distribution of <span class="math display">\[
+\sqrt{n} (\hat{\beta}_2 - \beta_2) = \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} }.
+\]</span></p>
+<p>Last week, we have shown <span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}  \xrightarrow{p} \sigma_{x}^{2},
+\]</span> so now we solely focus on the numerator of the expression. Write for all of the following steps what we use and why we do it.</p>
+<ol type="a">
+<li><p>We rewrite the numerator as: <span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i  = \textcolor{blue}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i}  +
+\textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i}.
+\]</span></p></li>
+<li><p>The second term can be rewritten as: <span class="math display">\[
+\textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i}  =
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i},
+\]</span> and despite the fact that <span class="math display">\[
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}   \xrightarrow{p}  0,
+\]</span> we need to still consider the convergence of <span class="math inline">\(\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i}\)</span>.</p></li>
+<li><p>The term <span class="math inline">\(\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i}\)</span> is not straightforward to work with. However, we remember a theorem that tell us <span class="math display">\[
+z_n = \frac{\overline{u}_n - E(u_i)}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1).
+\]</span> Maybe we can use this result, because</p>
+<ul>
+<li><span class="math inline">\(\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i = \frac{\sqrt{n}}{n} \sum_{i=1}^{n} u_i = \sqrt{n}\overline{u}_{n}\)</span>.</li>
+<li><span class="math inline">\(E(u_{i}) = E(E(u_{i}|x_{i})) = E(0) = 0\)</span>. Some algebra reveals that <span class="math display">\[
+\sqrt{n}\overline{u}_n = \sigma z_n \xrightarrow{d} \sigma z \sim N(0,\sigma^2).
+\]</span></li>
+</ul></li>
+<li><p>We now know that <span class="math display">\[
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d} 0.
+\]</span> But why do we also know that it <strong>converges in probability</strong> to zero?</p></li>
+<li><p>Now consider <span class="math display">\[
+\textcolor{blue}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i}.
+\]</span> Define <span class="math inline">\(v_{i} = (x_i - \mu_x) u_i\)</span> and convince yourself that you can follow exactly the same reasoning as in Step 3 to obtain that its asymptotic distribution is given by <span class="math inline">\(N(0,\sigma^{2}_{v})\)</span>.</p></li>
+<li><p>We are now ready to show that <span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i  = \textcolor{blue}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i}  +
+\textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i} \xrightarrow{d} N(0, \sigma^{2}_{v}).
+\]</span></p></li>
+<li><p>We finally obtain <span class="math display">\[
+\sqrt{n} (\hat{\beta}_2 - \beta_2)
+= \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }
+\xrightarrow{d}  \frac{\sigma_v \cdot w}{\sigma_x^{2}} \sim
+N \left( 0, \frac{\sigma_v^{2}}{\sigma_{x}^4} \right).
+\]</span></p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>The original sequence <span class="math inline">\(\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i\)</span> <strong>does not consist of i.i.d. terms</strong>, because <span class="math inline">\(\overline{x}_{n}\)</span> is present in each term. Therefore, no theorems can be applied directly. The split of terms is done using <strong>telescoping</strong>.</p></li>
+<li><p>We note that the expression in orange does not depend on <span class="math inline">\(i\)</span>. The convergence of the expression in orange is due to the <strong>(weak) law of large numbers</strong>. <em>Note that we can only consider the convergence of both terms separately (using Slutsky) if we know that they actually converge.</em></p></li>
+<li><p>The first result is due to the <strong>central limit theorem</strong>, while <span class="math inline">\(E(u_{i}) = 0\)</span> follows from Assumption 2.3 after applying the <strong>law of total expectation</strong>.</p></li>
+<li><p>Convergence in distribution to zero is a direct consequence of <strong>Slutsky’s theorem</strong>. We can say that this convergence is also in probability, because we have convergence to a <strong>degenerate distribution</strong>, i.e.&nbsp;a distribution with all mass on one point: in this case on zero. In this specific scenario convergence in distribution implies convergence in probability (usually it is only the other way around!).</p></li>
+<li><p>The result is indeed extremely similar to Step 3 and showing that <span class="math inline">\(E(v_{i}) = 0\)</span> we have done before in this course.</p></li>
+<li><p>This result is directly due to <strong>Slutsky’s theorem</strong>. The part in blue converges to <span class="math inline">\(N(0,\sigma^{2}_{v})\)</span> in distribution, while the red part converges in probability to zero. Thus, the sum rule of Slutsky’s theorem suffices here.</p></li>
+<li><p>The final result is also due to <strong>Slutsky’s theorem</strong>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
+<p>Consider the no-intercept model <span class="math display">\[
+y_{i} = \beta x_{i} + u_{i},
+\]</span> where the regressor is assumed random. Moreover, assume <span class="math inline">\(E(x_{i}^{4}) &lt; \infty\)</span>. Show that <span class="math inline">\(\sqrt{n}(\hat{\beta} - \beta) \xrightarrow{d} N\left(0,\frac{\sigma_v^2}{(\mu_x^2 + \sigma_x^2)^2} \right)\)</span>, where <span class="math inline">\(\sigma^2_v = \Var(x_i u_i)\)</span>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can take the following steps for the denominator:</p>
+<ul>
+<li><span class="math inline">\(\frac{1}{n} \sum_{i=1}^{n} x_{i}^2 \xrightarrow{p} E(x_{i}^2)\)</span> by the law of large numbers. We use the variance identity for the random variable <span class="math inline">\(x_i^2\)</span> to show that <span class="math inline">\(\Var(x_i^2) = E(x_i^4) - (E(x_i^2))^2 &lt; \infty\)</span>.</li>
+<li>We use the variance identity again (for <span class="math inline">\(x_i\)</span> this time) to find <span class="math inline">\(E(x_i^2) = \Var(x_i) + (E(x_i))^2 = \sigma_x^2 + \mu_x^2\)</span>.</li>
+</ul>
+<p>For the numerator, we define <span class="math inline">\(v_i = x_i u_i\)</span> and note that:</p>
+<ul>
+<li><span class="math inline">\(\frac{1}{\sqrt{n}}\sum_{i=1}^{n}x_i u_i = \frac{\sqrt{n}}{n} \sum_{i=1}^{n} v_i = \sqrt{n} \overline{v}_{n}\)</span>.</li>
+<li>From the central limit theorem, we know that <span class="math display">\[
+z_n = \frac{\overline{v}_{n} - E(v_i)}{\sigma_v/\sqrt{n}} \xrightarrow{d} z \sim N(0,1).
+\]</span></li>
+<li>Since <span class="math inline">\(E(x_i u_i) = E(E(x_i u_i | x_i)) = E(x_i E(u_i|x_i)) = E(x_i \times 0) = 0\)</span> by the adapted assumption 2.3 and the law of total expectation, we have that <span class="math inline">\(\sqrt{n}\overline{v}_{n} = \sigma_v z_{n} \xrightarrow{d} N(0,\sigma_v^2)\)</span>.</li>
+</ul>
+<p>By means of Slutsky’s theorem (quotient rule), we now obtain the following: <span class="math display">\[
+\sqrt{n}(\hat{\beta} - \beta) = \frac{\frac{1}{\sqrt{n}}\sum_{i=1}^{n}x_i u_i}{\frac{1}{n}\sum_{i=1}^{n} x_{i}^2} \xrightarrow{d} \frac{1}{\sigma^2_x + \mu^2_x} N(0, \sigma^2_v) = N\left(0,\frac{\sigma_v^2}{(\mu_x^2 + \sigma_x^2)^2} \right).
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>Consider a simulated data set with the following properties:</p>
+<ul>
+<li><span class="math inline">\(x_i \overset{i.i.d.}{\sim} U(15, 25)\)</span>.</li>
+<li><span class="math inline">\(u_i \overset{i.i.d.}{\sim} U(−10, 10)\)</span> and independent from <span class="math inline">\(x_i\)</span>, which ensures <span class="math inline">\(E(u_i | x_i) = 0\)</span>.</li>
+<li><span class="math inline">\(y_i = 700 − 2 x_i + u_i\)</span></li>
+</ul>
+<ol type="a">
+<li><p>Show that<br>
+<span class="math display">\[
+\frac{1}{n} \frac{ \Var[(x_i - \mu_x) u_i ] }{ [\Var( X_i )]^{2} } = \frac{4}{n}.
+\]</span> <em>Hint:</em> What is the variance of a variable with <span class="math inline">\(U(a,b)\)</span> distribution? Use that <span class="math inline">\(X_i\)</span> and <span class="math inline">\(u_i\)</span> are independent in this example.</p></li>
+<li><p>Implement this in a simulation study. In addition to <span class="math inline">\(n=5, 20, 80, 320\)</span>, also consider the case where <span class="math inline">\(n = 1,000\)</span>. Compute histograms and sample statistics for both <span class="math inline">\(s_{n} = \hat{\beta}_{2}\)</span> and <span class="math inline">\(z_{n} = \sqrt{n}(\hat{\beta}_{2} - \beta_{2})\)</span>. Is it in line with your expectations?</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>To show that <span class="math display">\[
+&amp;&amp;\frac{1}{n} \frac{\Var[(x_i - \mu_x)u_i]}{[\Var(x_i)]^{2} } = \frac{4}{n},
+\]</span> we first consider the numerator. Because <span class="math inline">\(x_i\)</span> and <span class="math inline">\(u_i\)</span> are independent, we have <span class="math display">\[
+\Var[(x_i - \mu_x)u_i] = \Var(x_i - \mu_x)\Var(u_i).
+\]</span> We can now use the fact that a variable with <span class="math inline">\(U(a,b)\)</span> distribution has variance <span class="math inline">\(\frac{1}{12}(b-a)^{2}\)</span> to find that <span class="math display">\[
+\begin{aligned}
+&amp;\Var(x_i - \mu_x) = \Var(x_i)  = \frac{(25-15)^2}{12}  = \frac{100}{12} \\
+&amp;\Var(u_i) = \frac{[10-(-10)]^2}{12} = \frac{400}{12}.
+\end{aligned}
+\]</span> Combining everything, we obtain the following result: <span class="math display">\[
+\frac{1}{n} \frac{\Var[(x_i - \mu_x)u_i]}{[\Var(x_i)]^{2}} = \frac{1}{n} \frac{\frac{100}{12}\frac{400}{12} }{ (\frac{100}{12})^{2} } = \frac{4}{n}.
+\]</span></p></li>
+<li><p>See example code below this solution box.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Click here to see the corresponding R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Set the seed (for pseudo-random samples)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9999</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Number of iterations, sample sizes, values for beta</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">80</span>, <span class="dv">320</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">700</span>, <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Initialize matrices for saving estimates (and standardization)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>save_beta_hat2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nr =</span> sim, <span class="at">nc =</span> <span class="fu">length</span>(n))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>save_z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nr =</span> sim, <span class="at">nc =</span> <span class="fu">length</span>(n))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Perform the simulation study for different sample sizes n</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N){</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Performs the simulation study based on sim iterations</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>sim){</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n[i], <span class="dv">15</span>, <span class="dv">25</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n[i], <span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> u</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    save_beta_hat2[iter, i] <span class="ot">&lt;-</span> model<span class="sc">$</span>coefficients[<span class="dv">2</span>]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    save_z[iter, i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n[i]) <span class="sc">*</span> (model<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## We draw the histograms on the same horizontal axis to make them comparable</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">1</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 5"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">2</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 20"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">3</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 80"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">4</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 320"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">5</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 1000"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_beta_hat2[,<span class="dv">6</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">hat</span>(beta)[<span class="dv">2</span>]), <span class="at">xlab=</span><span class="st">"for n = 10000"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>,<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercises-week4_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Click here to see the corresponding R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The variance of beta.hat2 converges to zero as n grows larger</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## We draw the histograms on the same horizontal axis to make them comparable</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">1</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 5"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">2</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 20"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">3</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 80"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">4</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 320"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">5</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 1000"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(save_z[,<span class="dv">6</span>], <span class="at">breaks=</span><span class="dv">100</span>, <span class="at">main=</span><span class="fu">bquote</span>(<span class="st">"Distribution of"</span> <span class="sc">~</span> <span class="fu">sqrt</span>(n)(<span class="fu">hat</span>(beta)[<span class="dv">2</span>] <span class="sc">-</span> beta[<span class="dv">2</span>])), <span class="at">xlab=</span><span class="st">"for n = 10000"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercises-week4_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
+<p>Consider the linear regression model <span class="math display">\[
+y_i = \beta_1 + \beta_2 x_i + u_i \qquad (i = 1, 2, \ldots , n).
+\]</span> When <span class="math inline">\(n\)</span> is large enough the variance of the LS estimator of <span class="math inline">\(\beta_2\)</span> is <span class="math display">\[
+\Var(\hat{\beta}_{2}) \approx  \frac{1}{n} \frac{\Var[(x_i - \mu_x) u_i]}{[\Var(x_i)]^{2}}.
+\]</span></p>
+<ol type="a">
+<li>Discuss the implications of this formula by considering the effects of a smaller (larger) <span class="math inline">\(\Var(u_i)\)</span> and of a smaller (larger) <span class="math inline">\(\Var(x_i)\)</span> on <span class="math inline">\(\Var(\hat{\beta}_{2})\)</span>.</li>
+<li>Support your discussion by generating some data that explicitly shows this.</li>
+</ol>
+<div class="cell">
+<details class="code-fold">
+<summary>Click here to see the R code to generate these graphs</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example code</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="fl">0.2</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>muX <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sigma2X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, muX, sigma2X[<span class="dv">1</span>])</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, muX, sigma2X[<span class="dv">2</span>])</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>sigma2u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, sigma2u[<span class="dv">1</span>])</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>u2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, sigma2u[<span class="dv">2</span>])</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="do">### DGPs</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> X1 <span class="sc">+</span> u1     <span class="do">## Low variance X and u</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>Y2 <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> X2 <span class="sc">+</span> u1     <span class="do">## High variance X, low variance u</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>Y3 <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> X1 <span class="sc">+</span> u2     <span class="do">## Low variance X, high variance u</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>Y4 <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> X2 <span class="sc">+</span> u2     <span class="do">## High variance X and u</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Regressions</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y1 <span class="sc">~</span> X1)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y2 <span class="sc">~</span> X2)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y3 <span class="sc">~</span> X1)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>model4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y4 <span class="sc">~</span> X2)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X1, Y1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="dv">60</span>), <span class="at">main =</span> <span class="st">"Low variance both"</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(model1, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X2, Y2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="dv">60</span>), <span class="at">main =</span> <span class="st">"High variance X"</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(model2, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X1, Y3, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="dv">60</span>), <span class="at">main =</span> <span class="st">"High variance u"</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(model3, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X2, Y4, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="dv">60</span>), <span class="at">main =</span> <span class="st">"High variance both"</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(model4, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exercises-week4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>If the variance of the errors is small, i.e.&nbsp;<span class="math inline">\(\Var(u_i)\)</span> is small, then the data will have a tighter scatter around the population regression line so its slope will be estimated more precisely. So the variance of the OLS slope coefficient estimator is smaller if the variance of the errors is smaller while everything else is being kept the same. The larger the variance of the <span class="math inline">\(x_i\)</span>’s the smaller the variance of the LS slope coefficient estimator. If there is more variation in the data then the slope coefficient can be estimated more precisely.</p></li>
+<li><p>See the graphs above.</p></li>
+</ol>
+</div>
+</div>
+</div>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

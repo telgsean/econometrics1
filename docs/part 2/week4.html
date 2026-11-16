@@ -758,7 +758,7 @@ window.Quarto = {
             &amp;= \beta + (X'X/n)^{-1}(X'u/n) \\
             &amp;= \beta + o_{p}(1),
 \end{aligned}
-\]</span> because <span class="math inline">\((X'X/n)^{-1} \to Q\)</span> (a finite and positive definite matrix) by Assumption 2.5, <span class="math inline">\(X'u \to 0\)</span> by application of Proposition 5.1, and thus <span class="math inline">\((X'X/n)^{-1}(X'u/n) \rightarrow{p} 0\)</span> by Slutsky’s theorem. The last equation <span class="math inline">\(\hat{beta} = \beta + o_{p}(1)\)</span> only tells us that the estimator <span class="math inline">\(\hat{\beta}\)</span> is consistent for the true value <span class="math inline">\(\beta\)</span>, but it says nothing about the speed (or equivalently, rate) of convergence. The statement <span class="math display">\[
+\]</span> because <span class="math inline">\((X'X/n)^{-1} \to Q\)</span> (a finite and positive definite matrix) by Assumption 2.5, <span class="math inline">\(X'u \to 0\)</span> by application of Proposition 5.1, and thus <span class="math inline">\((X'X/n)^{-1}(X'u/n) \xrightarrow{p} 0\)</span> by Slutsky’s theorem. The last equation <span class="math inline">\(\hat{\beta} = \beta + o_{p}(1)\)</span> only tells us that the estimator <span class="math inline">\(\hat{\beta}\)</span> is consistent for the true value <span class="math inline">\(\beta\)</span>, but it says nothing about the speed (or equivalently, rate) of convergence. The statement <span class="math display">\[
 \hat{\beta} = \beta + O_{p}(n^{-1/2})
 \]</span> is more informative, because it means that <span class="math display">\[
 \hat{\beta} = \beta + n^{-1/2}z_{n} \quad \iff \quad \sqrt{n}(\hat{\beta} - \beta) = z_{n},
