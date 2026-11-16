@@ -101,7 +101,7 @@ $$
 $$
 similarly to last week. Let us now focus on the quantity of interest: 
 $$
-\sqrt{n} (\hat{beta_2} - \beta_2)
+\sqrt{n} (\hat{beta}_2 - \beta_2)
 = \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )u_i }{
 \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
 $$
@@ -123,36 +123,28 @@ which is (except for the scaling of the terms) again equivalent to our consisten
 $$
 \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i
 $$
-because the terms $(x_i - \overline{x}_{n} ) u_i$  ($i=1,2,\ldots,n$) are **not** independent due to the occurrence of the same random variable $\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i$ in each term.
+because the terms $(x_i - \overline{x}_{n} ) u_i$ are **not** independent for $i=1, 2, \ldots, n$ due to the occurrence of the same random variable $\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i$ in each term.
 
 First consider the second term (in red) of (@eq-splitterms):
 $$
 \textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i}  =
 \textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i}.
 $$
-Note that the *law of large numbers*  implies that
+Note that the *law of large numbers*  implies that $\textcolor{orange}{(\mu_x - \overline{x}_{n} )}   \xrightarrow{p} 0 $.
+To analyze $\textcolor{green}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n$, we define
 $$
-\textcolor{orange}{(\mu_x - \overline{x}_{n} )}   \xrightarrow{p}  0.
+z_n = \frac{\overline{u}_n - E(u_i)}{\sigma_{u}/\sqrt{n}}.
 $$
-We also analyze $\textcolor{green}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n$. If we define
-$$
-z_n = \frac{\overline{u}_n - E(u_i)}{\sigma_{u}/\sqrt{n}},
-$$
-we can apply the *central limit theorem* to $z_n$ which states that $z_n \xrightarrow{d} z \sim N(0,1)$. Note that $\sqrt{n}\overline{u}_n = \sigma_u z_n$, because $E(u_i) = 0$ by Assumption 2.3. Then we can apply Slutsky's theorem and obtain
+We can now apply the *central limit theorem* to $z_n$ which states that $z_n \xrightarrow{d} z \sim N(0,1)$. Note that $\sqrt{n}\overline{u}_n = \sigma_u z_n$, because $E(u_i) = 0$ by Assumption 2.3. Then we can apply Slutsky's theorem and obtain
 $$
 \textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n = \sigma z_n \xrightarrow{d} \sigma z \sim N(0,\sigma^2),
 $$
 
-Combining the results and applying Slutsky's theorem, we obtain
+Combining the results and applying Slutsky's theorem once more, we obtain
 $$
-\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d}  0 \cdot \sigma_u \cdot z,
-$$
-so that
-$$
-(\mu_x - \overline{x}_{n} ) \frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d}  0 \cdot \sigma_u \cdot z \quad \implies \quad (\mu_x - \overline{x}_{n} ) \frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
 $$
 To obtain the latter result, we make use of the fact that if a sequence converges in distribution to zero, then it also does so in probability. (Note that this implication only holds in case of converging to a degenerate distribution).
-
 
 In conclusion, for the second term of the rewritten numerator in (@eq-splitterms) we have:
 $$

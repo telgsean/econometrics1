@@ -839,7 +839,7 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
 &amp;= \beta_2 + \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
 \end{aligned}
 \]</span> similarly to last week. Let us now focus on the quantity of interest: <span class="math display">\[
-\sqrt{n} (\hat{beta_2} - \beta_2)
+\sqrt{n} (\hat{beta}_2 - \beta_2)
 = \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )u_i }{
 \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
 \]</span> where we adapted the scaling of the term in the numerator. For the denominator, we know <span class="math display">\[
@@ -853,21 +853,17 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
 \end{aligned}
 \tag{2}\]</span></span> which is (except for the scaling of the terms) again equivalent to our consistency derivation last week. Just like with the <em>law of large numbers</em>, we can <strong>not</strong> directly apply the <em>central limit theorem</em> to <span class="math display">\[
 \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i
-\]</span> because the terms <span class="math inline">\((x_i - \overline{x}_{n} ) u_i\)</span> (<span class="math inline">\(i=1,2,\ldots,n\)</span>) are <strong>not</strong> independent due to the occurrence of the same random variable <span class="math inline">\(\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i\)</span> in each term.</p>
+\]</span> because the terms <span class="math inline">\((x_i - \overline{x}_{n} ) u_i\)</span> are <strong>not</strong> independent for <span class="math inline">\(i=1, 2, \ldots, n\)</span> due to the occurrence of the same random variable <span class="math inline">\(\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i\)</span> in each term.</p>
 <p>First consider the second term (in red) of (<a href="#eq-splitterms" class="quarto-xref">2</a>): <span class="math display">\[
 \textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i}  =
 \textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i}.
-\]</span> Note that the <em>law of large numbers</em> implies that <span class="math display">\[
-\textcolor{orange}{(\mu_x - \overline{x}_{n} )}   \xrightarrow{p}  0.
-\]</span> We also analyze <span class="math inline">\(\textcolor{green}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n\)</span>. If we define <span class="math display">\[
-z_n = \frac{\overline{u}_n - E(u_i)}{\sigma_{u}/\sqrt{n}},
-\]</span> we can apply the <em>central limit theorem</em> to <span class="math inline">\(z_n\)</span> which states that <span class="math inline">\(z_n \xrightarrow{d} z \sim N(0,1)\)</span>. Note that <span class="math inline">\(\sqrt{n}\overline{u}_n = \sigma_u z_n\)</span>, because <span class="math inline">\(E(u_i) = 0\)</span> by Assumption 2.3. Then we can apply Slutsky’s theorem and obtain <span class="math display">\[
+\]</span> Note that the <em>law of large numbers</em> implies that $ 0 $. To analyze <span class="math inline">\(\textcolor{green}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n\)</span>, we define <span class="math display">\[
+z_n = \frac{\overline{u}_n - E(u_i)}{\sigma_{u}/\sqrt{n}}.
+\]</span> We can now apply the <em>central limit theorem</em> to <span class="math inline">\(z_n\)</span> which states that <span class="math inline">\(z_n \xrightarrow{d} z \sim N(0,1)\)</span>. Note that <span class="math inline">\(\sqrt{n}\overline{u}_n = \sigma_u z_n\)</span>, because <span class="math inline">\(E(u_i) = 0\)</span> by Assumption 2.3. Then we can apply Slutsky’s theorem and obtain <span class="math display">\[
 \textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n = \sigma z_n \xrightarrow{d} \sigma z \sim N(0,\sigma^2),
 \]</span></p>
-<p>Combining the results and applying Slutsky’s theorem, we obtain <span class="math display">\[
-\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d}  0 \cdot \sigma_u \cdot z,
-\]</span> so that <span class="math display">\[
-(\mu_x - \overline{x}_{n} ) \frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
+<p>Combining the results and applying Slutsky’s theorem once more, we obtain <span class="math display">\[
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d}  0 \cdot \sigma_u \cdot z \quad \implies \quad (\mu_x - \overline{x}_{n} ) \frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
 \]</span> To obtain the latter result, we make use of the fact that if a sequence converges in distribution to zero, then it also does so in probability. (Note that this implication only holds in case of converging to a degenerate distribution).</p>
 <p>In conclusion, for the second term of the rewritten numerator in (<a href="#eq-splitterms" class="quarto-xref">2</a>) we have: <span id="eq-red"><span class="math display">\[
 \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n}) u_i =
