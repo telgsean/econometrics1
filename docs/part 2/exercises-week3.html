@@ -781,7 +781,7 @@ window.Quarto = {
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>We are going to show the consistency of the sample variance <span class="math inline">\(s_{x}^{2} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}\)</span>. Let $x_1, , x_n be i.i.d. with finite mean <span class="math inline">\(\mu_x\)</span>, finite variance <span class="math inline">\(\sigma_x^{2}\)</span> and with <span class="math inline">\(E(x_i^{4}) &lt; \infty\)</span>. Show the following results.</p>
+<p>We are going to show the consistency of the sample variance <span class="math inline">\(s_{x}^{2} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}\)</span>. Let <span class="math inline">\(x_1, \ldots, x_n\)</span> be i.i.d. with finite mean <span class="math inline">\(\mu_x\)</span>, finite variance <span class="math inline">\(\sigma_x^{2}\)</span> and with <span class="math inline">\(E(x_i^{4}) &lt; \infty\)</span>. Show the following results.</p>
 <ol type="a">
 <li><span class="math inline">\(\overline{x}_{n} \xrightarrow{p} \mu_{x}\)</span>.</li>
 <li><span class="math inline">\(E(x_{i}^{2}) = \mu_{x}^{2} + \sigma_{x}^{2}\)</span>.</li>
@@ -833,11 +833,11 @@ s_{x}^{2} = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \overline{x})^{2}   \xrightarrow
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
 <p>In the simple linear regression model <span class="math display">\[
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
-\]</span> with <span class="math inline">\(E(u_{i}) = 0\)</span>, <span class="math inline">\(\Var(u_{i}) = \sigma^{2}\)</span>, <span class="math inline">\(\mbox{Cov}(u_{i}, u_{j}) = 0\)</span> for <span class="math inline">\(i \neq j\)</span> and <span class="math inline">\(x_{i}\)</span> fixed, nonrandom constants. We also assume <span class="math inline">\(\sigma_{x}^{2} &gt; 0\)</span>.</p>
+\]</span> with <span class="math inline">\(E(u_{i}) = 0\)</span>, <span class="math inline">\(\Var(u_{i}) = \sigma^{2}\)</span>, <span class="math inline">\(\mbox{Cov}(u_{i}, u_{j}) = 0\)</span> for <span class="math inline">\(i \neq j\)</span> and <span class="math inline">\(x_{i}\)</span> fixed, nonrandom constants. We exclude the case in which all <span class="math inline">\(x_{i}\)</span> are the same for all <span class="math inline">\(i\)</span>.</p>
 <ol type="a">
 <li>Express <span class="math inline">\(\hat{\beta}_{2}\)</span> as a linear combination of <span class="math inline">\(y_{i}\)</span>, i.e., <span class="math inline">\(\hat{\beta}_{2} = \sum_{i=1}^{n} a_{i} y_{i}\)</span>.</li>
 <li>Show that <span class="math inline">\(\Var(\hat{\beta}_{2}) = \sigma^{2} \sum_{i=1}^{n} a_{i}^{2}\)</span>.</li>
-<li>Show that <span class="math inline">\(\Var(\hat{\beta}_{2}) = \sigma^{2}/(n-1)s_{x}^{2}\)</span>.</li>
+<li>Show that <span class="math inline">\(\Var(\hat{\beta}_{2}) = \frac{\sigma^{2}}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}\)</span>.</li>
 <li>How does this help in showing <span class="math inline">\(\hat{\beta}_{2}\)</span> is consistent? Explain what we exactly need to apply Proposition 5.1 in this setup.</li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled" title="Solution">
@@ -855,15 +855,23 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
 <ol type="a">
 <li><p>Note that we can write <span class="math display">\[
 \hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})(y_{i} - \overline{y}_{n})}{\sum_{i=1}(x_{i} - \overline{x}_{n})} = \sum_{i=1}^{n} \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}} y_{i},
-\]</span> such that we can define <span class="math inline">\(a_{i} = \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}\)</span>. Note that these are nonrandom weights.</p></li>
+\]</span> such that we can define <span class="math inline">\(a_{i} = \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}\)</span> as nonrandom weights.</p></li>
 <li><p>We have <span class="math display">\[
 \Var(\hat{\beta}_{2}) = \Var \left( \sum_{i=1}^{n} a_{i} y_{i} \right) = \sum_{i=1}^{n} a_{i}^{2} \Var(y_{i}).
 \]</span> Since <span class="math inline">\(\Var(y_{i}) = \Var(\beta_{1} + \beta_{2}x_{i} + u_{i}) = \Var(u_{i}) = \sigma^{2}\)</span>. This gives the desired result.</p></li>
-<li><p>Note that <span class="math inline">\(s_{x}^{2} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}\)</span> such that <span class="math inline">\((n-1)s_{x}^{2} = \sum_{i=1}^{n} (x_{i} - \overline{x})^{2}\)</span>.</p></li>
-<li><p>We have previously shown in this course that <span class="math inline">\(\hat{\beta}_{2}\)</span> is unbiased for <span class="math inline">\(\beta_{2}\)</span>. In Exercise 3, we have shown that <span class="math inline">\(s_{x}^{2} \xrightarrow{p} \sigma_{x}^{2} &gt; 0\)</span>. Thus, <span class="math display">\[
-\Var(\hat{\beta}_{2}) = \frac{\sigma^{2}}{(n-1)s_{x}^{2}} = \frac{\sigma^{2}}{n-1} \cdot s_{x}^{-2} \xrightarrow{p} 0 \times \sigma_{x}^{-2} = 0,
-\]</span> by Slutsky’s theorem (and the continuous mapping theorem).</p></li>
+<li><p>Note that <span class="math display">\[
+\begin{aligned}
+\Var(\hat{\beta}_{2}) &amp;= \sigma^{2} \sum_{i=1}^{n} a_{i}^{2} \\
+                   &amp;= \sigma^{2} \sum_{i=1}^{n} \left[ \frac{(x_{i} - \overline{x}_{n})}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}} \right]^{2} \\
+                   &amp;= \sigma^{2} \frac{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}{[\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}]^{2}} \\
+                   &amp;= \frac{\sigma^{2}}{\sum_{i=1}^{n} (x_{i} - \overline{x}_{n})^{2}}
+\end{aligned}
+\]</span></p></li>
+<li><p>We have previously shown in this course that <span class="math inline">\(\hat{\beta}_{2}\)</span> is unbiased for <span class="math inline">\(\beta_{2}\)</span>. If we apply the correct scaling to the term we just derived, we obtain <span class="math display">\[
+\Var(\hat{\beta}_{2}) = \frac{\sigma^{2}}{n} \cdot \frac{n}{\sum_{i=1}^{n}(x_{i} - \overline{x}_{n})^{2}} = \frac{\sigma^{2}}{n} \cdot Q_{n}^{-1} \xrightarrow{p} 0 \times Q^{-1} = 0,
+\]</span> by Slutsky’s theorem (and the continuous mapping theorem). We verified the conditions of Proposition 5.1, and thus <span class="math inline">\(\hat{\beta}_{2} \xrightarrow{p} \beta_{2}\)</span> is established.</p></li>
 </ol>
+<p>Note that we have essentially done the same as the first part of Section 5.10, but now explicitly written out for the simple linear regression model!</p>
 </div>
 </div>
 </div>
@@ -922,7 +930,7 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
 </section>
 <section id="exercise-7" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-7">Exercise 7</h2>
-<p>We have shown that <span class="math inline">\(\hat{\beta}_{2}\)</span> is consistent for <span class="math inline">\(\beta_{2}\)</span> in the simple linear regression model. Use this result to show that <span class="math inline">\(\hat{\beta}_{1}\)</span> is consistent for <span class="math inline">\(\beta_{1}\)</span>.</p>
+<p>We have shown that <span class="math inline">\(\hat{\beta}_{2}\)</span> is consistent for <span class="math inline">\(\beta_{2}\)</span> in the simple linear regression model. Use this result to show that <span class="math inline">\(\hat{\beta}_{1}\)</span> is consistent for <span class="math inline">\(\beta_{1}\)</span>. Assume <span class="math inline">\(X\)</span> is random.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Solution">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -948,13 +956,14 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
 &amp;= \beta_{1}.
 \end{aligned}
 \]</span></p>
+<p>This is one way of solving the problem. For example, you can also immediately apply plims to <span class="math inline">\(\hat{\beta}_{1} = \overline{y}_{n} - \hat{\beta}_{2}\overline{x}_{n}\)</span>, which then requires you to calculate <span class="math inline">\(E(y_{i})\)</span>.</p>
 </div>
 </div>
 </div>
 </section>
 <section id="exercise-8" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-8">Exercise 8</h2>
-<p>Let’s consider <em>unbiasedness</em> and <em>consistency</em>.</p>
+<p><em>(5.30 in ME)</em> Let’s consider <em>unbiasedness</em> and <em>consistency</em>.</p>
 <ol type="a">
 <li>Does unbiasedness imply consistency? Give a (counter)example.</li>
 <li>Does consistency imply unbiasedness? Give a (counter)example.</li>
