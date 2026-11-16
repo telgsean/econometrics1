@@ -126,7 +126,7 @@ $$
 $$
 *Hint:* Write out the expression for $\tilde{\beta}$ derived in d. for the current setup. It helps to first determine the different terms that $\tilde{\beta}$ is composed of. For example, you can find that $w'(X'X)^{-1}w = \frac{x'x}{n x'x - (\imath'x)^{2}}$. 
 
-::: {.callout-caution title="Hint" collapse = true}
+::: {.callout-caution title="Solution" collapse = true}
 
 a. If $\sigma^{2} = 1$, then $|\sigma^{2}I_{n}|^{-1/2} = 1^{-1/2} = 1$ and $(\sigma^{2} I_{n})^{-1} = I_{n}$. Thus,
 $$

@@ -93,7 +93,7 @@ Consider once again the simple linear regression model given by
 $$
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
 $$
-Let us assume that **the regressor is random**, as this is the more difficult case. We need to show that $\hat{\beta}_{2} \xrightarrow{p} \beta_{2}$ or equivalently $\mbox{plim}(\hat \beta_2) = \beta_2$. The notation $\mbox{plim}$ is typically more useful than $\xrightarrow{p}$ when writing down arithmetic results such as Slutsky's theorem. Therefore, we adhere to this notation in what follows. Note that we also write $E(x_{i}) = \mu_{x}$ and $\Var(x_{i}) = \sigma^{2}_{x}$ with subscript '$x$' to avoid confusion with the mean and variance of the error term.
+Let us assume that **the regressor is random**, such that $x_{1}, \ldots, x_{n}$ is a sequence of random variables and measures based on it (such as the sample mean) have their own limiting behavior. We need to show that $\hat{\beta}_{2} \xrightarrow{p} \beta_{2}$ or equivalently $\mbox{plim}(\hat \beta_2) = \beta_2$. The notation $\mbox{plim}$ is typically more useful than $\xrightarrow{p}$ when writing down arithmetic results such as Slutsky's theorem. Therefore, we adhere to this notation in what follows. Note that we also write $E(x_{i}) = \mu_{x}$ and $\Var(x_{i}) = \sigma^{2}_{x}$ with subscript '$x$' to avoid confusion with the mean and variance of the error term.
 
 Note that the LS and ML estimator of $\beta_{2}$ is given by
 $$
@@ -208,6 +208,45 @@ $$
 In the book, the last $\beta$ is not included.
 
 :::
+
+::: {.callout-warning title="Taking away confusion around $X$ random or nonrandom" collapse = TRUE}
+
+We have reached a point in which assuming $X$ nonrandom feels a bit off. This is particularly the case in the derivations above and not so much in the book. Why is that?
+
+- In the book, the role of $X$ in the asymptotic theory is reduced to two types of arguments. First, the behavior of the matrix $X'X/n$. Assumption 2.5 simply states that this matrix coverges to a positive definite matrix of constants. Second, we need a condition on the limiting behavior of $X'u/n$. The book makes use of Proposition 5.1. Since $E(X'u/n) = n^{-1}X'E(u) = 0$ and $\Var(X'u/n) = \frac{\sigma^{2}}{n} \cdot \frac{X'X}{n} \to 0$, we $\mbox{plim}(X'u/n) = 0$.
+
+- On the website, we explicitly write out our estimators and determine the limiting behavior of the separate terms. For example, the slope estimator of the simple linear regression model is written as
+$$
+\begin{equation*}
+\hat{\beta}_2 = \beta_2 + \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }.
+\end{equation*}
+$$
+Note that, **if $X$ is assumed nonrandom**, then the denominator of the fraction is simply a constant. In other words,
+$$
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}  \right) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2},
+$$
+and not $\sigma^{2}_{x}$ as it would be in case $X$ is random. We could see the numerator as
+$$
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i = \frac{1}{n} \sum_{i=1}^{n} w_{i} u_{i},
+$$
+where $w_{i}$ is a nonrandom weight. The next step would become a bit more complicated, as we cannot directly apply the law of large numbers (we only have one at our disposal for unweighted averages). What would be the way to take? The same way as in the book using Proposition 5.1!
+
+That is, we need to assume $\frac{1}{n}\sum_{i=1}^{n} w_{i}^{2}$ converges to a positive constant $Q$ (which happens as long as we do not have that all $x_{i}$ are the same). For the numerator, as long as 
+$$
+E \left(\frac{1}{n}\sum_{i=1}^{n} w_{i} u_{i} \right) = \frac{1}{n} \sum_{i=1}^{n} w_{i} E(u_{i}) = 0,
+$$ 
+because of Assumption 2.3 and
+$$
+\Var \left( \frac{1}{n}\sum_{i=1}^{n} w_{i} u_{i}  \right) = \frac{1}{n^{2}} \sum_{i=1}^{n} w_{i}^{2} \Var(u_{i}) = \frac{\sigma^{2}}{n} \times \frac{\sum_{i=1}^{n} w_{i}^{2}}{n} \to 0,
+$$
+where we used that the error term is independent and identically distributed, then we can apply Proposition 5.1 to establish consistency of $\beta_{2}$.
+
+*To conclude, if we write our estimators out explicitly as we do on the website, weighted and unweighted sums in terms of $X$ appear, which might give the feeling that we should apply theorems such as the law of large numbers. However, if $X$ is nonrandom, we simply have to acknowledge that those sums converge to a constant and not some type of expectation.* 
+
+:::
+
+
+
 
 ::: {.callout-tip icon="false"}
 ## 📚 Read in ITE

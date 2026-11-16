@@ -852,7 +852,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="the-simple-linear-regression-model">The simple linear regression model</h3>
 <p>Consider once again the simple linear regression model given by <span class="math display">\[
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
-\]</span> Let us assume that <strong>the regressor is random</strong>, as this is the more difficult case. We need to show that <span class="math inline">\(\hat{\beta}_{2} \xrightarrow{p} \beta_{2}\)</span> or equivalently <span class="math inline">\(\mbox{plim}(\hat \beta_2) = \beta_2\)</span>. The notation <span class="math inline">\(\mbox{plim}\)</span> is typically more useful than <span class="math inline">\(\xrightarrow{p}\)</span> when writing down arithmetic results such as Slutsky’s theorem. Therefore, we adhere to this notation in what follows. Note that we also write <span class="math inline">\(E(x_{i}) = \mu_{x}\)</span> and <span class="math inline">\(\Var(x_{i}) = \sigma^{2}_{x}\)</span> with subscript ‘<span class="math inline">\(x\)</span>’ to avoid confusion with the mean and variance of the error term.</p>
+\]</span> Let us assume that <strong>the regressor is random</strong>, such that <span class="math inline">\(x_{1}, \ldots, x_{n}\)</span> is a sequence of random variables and measures based on it (such as the sample mean) have their own limiting behavior. We need to show that <span class="math inline">\(\hat{\beta}_{2} \xrightarrow{p} \beta_{2}\)</span> or equivalently <span class="math inline">\(\mbox{plim}(\hat \beta_2) = \beta_2\)</span>. The notation <span class="math inline">\(\mbox{plim}\)</span> is typically more useful than <span class="math inline">\(\xrightarrow{p}\)</span> when writing down arithmetic results such as Slutsky’s theorem. Therefore, we adhere to this notation in what follows. Note that we also write <span class="math inline">\(E(x_{i}) = \mu_{x}\)</span> and <span class="math inline">\(\Var(x_{i}) = \sigma^{2}_{x}\)</span> with subscript ‘<span class="math inline">\(x\)</span>’ to avoid confusion with the mean and variance of the error term.</p>
 <p>Note that the LS and ML estimator of <span class="math inline">\(\beta_{2}\)</span> is given by <span class="math display">\[
 \hat{\beta}_{2} = \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n} ) (y_i - \overline{y}_{n} )}{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }.
 \]</span> By plugging in the true data-generation process for <span class="math inline">\(y_{i}\)</span> and <span class="math inline">\(\overline{y}_{n}\)</span>, we obtain <span class="math display">\[
@@ -949,6 +949,40 @@ y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
 <p>There is a typo in the second equation of Section 5.10. The equation should be <span class="math display">\[
 \hat{\beta} = \beta + (X'X/n)^{-1}(X'u/n) = \beta + Q_{n}^{-1}(X'u/n).
 \]</span> In the book, the last <span class="math inline">\(\beta\)</span> is not included.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Taking away confusion around $X$ random or nonrandom">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Taking away confusion around <span class="math inline">\(X\)</span> random or nonrandom
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>We have reached a point in which assuming <span class="math inline">\(X\)</span> nonrandom feels a bit off. This is particularly the case in the derivations above and not so much in the book. Why is that?</p>
+<ul>
+<li><p>In the book, the role of <span class="math inline">\(X\)</span> in the asymptotic theory is reduced to two types of arguments. First, the behavior of the matrix <span class="math inline">\(X'X/n\)</span>. Assumption 2.5 simply states that this matrix coverges to a positive definite matrix of constants. Second, we need a condition on the limiting behavior of <span class="math inline">\(X'u/n\)</span>. The book makes use of Proposition 5.1. Since <span class="math inline">\(E(X'u/n) = n^{-1}X'E(u) = 0\)</span> and <span class="math inline">\(\Var(X'u/n) = \frac{\sigma^{2}}{n} \cdot \frac{X'X}{n} \to 0\)</span>, we <span class="math inline">\(\mbox{plim}(X'u/n) = 0\)</span>.</p></li>
+<li><p>On the website, we explicitly write out our estimators and determine the limiting behavior of the separate terms. For example, the slope estimator of the simple linear regression model is written as <span class="math display">\[
+\begin{equation*}
+\hat{\beta}_2 = \beta_2 + \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }.
+\end{equation*}
+\]</span> Note that, <strong>if <span class="math inline">\(X\)</span> is assumed nonrandom</strong>, then the denominator of the fraction is simply a constant. In other words, <span class="math display">\[
+\mbox{plim}\left( \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}  \right) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2},
+\]</span> and not <span class="math inline">\(\sigma^{2}_{x}\)</span> as it would be in case <span class="math inline">\(X\)</span> is random. We could see the numerator as <span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i = \frac{1}{n} \sum_{i=1}^{n} w_{i} u_{i},
+\]</span> where <span class="math inline">\(w_{i}\)</span> is a nonrandom weight. The next step would become a bit more complicated, as we cannot directly apply the law of large numbers (we only have one at our disposal for unweighted averages). What would be the way to take? The same way as in the book using Proposition 5.1!</p></li>
+</ul>
+<p>That is, we need to assume <span class="math inline">\(\frac{1}{n}\sum_{i=1}^{n} w_{i}^{2}\)</span> converges to a positive constant <span class="math inline">\(Q\)</span> (which happens as long as we do not have that all <span class="math inline">\(x_{i}\)</span> are the same). For the numerator, as long as <span class="math display">\[
+E \left(\frac{1}{n}\sum_{i=1}^{n} w_{i} u_{i} \right) = \frac{1}{n} \sum_{i=1}^{n} w_{i} E(u_{i}) = 0,
+\]</span> because of Assumption 2.3 and <span class="math display">\[
+\Var \left( \frac{1}{n}\sum_{i=1}^{n} w_{i} u_{i}  \right) = \frac{1}{n^{2}} \sum_{i=1}^{n} w_{i}^{2} \Var(u_{i}) = \frac{\sigma^{2}}{n} \times \frac{\sum_{i=1}^{n} w_{i}^{2}}{n} \to 0,
+\]</span> where we used that the error term is independent and identically distributed, then we can apply Proposition 5.1 to establish consistency of <span class="math inline">\(\beta_{2}\)</span>.</p>
+<p><em>To conclude, if we write our estimators out explicitly as we do on the website, weighted and unweighted sums in terms of <span class="math inline">\(X\)</span> appear, which might give the feeling that we should apply theorems such as the law of large numbers. However, if <span class="math inline">\(X\)</span> is nonrandom, we simply have to acknowledge that those sums converge to a constant and not some type of expectation.</em></p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
