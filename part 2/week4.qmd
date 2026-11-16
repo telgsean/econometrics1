@@ -12,3 +12,220 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 - Chapter 4, Section 5.12 - 5.14.
 
 :::
+
+## This week's contents
+Last week, we have shown consistency of the LS and ML estimators of $\beta$ and $\sigma^{2}$. Whereas convergence to the true value is an insightful result, it does not directly help us in conducting inference. Considering a rescaled version of our estimator, more precisely $\sqrt{n}(\hat{\beta} - \beta)$, proves to be more useful in that respect. We will show that the rescaled version **converges in distribution** and exactly this result can be used to perform **inference in the large-sample framework**. Note that the results in the book are still based on the underlying assumption that the error term is normal. We will see that this heavily simplifies the proof. However, the usefulness of this result is rather limited. Therefore, the website will focus on showing **asymptotic normality** in the more complicated setting that $X$ is nonrandom and $u$ is not (necessarily) normally distributed.
+
+## Root-$n$ consistency
+The final section of week 3, i.e. Section 5.11, discussed the concept of stochastic boundedness. It introduced the 'small-oh' and 'big-Oh' notation, which is particularly useful for this week's material. Last week, we showed that
+$$
+\begin{aligned}
+\hat{\beta} &= \beta + (X'X)^{-1}X'u \\
+            &= \beta + (X'X/n)^{-1}(X'u/n) \\
+            &= \beta + o_{p}(1),
+\end{aligned}
+$$
+because $(X'X/n)^{-1} \to Q$ (a finite and positive definite matrix) by Assumption 2.5, $X'u \to 0$ by application of Proposition 5.1, and thus $(X'X/n)^{-1}(X'u/n) \rightarrow{p} 0$ by Slutsky's theorem. The last equation $\hat{beta} = \beta + o_{p}(1)$ only tells us that the estimator $\hat{\beta}$ is consistent for the true value $\beta$, but it says nothing about the speed (or equivalently, rate) of convergence. The statement
+$$
+\hat{\beta} = \beta + O_{p}(n^{-1/2})
+$$
+is more informative, because it means that
+$$
+\hat{\beta} = \beta + n^{-1/2}z_{n} \quad \iff \quad \sqrt{n}(\hat{\beta} - \beta) = z_{n},
+$$
+where $z_{n}$ is stochastically bounded. We call these estimators **root-$n$ consistent**.
+
+You might wonder why this is important. Note that the distribution of $\hat{\beta}$ implies a distribution for $z_{n}$. Whereas the limiting distribution of $\hat{\beta}$ is degenerate (i.e., with mean $\beta$ and variance $0$), the limiting distribution of $\sqrt{n}(\hat{\beta} - \beta)$ is instead nondegenerate (i.e., with nonzero and finite variance). This result can be used as an *approximation* of the (finite-sample) distribution of $\hat{\beta}$.
+
+::: {.callout-note title="A simple example" collapse="true"}
+Let's consider the sample mean $\overline{x}_{n}$ based on a sample $x_{1}, \ldots, x_{n}$ with mean $\mu_{x}$ and variance $\sigma^{2}_{x}$. We assume that $x_{1}, \ldots, x_{n}$ follow a finite-variance distribution, but not necessarily the normal distribution.
+
+To perform inference, we need to make use of the **asymptotic distribution**. Using the central limit theorem (CLT), we know that
+$$
+\sqrt{n}(\overline{x}_{n} - \mu_{x}) \xrightarrow{d} N(0,\sigma^{2}_{x}).
+$$
+This result can be used as an approximation to perform hypothesis testing. For large $n$, we can say
+$$
+\overline{x}_{n} \approx N(\mu_{x}, \sigma_{x}^{2}/n),
+$$
+and we can continue as we did previously (in Chapter 3). That is, if $\sigma^{2}$ were known, we could use
+$$
+z_{n} = \frac{\overline{x}_{n} - \mu_{x,0}}{\sigma_{x}/\sqrt{n}} \approx N(0,1)
+$$ {#eq-ztest}
+as a test statistic to test the null hypothesis $H_{0} : \mu_{x} = \mu_{x,0}$. If $\sigma_{x}^{2}$ is unknown, we typically replace it by a consistent estimator. That is, we can replace $\sigma_{x}$ in (@eq-ztest) by $s_{x}$. Note that, compared to what we saw previously, the result remains normally distributed because we simply apply Slutsky's theorem. In the finite-sample case the distribution changed to a $t$-distribution. Make sure you get this distinction clear for yourself!
+
+:::
+
+In addition to the theorems that we highlighted last week, we need one more powerful result (which you already know) this week. As the simple example reveals, it is the **central limit theorem**.
+
+::: {.callout-warning title="Central limit theorem" collapse="true"}
+
+Let $x_{1}, \ldots, x_{n}$ be a sequence of independent and identically distributed (i.i.d.) random variables with finite mean $\mu_{x}$ and finite variance $\sigma^{2}_{x}$. For $\overline{x}_{n} = \frac{1}{n}\sum_{i=1}^{n} x_{i}$, we have
+$$
+\sqrt{n}\frac{\overline{x}_{n} - \mu_{x}}{\sigma_{x}} \xrightarrow{d} N(0,1),
+$$
+or equivalently,
+$$
+\sqrt{n}(\overline{x}_{n} - \mu_{x}) \xrightarrow{d} N(0,\sigma^{2}_{x}).
+$$
+
+:::
+
+::: {.callout-tip icon="false"}
+## 📚 Read in ITE
+
+Read the following sections in ITE:
+
+- Section 5.12 - 5.13, which builds on the notion of stochastic unboundedness of last week. Convergence in distribution and the central limit theorem are explained in the latter section.
+
+- Section 5.14, which computes the asymptotic distribution of $\hat{\beta}$ and $s^{2}$. However, because normality of $u$ is still assumed, the derivations are rather straightforward.
+
+We skip the remaining sections of this chapter.
+
+:::
+
+## Asymptotic normality in the simple linear regression model
+Suppose we are given the simple linear regression model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i},
+$$
+where we assume that our single regressor $x$ is random and $u_{i}$ has mean zero and variance $\sigma^{2}$, but is not (necessarily) normally distributed. We want to study the asymptotic normality of $\sqrt{n}(\hat{\beta}_2 - \beta_2 )$.
+
+Note that we can write
+$$
+\begin{aligned}
+\hat{\beta}_2
+&= \beta_2 + \frac{\sum_{i=1}^{n} (x_i - \overline{x}_{n})u_i }{ \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}} \\
+&= \beta_2 + \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
+\end{aligned}
+$$
+similarly to last week. Let us now focus on the quantity of interest: 
+$$
+\sqrt{n} (\hat{beta_2} - \beta_2)
+= \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} },
+$$
+where we adapted the scaling of the term in the numerator. For the denominator, we know
+$$
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2}  \xrightarrow{p} \sigma_{x}^{2},
+$$
+by Exercise 3 of Week 3. Thus, we continue to focus on the numerator.
+
+We make use of **the central limit theorem** to derive the asymptotic distribution of the numerator. For this purpose, we rewrite it as
+$$
+\begin{aligned}
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i  &= \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x + \mu_x - \overline{x}_{n} ) u_i \\
+&=
+\textcolor{blue}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i} + \textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i},
+\end{aligned}
+$$ {#eq-splitterms}
+which is (except for the scaling of the terms) again equivalent to our consistency derivation last week. Just like with the *law of large numbers*, we can **not** directly apply the *central limit theorem* to
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i
+$$
+because the terms $(x_i - \overline{x}_{n} ) u_i$  ($i=1,2,\ldots,n$) are **not** independent due to the occurrence of the same random variable $\overline{x}_n = \frac{1}{n} \sum_{i=1}^{n} x_i$ in each term.
+
+First consider the second term (in red) of (@eq-splitterms):
+$$
+\textcolor{red}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n} ) u_i}  =
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i}.
+$$
+Note that the *law of large numbers*  implies that
+$$
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}   \xrightarrow{p}  0.
+$$
+We also analyze $\textcolor{green}{\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n$. If we define
+$$
+z_n = \frac{\overline{u}_n - E(u_i)}{\sigma_{u}/\sqrt{n}},
+$$
+we can apply the *central limit theorem* to $z_n$ which states that $z_n \xrightarrow{d} z \sim N(0,1)$. Note that $\sqrt{n}\overline{u}_n = \sigma_u z_n$, because $E(u_i) = 0$ by Assumption 2.3. Then we can apply Slutsky's theorem and obtain
+$$
+\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} = \sqrt{n}\overline{u}_n = \sigma z_n \xrightarrow{d} \sigma z \sim N(0,\sigma^2),
+$$
+
+Combining the results and applying Slutsky's theorem, we obtain
+$$
+\textcolor{orange}{(\mu_x - \overline{x}_{n} )}\textcolor{green} {\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i} \xrightarrow{d}  0 \cdot \sigma_u \cdot z,
+$$
+so that
+$$
+(\mu_x - \overline{x}_{n} ) \frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
+$$
+To obtain the latter result, we make use of the fact that if a sequence converges in distribution to zero, then it also does so in probability. (Note that this implication only holds in case of converging to a degenerate distribution).
+
+
+In conclusion, for the second term of the rewritten numerator in (@eq-splitterms) we have:
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (\mu_x - \overline{x}_{n}) u_i =
+(\mu_x - \overline{x}_{n})\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_i \xrightarrow{p}  0.
+$$ {#eq-red}
+
+
+Now we consider the first term of the rewritten numerator in (@eq-splitterms). Let us first define the random variable $v_i$ as $v_i = (x_i - \mu_x) u_i$, such that
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i =
+\sqrt{n} \; \frac{1}{n} \sum_{i=1}^{n} v_i =
+\sqrt{n} \; \overline{v}_n.
+$$
+We define the standardized random variable as
+$$
+w_n = \frac{\overline{v}_n - E(v_i)}{\sigma_v /\sqrt{n}}.
+$$
+We can apply the *central limit theorem* to $w_n$ (just as we did to $z_n$) and obtain
+$$
+w_n \xrightarrow{d} w \sim N(0,1).
+$$
+Note that $\sqrt{n} \overline{v}_n = \sigma_v w_n$, because the *law of iterated expectations* yields
+$$
+\begin{aligned}
+E(v_i)
+&= E_{x_i,u_i}( (x_i - \mu_x) u_i ) =  E_{x_i}( E_{u_i|x_i}[(x_i - \mu_x) u_i] ) \\
+&= E_{x_i}( (x_i - \mu_x) E_{u_i|x_i}[u_i|x_i] ) =  E_{x_i}( (x_i - \mu_x) \cdot 0 ) \\
+&=  E_{x_i}( 0 ) = 0,
+\end{aligned}
+$$
+where the subscripts of the expectation operators are solely included to clarify with respect to what distribution the expectation is taken. From this result, we conclude
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \mu_x) u_i =
+\sqrt{n} \overline{v}_n = \sigma_v w_n \xrightarrow{d}  (\sigma_v \cdot w) \sim N(0,\sigma_v^{2}).
+$$ {#eq-blue}
+
+We apply *Slutsky's theorem* to (@eq-blue) and (@eq-red)
+such that we obtain for the full numerator in (@eq-splitterms)
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n}) u_i  \xrightarrow{d}  (\sigma_v \cdot w) \sim N(0,\sigma_v^{2}).
+$$
+
+Finally, we have reached the point where we can put everything together. Once again, *Slutsky's theorem* (quotient rule) is needed. This yields the asymptotic distribution.
+$$
+\sqrt{n} (\hat{\beta}_2 - \beta_2)
+= \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{
+\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n} )^{2} }
+\xrightarrow{d}  \frac{\sigma_v \cdot w}{\sigma_x^{2}} \sim
+N \left( 0, \frac{\sigma_v^{2}}{\sigma_{x}^4} \right).
+$$
+
+### The large-sample distribution
+Deriving the asymptotic distribution required several steps, but note that is very powerful. The normality emerges via de central limit theorem, not because we assumed the error term is normally distributed. Thus, this result is valid for any finite-variance distribution of the error term.
+
+The asymptotic distribution can be used as a **large-sample approximation**. That is, for $n$ large enough we have:
+$$
+\begin{aligned}
+\sqrt{n} (\hat \beta_2 - \beta_2)  & \approx  N \left( 0, \frac{\sigma_v^{2}}{\sigma_{x}^4} \right) \\
+(\hat \beta_2 - \beta_2)  & \approx  N \left( 0, \frac{1}{n} \frac{\sigma_v^{2}}{\sigma_{x}^4} \right) \\
+\hat{\beta}_2  & \approx  N \left( \beta_2, \frac{1}{n} \frac{\sigma_v^{2}}{\sigma_{x}^4} \right)
+\end{aligned}
+$$
+with $\sigma_v^{2} = \Var(v_i)  = \Var[ (x_i - \mu_x) u_i ]$ and 
+$\sigma_x^{4} = [\Var(x_i)]^{2}$. Thus, the **large-sample distribution** of $\hat{\beta}_2$ is given by
+$$
+\hat \beta_2   \approx  N \left( \beta_2, \frac{1}{n} \frac{ \Var[(x_i - \mu_x) u_i ]}{ [\Var( x_i )]^{2} } \right).
+$$
+
+There are two important implications of this result:
+
+- The smaller $\Var(u_i)$, the smaller $\Var(\hat{\beta}_2)$,
+- The larger $\Var(x_i)$, the smaller $\Var(\hat{\beta}_2)$,
+
+which we study more deeply in the weekly exercises.
+
