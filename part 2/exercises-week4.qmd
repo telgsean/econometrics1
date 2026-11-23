@@ -7,7 +7,7 @@ copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
 
 ## Exercise 1
-Consider the simple linear regression model. We revisit the asymptotic distribution of
+Consider the simple linear regression model, where the regressor is assumed random. We revisit the asymptotic distribution of
 $$
 \sqrt{n} (\hat{\beta}_2 - \beta_2) = \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} }.
 $$
@@ -283,3 +283,116 @@ b. See the graphs above.
 
 :::
 
+## Exercise 5
+Consider the *intercept-only model*
+$$
+y_{i} = \beta + u_{i},
+$$
+for which Assumptions 2.1, 2.2, 2.3 and 2.5 hold. Derive the asymptotic distribution of
+$$
+\sqrt{n}(\hat{\beta} - \beta),
+$$ 
+where $\hat{\beta}$ denotes the least-squares estimator.
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The least-squares estimator in the intercept-only model is given by $\hat{\beta} = \overline{y}_{n}$. By filling in the data-generation process, we obtain
+$$
+\hat{\beta} = \overline{y}_{n} = \beta + \overline{u}_{n},
+$$
+such that
+$$
+\sqrt{n}(\hat{\beta} - \beta) = \sqrt{n}\overline{u}_{n}.
+$$
+The Lindeberg-Lévy central limit theorem tell us that
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} v_{i} \xrightarrow{d} N(0,1),
+$$
+for a sequence of i.i.d. random variables $v_{1}, \ldots, v_{n}$ with mean zero and variance one. Because $u_{i}$ has mean zero and variance $\sigma^{2}$, we get
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} \left( \frac{u_{i}}{\sigma} \right) \xrightarrow{d} N(0,1).
+$$
+By noting that 
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_{i} = \frac{n}{\sqrt{n}} \frac{1}{n}\sum_{i=1}^{n} u_{i} = \sqrt{n} \overline{u}_{n},
+$$
+we can conclude that
+$$
+\sqrt{n}\overline{u}_{n} = \sigma \cdot \frac{1}{\sqrt{n}} \sum_{i=1}^{n} \left( \frac{u_{i}}{\sigma} \right)  \xrightarrow{d} \sigma \cdot N(0, 1) =  N(0, \sigma^{2}).
+$$
+
+:::
+
+
+
+## Exercise 6
+Consider the model
+$$
+y = X\beta + u,
+$$
+for which Assumptions 2.1-2.5 hold. Suppose we have a sequence $w_{1}, \ldots, w_{n}$ of i.i.d. random variables from a $\chi^{2}(1)$ distribution where $E(w_{i}) = 1$ and $\Var(w_{i}) = 2$.
+
+a. Show that $\frac{1}{\sqrt{n}}\sum_{i=1}^{n} \left(\frac{ w_{i} - 1}{\sqrt{2}} \right) = \frac{\sqrt{n}(\overline{w}_{n} - 1)}{\sqrt{2}} \xrightarrow{d} N(0,1)$.
+
+b. Show that $\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k)$.
+
+c. Explain under what condition we can write $\frac{(n-k)s^{2}}{\sigma^{2}} = \sum_{i=1}^{n-k} w_{i}$.
+
+d. Show that $s^{2} = \sigma^{2}\overline{w}_{n-k}$, where $\overline{w}_{n-k} = \frac{1}{n-k}\sum_{i=1}^{n-k} w_{i}$.
+
+e. Show that $\sqrt{n}(s^{2} - \sigma^{2}) = \sigma^{2}\sqrt{n}\left(\overline{w}_{n-k} - 1 \right)$.
+
+f. Use the result in a. to establish the asymptotic distribution of $\sqrt{n}(s^{2} - \sigma^{2})$.
+
+
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. We first have to standardize the random variabe $w_{i}$ as $v_{i} = \frac{w_{i} - 1}{\sqrt{2}}$. That is, $v_{i}$ is i.i.d. with mean zero and unit variance. We can now immediately apply the Lindeberg-Lévy central limit theorem to get the desired result:
+$$
+\frac{1}{\sqrt{n}}\sum_{i=1}^{n} v_{i} = \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \left(\frac{w_{i} - 1}{\sqrt{2}} \right) \xrightarrow{d} N(0,1).
+$$
+Lastly, note that since $\overline{w}_{n} = \frac{1}{n}\sum_{i=1}^{n} w_{i}$, we note that the following expressions
+$$
+\frac{1}{n^{1/2}} \sum_{i=1}^{n} (w_{i} - 1) = \frac{n}{n^{1/2}} \cdot \frac{1}{n} \sum_{i=1}^{n} (w_{i} - 1) = \sqrt{n} (\overline{w}_{n} - 1)
+$$
+are the same.
+
+b. Since $u \sim N(0, \sigma^{2}I_{n})$, we know that $v = u/\sigma \sim N(0, I_{n})$. Since $e = Mu$, we get $e'e = u'Mu$ with $M$ symmetric, idempotent and rank $n-k$. Therefore
+$$
+v'Mv = \frac{u'Mu}{\sigma^{2}} = \frac{e'e}{\sigma^{2}} \sim \chi^{2}(n-k). 
+$$
+By noting that $s^{2} = e'e/(n-k)$ such that $e'e = (n-k)s^{2}$, we get the desired result. (Note: our derivations heavily depend on the normality of the error term).
+
+c. We know that if $w_{i} \overset{i.i.d.}{\sim} \chi^{2}(1)$, then $\sum_{i=1}^{n-k} w_{i} \sim \chi^{2}(n-k)$.
+
+d. This is easily established by multiplying $\frac{(n-k)s^{2}}{\sigma^{2}} = \sum_{i=1}^{n-k} w_{i}$ by $1/(n-k)$ and $\sigma^{2}$:
+$$
+\frac{1}{n-k} \cdot \sigma^{2} \cdot \frac{(n-k)s^{2}}{\sigma^{2}} = \sigma^{2} \overline{w}_{n-k},
+$$
+where $\overline{w}_{n-k} = \frac{1}{n-k}\sum_{i=1}^{n-k} w_{i}$.
+
+e. Subtracting $\sigma^{2}$ from both sides of the equation in d. yields
+$$
+s^{2} - \sigma^{2} = \sigma^{2}\overline{w}_{n-k} - \sigma^{2} = \sigma^{2} \left( \overline{w}_{n-k} - 1 \right).
+$$
+
+f. Note that 
+$$
+\sqrt{n}(s^{2} - \sigma^{2}) = \sigma^{2} \sqrt{n}\left( \overline{w}_{n-k} - 1 \right).
+$$
+This expression resembles the one in a., but not exactly. Note that we can claim the following. If 
+$$
+\frac{1}{\sqrt{n}}\sum_{i=1}^{n} v_{i} = \frac{\sqrt{n}(\overline{w}_{n} - 1)}{\sqrt{2}} \xrightarrow{d} N(0,1),
+$$
+then multiplying the expression by $\sqrt{2}$ yields
+$$
+\sqrt{n}(\overline{w}_{n} - 1) \xrightarrow{d} N(0,2),
+$$
+Lastly, to exactly get our expression of interest, we have to multiply by $\sigma^{2}$ to obtain
+$$
+\sigma^{2} \sqrt{n}(\overline{w}_{n} - 1) \xrightarrow{d} N(0,2\sigma^{4}).
+$$
+
+
+:::

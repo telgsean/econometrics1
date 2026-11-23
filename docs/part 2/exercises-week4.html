@@ -732,6 +732,8 @@ window.Quarto = {
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
   <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
+  <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
+  <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6">Exercise 6</a></li>
   </ul>
 </nav>
     </div>
@@ -766,7 +768,7 @@ window.Quarto = {
 
 <section id="exercise-1" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
-<p>Consider the simple linear regression model. We revisit the asymptotic distribution of <span class="math display">\[
+<p>Consider the simple linear regression model, where the regressor is assumed random. We revisit the asymptotic distribution of <span class="math display">\[
 \sqrt{n} (\hat{\beta}_2 - \beta_2) = \frac{ \frac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \overline{x}_{n} ) u_i }{\frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}_{n})^{2} }.
 \]</span></p>
 <p>Last week, we have shown <span class="math display">\[
@@ -1062,6 +1064,97 @@ y_i = \beta_1 + \beta_2 x_i + u_i \qquad (i = 1, 2, \ldots , n).
 <ol type="a">
 <li><p>If the variance of the errors is small, i.e.&nbsp;<span class="math inline">\(\Var(u_i)\)</span> is small, then the data will have a tighter scatter around the population regression line so its slope will be estimated more precisely. So the variance of the OLS slope coefficient estimator is smaller if the variance of the errors is smaller while everything else is being kept the same. The larger the variance of the <span class="math inline">\(x_i\)</span>’s the smaller the variance of the LS slope coefficient estimator. If there is more variation in the data then the slope coefficient can be estimated more precisely.</p></li>
 <li><p>See the graphs above.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5">Exercise 5</h2>
+<p>Consider the <em>intercept-only model</em> <span class="math display">\[
+y_{i} = \beta + u_{i},
+\]</span> for which Assumptions 2.1, 2.2, 2.3 and 2.5 hold. Derive the asymptotic distribution of <span class="math display">\[
+\sqrt{n}(\hat{\beta} - \beta),
+\]</span> where <span class="math inline">\(\hat{\beta}\)</span> denotes the least-squares estimator.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The least-squares estimator in the intercept-only model is given by <span class="math inline">\(\hat{\beta} = \overline{y}_{n}\)</span>. By filling in the data-generation process, we obtain <span class="math display">\[
+\hat{\beta} = \overline{y}_{n} = \beta + \overline{u}_{n},
+\]</span> such that <span class="math display">\[
+\sqrt{n}(\hat{\beta} - \beta) = \sqrt{n}\overline{u}_{n}.
+\]</span> The Lindeberg-Lévy central limit theorem tell us that <span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} v_{i} \xrightarrow{d} N(0,1),
+\]</span> for a sequence of i.i.d. random variables <span class="math inline">\(v_{1}, \ldots, v_{n}\)</span> with mean zero and variance one. Because <span class="math inline">\(u_{i}\)</span> has mean zero and variance <span class="math inline">\(\sigma^{2}\)</span>, we get <span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} \left( \frac{u_{i}}{\sigma} \right) \xrightarrow{d} N(0,1).
+\]</span> By noting that <span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} u_{i} = \frac{n}{\sqrt{n}} \frac{1}{n}\sum_{i=1}^{n} u_{i} = \sqrt{n} \overline{u}_{n},
+\]</span> we can conclude that <span class="math display">\[
+\sqrt{n}\overline{u}_{n} = \sigma \cdot \frac{1}{\sqrt{n}} \sum_{i=1}^{n} \left( \frac{u_{i}}{\sigma} \right)  \xrightarrow{d} \sigma \cdot N(0, 1) =  N(0, \sigma^{2}).
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-6" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
+<p>Consider the model <span class="math display">\[
+y = X\beta + u,
+\]</span> for which Assumptions 2.1-2.5 hold. Suppose we have a sequence <span class="math inline">\(w_{1}, \ldots, w_{n}\)</span> of i.i.d. random variables from a <span class="math inline">\(\chi^{2}(1)\)</span> distribution where <span class="math inline">\(E(w_{i}) = 1\)</span> and <span class="math inline">\(\Var(w_{i}) = 2\)</span>.</p>
+<ol type="a">
+<li><p>Show that <span class="math inline">\(\frac{1}{\sqrt{n}}\sum_{i=1}^{n} \left(\frac{ w_{i} - 1}{\sqrt{2}} \right) = \frac{\sqrt{n}(\overline{w}_{n} - 1)}{\sqrt{2}} \xrightarrow{d} N(0,1)\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(\frac{(n-k)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-k)\)</span>.</p></li>
+<li><p>Explain under what condition we can write <span class="math inline">\(\frac{(n-k)s^{2}}{\sigma^{2}} = \sum_{i=1}^{n-k} w_{i}\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(s^{2} = \sigma^{2}\overline{w}_{n-k}\)</span>, where <span class="math inline">\(\overline{w}_{n-k} = \frac{1}{n-k}\sum_{i=1}^{n-k} w_{i}\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(\sqrt{n}(s^{2} - \sigma^{2}) = \sigma^{2}\sqrt{n}\left(\overline{w}_{n-k} - 1 \right)\)</span>.</p></li>
+<li><p>Use the result in a. to establish the asymptotic distribution of <span class="math inline">\(\sqrt{n}(s^{2} - \sigma^{2})\)</span>.</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>We first have to standardize the random variabe <span class="math inline">\(w_{i}\)</span> as <span class="math inline">\(v_{i} = \frac{w_{i} - 1}{\sqrt{2}}\)</span>. That is, <span class="math inline">\(v_{i}\)</span> is i.i.d. with mean zero and unit variance. We can now immediately apply the Lindeberg-Lévy central limit theorem to get the desired result: <span class="math display">\[
+\frac{1}{\sqrt{n}}\sum_{i=1}^{n} v_{i} = \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \left(\frac{w_{i} - 1}{\sqrt{2}} \right) \xrightarrow{d} N(0,1).
+\]</span> Lastly, note that since <span class="math inline">\(\overline{w}_{n} = \frac{1}{n}\sum_{i=1}^{n} w_{i}\)</span>, we note that the following expressions <span class="math display">\[
+\frac{1}{n^{1/2}} \sum_{i=1}^{n} (w_{i} - 1) = \frac{n}{n^{1/2}} \cdot \frac{1}{n} \sum_{i=1}^{n} (w_{i} - 1) = \sqrt{n} (\overline{w}_{n} - 1)
+\]</span> are the same.</p></li>
+<li><p>Since <span class="math inline">\(u \sim N(0, \sigma^{2}I_{n})\)</span>, we know that <span class="math inline">\(v = u/\sigma \sim N(0, I_{n})\)</span>. Since <span class="math inline">\(e = Mu\)</span>, we get <span class="math inline">\(e'e = u'Mu\)</span> with <span class="math inline">\(M\)</span> symmetric, idempotent and rank <span class="math inline">\(n-k\)</span>. Therefore <span class="math display">\[
+v'Mv = \frac{u'Mu}{\sigma^{2}} = \frac{e'e}{\sigma^{2}} \sim \chi^{2}(n-k).
+\]</span> By noting that <span class="math inline">\(s^{2} = e'e/(n-k)\)</span> such that <span class="math inline">\(e'e = (n-k)s^{2}\)</span>, we get the desired result. (Note: our derivations heavily depend on the normality of the error term).</p></li>
+<li><p>We know that if <span class="math inline">\(w_{i} \overset{i.i.d.}{\sim} \chi^{2}(1)\)</span>, then <span class="math inline">\(\sum_{i=1}^{n-k} w_{i} \sim \chi^{2}(n-k)\)</span>.</p></li>
+<li><p>This is easily established by multiplying <span class="math inline">\(\frac{(n-k)s^{2}}{\sigma^{2}} = \sum_{i=1}^{n-k} w_{i}\)</span> by <span class="math inline">\(1/(n-k)\)</span> and <span class="math inline">\(\sigma^{2}\)</span>: <span class="math display">\[
+\frac{1}{n-k} \cdot \sigma^{2} \cdot \frac{(n-k)s^{2}}{\sigma^{2}} = \sigma^{2} \overline{w}_{n-k},
+\]</span> where <span class="math inline">\(\overline{w}_{n-k} = \frac{1}{n-k}\sum_{i=1}^{n-k} w_{i}\)</span>.</p></li>
+<li><p>Subtracting <span class="math inline">\(\sigma^{2}\)</span> from both sides of the equation in d.&nbsp;yields <span class="math display">\[
+s^{2} - \sigma^{2} = \sigma^{2}\overline{w}_{n-k} - \sigma^{2} = \sigma^{2} \left( \overline{w}_{n-k} - 1 \right).
+\]</span></p></li>
+<li><p>Note that <span class="math display">\[
+\sqrt{n}(s^{2} - \sigma^{2}) = \sigma^{2} \sqrt{n}\left( \overline{w}_{n-k} - 1 \right).
+\]</span> This expression resembles the one in a., but not exactly. Note that we can claim the following. If <span class="math display">\[
+\frac{1}{\sqrt{n}}\sum_{i=1}^{n} v_{i} = \frac{\sqrt{n}(\overline{w}_{n} - 1)}{\sqrt{2}} \xrightarrow{d} N(0,1),
+\]</span> then multiplying the expression by <span class="math inline">\(\sqrt{2}\)</span> yields <span class="math display">\[
+\sqrt{n}(\overline{w}_{n} - 1) \xrightarrow{d} N(0,2),
+\]</span> Lastly, to exactly get our expression of interest, we have to multiply by <span class="math inline">\(\sigma^{2}\)</span> to obtain <span class="math display">\[
+\sigma^{2} \sqrt{n}(\overline{w}_{n} - 1) \xrightarrow{d} N(0,2\sigma^{4}).
+\]</span></p></li>
 </ol>
 </div>
 </div>
