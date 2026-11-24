@@ -5,3 +5,177 @@ author:
       url: https://research.vu.nl/en/persons/sean-telg/
 copyright: "Sean Telg, 2026. All Rights Reserved"
 ---
+
+## Exercise 1
+Consider the following data generating process (DGP): $x_{i} \sim U[1,2], u_{i} \sim N(0, x_{i})$ and $y_{i} = 20 + 2x_{i} + u_{i}$. Since the variance of $u_{i}$ depends on $x_{i}$, we have data with heteroskedasticity. Implement a simulation study that considers $n=5, 20, 80$ and $320$ with number of iterations $m$ equal to $10,000$. Estimate in each iteration the model $y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}$ by least squares.
+
+a. Compute sample statistics for $\hat{\beta}_{2}$ (mean, standard deviation, skewness, kurtosis).
+b. Comment on the sample distribution of $\hat{\beta}_{2}$. Is there evidence that $\hat{\beta}_{2}$ is unbiased? Does the standard deviation decrease as $n$ grows larger? Do the skewness and kurtosis tend to the values you expect for a normal distribution?
+c. Are the results in b. as you expected? Explain why (not).
+
+::: {.callout-caution title="Solution" collapse = true}
+
+a. See code below.
+
+b. Comment on the sample distribution of $\hat{\beta}_{2}$.
+
+  *Is there evidence that $\hat{\beta}_{1}$ is unbiased?* Yes, the distribution appears to be centered around the true value for all sample sizes.
+
+  *Does the standard deviation decrease as $n$ grows larger?* Yes, but it does so slower compared to the case of homoskedasticity.
+
+  *Do the skewness and kurtosis tend to the values you expect for a normal distribution?* Yes, towards skewness = 0 (perfect symmetry) and kurtosis = 3 (fatness of tails for normal distribution).
+
+c. Yes, the results are as expected. The presence of heteroskedasticity does not affect the unbiasedness, consistency and asymptotic normality of the OLS estimators. We did not require homoskedasticity to show those properties. Heteroskedasticity affects only the efficiency of an estimator. 
+
+:::
+
+```{r}
+#| code-fold: true
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 4
+#| code-summary: "Click here to see the corresponding R code"
+
+## Set parameters
+set.seed(9999)
+m <- 10000
+n <- c(5, 20, 80, 320)
+beta <- c(20, 2)
+scen <- length(n)
+beta1_hat <- matrix(data = 0, nr = m, ncol = scen)
+beta2_hat <- matrix(data = 0, nr = m, ncol = scen)
+
+
+for (obs in 1:scen){
+  for (iter in 1:m){
+    x <- runif(n[obs], 1, 2)
+    u <- rnorm(n[obs], 0, sqrt(x))
+    # As an extra, u is N(0,1.5) distributed (homoskedasticity):
+    u_tilde <- rnorm(n[obs], 0, sqrt(1.5))
+    y <- beta[1] + beta[2] * x + u
+
+    fit <- lm(y ~ x)
+    beta1_hat[iter, obs] <- fit$coefficients[1]
+    beta2_hat[iter, obs] <- fit$coefficients[2]
+  }
+}
+
+hist(beta1_hat[, 1], main = "for n=5", xlab = "")
+hist(beta2_hat[, 1], main = "for n=5", xlab = "")
+hist(beta1_hat[, 2], main = "for n=20", xlab = "")
+hist(beta2_hat[, 2], main = "for n=20", xlab = "")
+hist(beta1_hat[, 3], main = "for n=80", xlab = "")
+hist(beta2_hat[, 3], main = "for n=80", xlab = "")
+hist(beta1_hat[, 4], main = "for n=320", xlab = "")
+hist(beta2_hat[, 4], main = "for n=320", xlab = "")
+
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click here to see the corresponding R code"
+
+nstat <- 4
+beta2_hat_samplestat <- matrix(data = 0, nrow = nstat, ncol = scen)
+rownames(beta2_hat_samplestat) <- c("mean", "variance", "skewness", "kurtosis")
+colnames(beta2_hat_samplestat) <- paste0("n=", n)
+
+for (obs in 1:scen){
+
+  beta2_hat_samplestat[1, obs] <- mean(beta2_hat[, obs])
+  beta2_hat_samplestat[2, obs] <- var(beta2_hat[, obs])
+  m2 <- (1 / m) * sum((beta2_hat[, obs] - mean(beta2_hat[, obs]))^2)
+  m3 <- (1 / m) * sum((beta2_hat[, obs] - mean(beta2_hat[, obs]))^3)
+  m4 <- (1 / m) * sum((beta2_hat[, obs] - mean(beta2_hat[, obs]))^4)
+  beta2_hat_samplestat[3, obs] <- m3 / m2^(3 / 2)   ## Manual skewness
+  beta2_hat_samplestat[4, obs] <- m4 / m2^2       ## Manual kurtosis
+}
+
+round(beta2_hat_samplestat, 5)
+
+```
+
+## Exercise 2
+*(6.17 in ME)* Download the data file ME-data-6-01.xlsx. This file contains two data sets: $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$. For both of these data sets, run the regression
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n),
+$$
+and save the residuals.
+
+a. For the first data set, plot the regressor $x$ against the residuals. What do you see? Why would an empirical researcher be interested in this plot?
+
+b. For the second data set, plot the regressor $x$ against the *squared* residuals. What do you see now? Why would an empirical researcher be interested in this plot?
+
+::: {.callout-caution title="Solution" collapse = true}
+
+The full solution can be found in the book *Mastering Econometrics*, Exercise 6.17.
+
+:::
+
+
+## Exercise 3
+*(6.18 in ME)* Consider the model
+$$
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
+$$
+
+a. Show that the assumption $E(u_{i} | x_{i}) = 0$ implies that $E(u_{i}) = 0$ and $\mbox{Cov}(x_{i}, u_{i}) = 0$.
+
+b. To test whether $E(u_{i} | x_{i}) = 0$ holds, a researcher proposes to save the residuals $e$, then run the regression
+$$
+e_{i} = \alpha_{1} + \alpha_{2} x_{i} + \varepsilon_{i}, \qquad (i = 1, \ldots, n),
+$$
+and finally test $H_{0}: \alpha_{2} = 0$ against $H_{1}: \alpha_{2} \neq 0$. Explain why this procedure does not work.
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. The law of total expectation is useful here.
+
+b. Write down the least-squares estimator of $\alpha_{2}$ and link it to the first-order conditions of the original model you estimated. 
+
+:::
+
+## Exercise 4
+*(6.20 in ME)* Suppose the DGP is given by $y = \beta x + u$, where $\beta$ is a scalar and $x$, $u$, and $y$ are $n \times 1$ random vectors. We do not observe $y$ and $x$, but rather $\tilde{y} = y + v$ and $\tilde{x} = x + w$ due to *measurement errors*. Assume that $E(v) = E(w) = 0$ and that $\Var(v) = \sigma^{2}_{v} I_{n}$ and $\Var(w) = \sigma^{2}_{w}I_{n}$.
+
+a. Rewrite the DGP in terms of the observed $\tilde{y}$ and $\tilde{x}$.
+
+b. Why can we not estimate this model using least squares?
+
+::: {.callout-caution title="Hint" collapse = true}
+
+a. You should obtain $\tilde{y} = \beta\tilde{x} + \tilde{u}$, where $\tilde{u} = u + v - \beta w$.
+
+b. How about strict exogeneity in this model?
+
+:::
+
+## Exercise 5
+
+Consider the dataset *CigarettesB*. Let's estimate a linear regression model and assess whether the model adheres to some of the main assumptions.
+
+a. Display the data in a scatter plot and comment on what you see.
+
+b. Run a linear regression between the log of cigarette consumption (in packs) p.p. and the log of the real price of cigarettes in each state. Comment on the estimation results and the fit of the model.
+
+c. Make a plot of the exogenous regressor (horizontal axis) versus the residuals (vertical axis). Is there a clear pattern visible in the graph? In any case, test for functional misspecification (quadratic relation).
+
+d. Perform the Breusch-Pagan test for homoskedasticity. Perform two separate tests for $x_{i}$ and $x_{i}^{2}$ as regressor. Is there any evidence of heteroskedasticity?
+
+e. Based on the result of the Breusch-Pagan test: should one test for normality using the residuals or the standardized residuals? Perform the Jarque-Bera test: can we claim that we have normally distributed errors?
+
+::: {.callout-caution title="Short solutions" collapse = true}
+
+a. The data appears to be downward-sloping and there appears to be heteroskedasticity, as the observations seem to be "fanning out".  
+
+b. As expected, we find a downward-sloping relationship. Both the intercept and the slope are significantly different from zero at the $5\%$ significance level. About $30\%$ of the variation in the log of cigarette consumption can be explained by the log of the real price of cigarettes.
+
+c. No clear pattern can be observed. The test for functional misspecification confirms this. With a p-value of $12.9\%$, we cannot reject the null that $H_{0}: \alpha_{2} = 0$.
+
+d. Both tests result in not rejecting the null hypothesis - with p-values of $48.6\%$ and $40.6\%$ respectively. This result might be surprising, but some graphs can provide support:
+   - The graph of the residuals versus the exogenous regressor show that the "fanning out" effect is already much less. Arguably, the variation seems a bit larger in the $[0.15, 0.2]$ interval of log-price, but this is too little for a testing procedure to detect it as heteroskedasticity.
+   - Graphing the Breusch-Pagan regression results also seem to confirm that only a single observation is very different from the others. Overall, the spread in the residuals seems quite equal over the interval of the exogenous regressor.  
+
+e. Since there is no clear sign of heteroskedasticity, we do not have to standardize our residuals. A p-value of $54.6\%$ provides evidence in favor of the null hypothesis of normality.
+
+:::

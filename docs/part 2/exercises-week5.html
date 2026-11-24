@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -243,6 +278,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -659,8 +723,18 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
+  <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -691,8 +765,261 @@ window.MathJax = {
 </header>
 
 
+<section id="exercise-1" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
+<p>Consider the following data generating process (DGP): <span class="math inline">\(x_{i} \sim U[1,2], u_{i} \sim N(0, x_{i})\)</span> and <span class="math inline">\(y_{i} = 20 + 2x_{i} + u_{i}\)</span>. Since the variance of <span class="math inline">\(u_{i}\)</span> depends on <span class="math inline">\(x_{i}\)</span>, we have data with heteroskedasticity. Implement a simulation study that considers <span class="math inline">\(n=5, 20, 80\)</span> and <span class="math inline">\(320\)</span> with number of iterations <span class="math inline">\(m\)</span> equal to <span class="math inline">\(10,000\)</span>. Estimate in each iteration the model <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}\)</span> by least squares.</p>
+<ol type="a">
+<li>Compute sample statistics for <span class="math inline">\(\hat{\beta}_{2}\)</span> (mean, standard deviation, skewness, kurtosis).</li>
+<li>Comment on the sample distribution of <span class="math inline">\(\hat{\beta}_{2}\)</span>. Is there evidence that <span class="math inline">\(\hat{\beta}_{2}\)</span> is unbiased? Does the standard deviation decrease as <span class="math inline">\(n\)</span> grows larger? Do the skewness and kurtosis tend to the values you expect for a normal distribution?</li>
+<li>Are the results in b. as you expected? Explain why (not).</li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>See code below.</p></li>
+<li><p>Comment on the sample distribution of <span class="math inline">\(\hat{\beta}_{2}\)</span>.</p></li>
+</ol>
+<p><em>Is there evidence that <span class="math inline">\(\hat{\beta}_{1}\)</span> is unbiased?</em> Yes, the distribution appears to be centered around the true value for all sample sizes.</p>
+<p><em>Does the standard deviation decrease as <span class="math inline">\(n\)</span> grows larger?</em> Yes, but it does so slower compared to the case of homoskedasticity.</p>
+<p><em>Do the skewness and kurtosis tend to the values you expect for a normal distribution?</em> Yes, towards skewness = 0 (perfect symmetry) and kurtosis = 3 (fatness of tails for normal distribution).</p>
+<ol start="3" type="a">
+<li>Yes, the results are as expected. The presence of heteroskedasticity does not affect the unbiasedness, consistency and asymptotic normality of the OLS estimators. We did not require homoskedasticity to show those properties. Heteroskedasticity affects only the efficiency of an estimator.</li>
+</ol>
+</div>
+</div>
+</div>
+<details class="code-fold">
+<summary>Click here to see the corresponding R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Set parameters</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9999</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">80</span>, <span class="dv">320</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>scen <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>beta1_hat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nr =</span> m, <span class="at">ncol =</span> scen)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>beta2_hat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nr =</span> m, <span class="at">ncol =</span> scen)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (obs <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>scen){</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n[obs], <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n[obs], <span class="dv">0</span>, <span class="fu">sqrt</span>(x))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># As an extra, u is N(0,1.5) distributed (homoskedasticity):</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    u_tilde <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n[obs], <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">1.5</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> u</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    beta1_hat[iter, obs] <span class="ot">&lt;-</span> fit<span class="sc">$</span>coefficients[<span class="dv">1</span>]</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    beta2_hat[iter, obs] <span class="ot">&lt;-</span> fit<span class="sc">$</span>coefficients[<span class="dv">2</span>]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta1_hat[, <span class="dv">1</span>], <span class="at">main =</span> <span class="st">"for n=5"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta2_hat[, <span class="dv">1</span>], <span class="at">main =</span> <span class="st">"for n=5"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta1_hat[, <span class="dv">2</span>], <span class="at">main =</span> <span class="st">"for n=20"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta2_hat[, <span class="dv">2</span>], <span class="at">main =</span> <span class="st">"for n=20"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta1_hat[, <span class="dv">3</span>], <span class="at">main =</span> <span class="st">"for n=80"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta2_hat[, <span class="dv">3</span>], <span class="at">main =</span> <span class="st">"for n=80"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta1_hat[, <span class="dv">4</span>], <span class="at">main =</span> <span class="st">"for n=320"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(beta2_hat[, <span class="dv">4</span>], <span class="at">main =</span> <span class="st">"for n=320"</span>, <span class="at">xlab =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exercises-week5_files/figure-html/unnamed-chunk-1-8.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Click here to see the corresponding R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nstat <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>beta2_hat_samplestat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> nstat, <span class="at">ncol =</span> scen)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(beta2_hat_samplestat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"variance"</span>, <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(beta2_hat_samplestat) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"n="</span>, n)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (obs <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>scen){</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  beta2_hat_samplestat[<span class="dv">1</span>, obs] <span class="ot">&lt;-</span> <span class="fu">mean</span>(beta2_hat[, obs])</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  beta2_hat_samplestat[<span class="dv">2</span>, obs] <span class="ot">&lt;-</span> <span class="fu">var</span>(beta2_hat[, obs])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> m) <span class="sc">*</span> <span class="fu">sum</span>((beta2_hat[, obs] <span class="sc">-</span> <span class="fu">mean</span>(beta2_hat[, obs]))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  m3 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> m) <span class="sc">*</span> <span class="fu">sum</span>((beta2_hat[, obs] <span class="sc">-</span> <span class="fu">mean</span>(beta2_hat[, obs]))<span class="sc">^</span><span class="dv">3</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  m4 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> m) <span class="sc">*</span> <span class="fu">sum</span>((beta2_hat[, obs] <span class="sc">-</span> <span class="fu">mean</span>(beta2_hat[, obs]))<span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  beta2_hat_samplestat[<span class="dv">3</span>, obs] <span class="ot">&lt;-</span> m3 <span class="sc">/</span> m2<span class="sc">^</span>(<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>)   <span class="do">## Manual skewness</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  beta2_hat_samplestat[<span class="dv">4</span>, obs] <span class="ot">&lt;-</span> m4 <span class="sc">/</span> m2<span class="sc">^</span><span class="dv">2</span>       <span class="do">## Manual kurtosis</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(beta2_hat_samplestat, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>              n=5    n=20     n=80    n=320
+mean      2.03288 2.00055  2.00458  1.99830
+variance  7.46723 0.98641  0.22794  0.05666
+skewness -0.53873 0.01816 -0.04301 -0.01224
+kurtosis 12.46247 3.19275  3.01636  3.02230</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
+<p><em>(6.17 in ME)</em> Download the data file ME-data-6-01.xlsx. This file contains two data sets: <span class="math inline">\((x_{1}, y_{1})\)</span> and <span class="math inline">\((x_{2}, y_{2})\)</span>. For both of these data sets, run the regression <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n),
+\]</span> and save the residuals.</p>
+<ol type="a">
+<li><p>For the first data set, plot the regressor <span class="math inline">\(x\)</span> against the residuals. What do you see? Why would an empirical researcher be interested in this plot?</p></li>
+<li><p>For the second data set, plot the regressor <span class="math inline">\(x\)</span> against the <em>squared</em> residuals. What do you see now? Why would an empirical researcher be interested in this plot?</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The full solution can be found in the book <em>Mastering Econometrics</em>, Exercise 6.17.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p><em>(6.18 in ME)</em> Consider the model <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n).
+\]</span></p>
+<ol type="a">
+<li><p>Show that the assumption <span class="math inline">\(E(u_{i} | x_{i}) = 0\)</span> implies that <span class="math inline">\(E(u_{i}) = 0\)</span> and <span class="math inline">\(\mbox{Cov}(x_{i}, u_{i}) = 0\)</span>.</p></li>
+<li><p>To test whether <span class="math inline">\(E(u_{i} | x_{i}) = 0\)</span> holds, a researcher proposes to save the residuals <span class="math inline">\(e\)</span>, then run the regression <span class="math display">\[
+e_{i} = \alpha_{1} + \alpha_{2} x_{i} + \varepsilon_{i}, \qquad (i = 1, \ldots, n),
+\]</span> and finally test <span class="math inline">\(H_{0}: \alpha_{2} = 0\)</span> against <span class="math inline">\(H_{1}: \alpha_{2} \neq 0\)</span>. Explain why this procedure does not work.</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>The law of total expectation is useful here.</p></li>
+<li><p>Write down the least-squares estimator of <span class="math inline">\(\alpha_{2}\)</span> and link it to the first-order conditions of the original model you estimated.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
+<p><em>(6.20 in ME)</em> Suppose the DGP is given by <span class="math inline">\(y = \beta x + u\)</span>, where <span class="math inline">\(\beta\)</span> is a scalar and <span class="math inline">\(x\)</span>, <span class="math inline">\(u\)</span>, and <span class="math inline">\(y\)</span> are <span class="math inline">\(n \times 1\)</span> random vectors. We do not observe <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>, but rather <span class="math inline">\(\tilde{y} = y + v\)</span> and <span class="math inline">\(\tilde{x} = x + w\)</span> due to <em>measurement errors</em>. Assume that <span class="math inline">\(E(v) = E(w) = 0\)</span> and that <span class="math inline">\(\Var(v) = \sigma^{2}_{v} I_{n}\)</span> and <span class="math inline">\(\Var(w) = \sigma^{2}_{w}I_{n}\)</span>.</p>
+<ol type="a">
+<li><p>Rewrite the DGP in terms of the observed <span class="math inline">\(\tilde{y}\)</span> and <span class="math inline">\(\tilde{x}\)</span>.</p></li>
+<li><p>Why can we not estimate this model using least squares?</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Hint">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Hint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>You should obtain <span class="math inline">\(\tilde{y} = \beta\tilde{x} + \tilde{u}\)</span>, where <span class="math inline">\(\tilde{u} = u + v - \beta w\)</span>.</p></li>
+<li><p>How about strict exogeneity in this model?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5">Exercise 5</h2>
+<p>Consider the dataset <em>CigarettesB</em>. Let’s estimate a linear regression model and assess whether the model adheres to some of the main assumptions.</p>
+<ol type="a">
+<li><p>Display the data in a scatter plot and comment on what you see.</p></li>
+<li><p>Run a linear regression between the log of cigarette consumption (in packs) p.p. and the log of the real price of cigarettes in each state. Comment on the estimation results and the fit of the model.</p></li>
+<li><p>Make a plot of the exogenous regressor (horizontal axis) versus the residuals (vertical axis). Is there a clear pattern visible in the graph? In any case, test for functional misspecification (quadratic relation).</p></li>
+<li><p>Perform the Breusch-Pagan test for homoskedasticity. Perform two separate tests for <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(x_{i}^{2}\)</span> as regressor. Is there any evidence of heteroskedasticity?</p></li>
+<li><p>Based on the result of the Breusch-Pagan test: should one test for normality using the residuals or the standardized residuals? Perform the Jarque-Bera test: can we claim that we have normally distributed errors?</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled" title="Short solutions">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Short solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>The data appears to be downward-sloping and there appears to be heteroskedasticity, as the observations seem to be “fanning out”.</p></li>
+<li><p>As expected, we find a downward-sloping relationship. Both the intercept and the slope are significantly different from zero at the <span class="math inline">\(5\%\)</span> significance level. About <span class="math inline">\(30\%\)</span> of the variation in the log of cigarette consumption can be explained by the log of the real price of cigarettes.</p></li>
+<li><p>No clear pattern can be observed. The test for functional misspecification confirms this. With a p-value of <span class="math inline">\(12.9\%\)</span>, we cannot reject the null that <span class="math inline">\(H_{0}: \alpha_{2} = 0\)</span>.</p></li>
+<li><p>Both tests result in not rejecting the null hypothesis - with p-values of <span class="math inline">\(48.6\%\)</span> and <span class="math inline">\(40.6\%\)</span> respectively. This result might be surprising, but some graphs can provide support:</p>
+<ul>
+<li>The graph of the residuals versus the exogenous regressor show that the “fanning out” effect is already much less. Arguably, the variation seems a bit larger in the <span class="math inline">\([0.15, 0.2]\)</span> interval of log-price, but this is too little for a testing procedure to detect it as heteroskedasticity.</li>
+<li>Graphing the Breusch-Pagan regression results also seem to confirm that only a single observation is very different from the others. Overall, the spread in the residuals seems quite equal over the interval of the exogenous regressor.</li>
+</ul></li>
+<li><p>Since there is no clear sign of heteroskedasticity, we do not have to standardize our residuals. A p-value of <span class="math inline">\(54.6\%\)</span> provides evidence in favor of the null hypothesis of normality.</p></li>
+</ol>
+</div>
+</div>
+</div>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

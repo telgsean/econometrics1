@@ -69,3 +69,15 @@ We chose to define distance as the sum of **squared** deviations. Why do you thi
 Use your knowledge of calculus and analysis. Drawing some simple examples based on a very small $n$ might also be insightful!
 
 :::
+
+What can we expect based on this?
+
+- If $\Var(u) \neq \sigma^{2}I_{n}$, we minimize a different objective function and $\hat{\beta}$ will probably not have the smallest variance possible.
+- Without $E(u) = 0$ (for $X$ nonrandom) of $E(u | X) = 0$ (for $X$ random), the unbiasedness condition is no longer $A'X = I_{k}$. Thus, the lack of strict exogeneity might affect unbiasedness of $\hat{\beta}$. If the mean of $\hat{\beta}$ is affected, we might also lose consistency, which can be seen from Proposition 5.1. More specifically, without linearity of the model and $E(u) = 0$, we cannot compute
+$$
+\begin{aligned}
+E(\hat{\beta}) &= E((X'X)^{-1}X'y) \overset{(2.1)}{=} E((X'X)^{-1}X'(X\beta + u)) \\  
+&\overset{(2.2)}{=} \beta + (X'X)^{-1}X'E(u) \overset{(2.3)}{=} \beta.
+\end{aligned}
+$$
+If a violation of these assumptions introduces a bias term that does not vanish with $n$, then we do not have consistency. 

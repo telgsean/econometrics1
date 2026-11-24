@@ -845,6 +845,16 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>What can we expect based on this?</p>
+<ul>
+<li>If <span class="math inline">\(\Var(u) \neq \sigma^{2}I_{n}\)</span>, we minimize a different objective function and <span class="math inline">\(\hat{\beta}\)</span> will probably not have the smallest variance possible.</li>
+<li>Without <span class="math inline">\(E(u) = 0\)</span> (for <span class="math inline">\(X\)</span> nonrandom) of <span class="math inline">\(E(u | X) = 0\)</span> (for <span class="math inline">\(X\)</span> random), the unbiasedness condition is no longer <span class="math inline">\(A'X = I_{k}\)</span>. Thus, the lack of strict exogeneity might affect unbiasedness of <span class="math inline">\(\hat{\beta}\)</span>. If the mean of <span class="math inline">\(\hat{\beta}\)</span> is affected, we might also lose consistency, which can be seen from Proposition 5.1. More specifically, without linearity of the model and <span class="math inline">\(E(u) = 0\)</span>, we cannot compute <span class="math display">\[
+\begin{aligned}
+E(\hat{\beta}) &amp;= E((X'X)^{-1}X'y) \overset{(2.1)}{=} E((X'X)^{-1}X'(X\beta + u)) \\  
+&amp;\overset{(2.2)}{=} \beta + (X'X)^{-1}X'E(u) \overset{(2.3)}{=} \beta.
+\end{aligned}
+\]</span> If a violation of these assumptions introduces a bias term that does not vanish with <span class="math inline">\(n\)</span>, then we do not have consistency.</li>
+</ul>
 
 
 </section>
