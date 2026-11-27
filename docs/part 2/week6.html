@@ -243,6 +243,35 @@ window.MathJax = {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -659,8 +688,21 @@ window.MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-weeks-contents" id="toc-this-weeks-contents" class="nav-link active" data-scroll-target="#this-weeks-contents">This week’s contents</a></li>
+  <li><a href="#two-remedies-for-heteroskedasticity" id="toc-two-remedies-for-heteroskedasticity" class="nav-link" data-scroll-target="#two-remedies-for-heteroskedasticity">Two remedies for heteroskedasticity</a>
+  <ul class="collapse">
+  <li><a href="#testing-with-homo--and-heteroskedasticity" id="toc-testing-with-homo--and-heteroskedasticity" class="nav-link" data-scroll-target="#testing-with-homo--and-heteroskedasticity">Testing with homo- and heteroskedasticity</a></li>
+  <li><a href="#weighted-least-squares" id="toc-weighted-least-squares" class="nav-link" data-scroll-target="#weighted-least-squares">Weighted least squares</a></li>
+  <li><a href="#comparing-the-procedures" id="toc-comparing-the-procedures" class="nav-link" data-scroll-target="#comparing-the-procedures">Comparing the procedures</a></li>
+  </ul></li>
+  <li><a href="#prediction-intervals" id="toc-prediction-intervals" class="nav-link" data-scroll-target="#prediction-intervals">Prediction intervals</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -702,12 +744,91 @@ window.MathJax = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>This page.</li>
+<li>We finished all the material in the book. This week’s material is this page.</li>
 </ul>
 </div>
 </div>
+<section id="this-weeks-contents" class="level2">
+<h2 class="anchored" data-anchor-id="this-weeks-contents">This week’s contents</h2>
+<p>Last week, we discussed misspecification in the linear regression model. For some problems, e.g.&nbsp;functional misspecification, we considered remedies but not for all of them. For example, we have seen that non-normality of the error term and heteroskedasticity, do not affect ideal properties such as unbiasedness, consistency and asymptotic normality. It does, however, affect efficiency and inference. In particular, our least-squares estimator is no longer BLUE in the presence of heteroskedasticity. This week, we continue our journey of finding solutions for possible misspecification. We introduce <strong>homoskedasticity-only</strong> and <strong>heteroskedasticity-robust standard errors</strong>. Moreover, we consider an adapted version of least squares, which is called <strong>weighted least squares (WLS)</strong> as another way of tackling the problem of heteroskedasticity. Lastly, we have a look at <strong>small-sample</strong> and <strong>large-sample</strong> considerations, which is presented for <span class="math inline">\(t\)</span>-statistics and prediction intervals but extends beyond.</p>
+</section>
+<section id="two-remedies-for-heteroskedasticity" class="level2">
+<h2 class="anchored" data-anchor-id="two-remedies-for-heteroskedasticity">Two remedies for heteroskedasticity</h2>
+<p>In this section, we discuss two ways to tackle the presence of heteroskedasticity. The first one concerns adapting the standard errors, while the second approach entails introducing weights in our least squares approach. Note that both methods do not exclude each other; they might be used together.</p>
+<section id="testing-with-homo--and-heteroskedasticity" class="level3">
+<h3 class="anchored" data-anchor-id="testing-with-homo--and-heteroskedasticity">Testing with homo- and heteroskedasticity</h3>
+<p>For the simple linear regression model <span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}, \qquad (i = 1, \ldots, n),
+\]</span> we can derive the following test statistic <span id="eq-homot"><span class="math display">\[
+t = \frac{\hat{\beta}_{2} - \beta_{2}}{\sqrt{s^{2}/\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}} \sim t_{n-2}.
+\tag{1}\]</span></span> Note that this is exactly the derivation done in Section 3.5, but then explicitly written out for the simple linear regression model. Even though we did not call it explicitly like this yet, but we used the assumption of homoskedasticity to derive this result. That is, we assumed <span class="math inline">\(\Var(u) = \sigma^{2}I_{n}\)</span>. In addition, we explicitly needed normality of the error term to end up with this result. For this reason, we call (<a href="#eq-homot" class="quarto-xref">1</a>) the <strong>homoskedasticity-only <span class="math inline">\(t\)</span>-statistic</strong> and <span class="math inline">\(\sqrt{s^{2}/\sum_{i=1}^{n} (x_{i} - \overline{x})^{2}}\)</span> the <strong>homoskedasticity-only standard error</strong>. Note that it can be used for any sample size, but it requires the possibly restrictive assumptions of normality and homoskedasticity.</p>
+<p>Recall that we also derived the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\hat{\beta}_{2} - \beta_{2})\)</span> given by <span class="math display">\[
+\sqrt{n}(\hat{\beta}_{2} - \beta_{2}) \xrightarrow{d} N \left(0, \frac{\sigma^{2}_{v}}{\sigma_{x}^{4}} \right).
+\]</span> To derive this result, we do not require normality of the error term. As long as the finite variance condition for the Lindeberg-Lévy central limit theorem is fulfilled, we get asymptotic normality despite the error term possibly following a completely different distribution. We have briefly discussed that we can get the following <strong>large-sample approximation</strong>: <span id="eq-heterot"><span class="math display">\[
+t = \frac{\hat{\beta}_{2} - \beta_{2}}{\sigma_{\hat{\beta}_{2}}} \approx N(0,1)
+\tag{2}\]</span></span> <em>for large <span class="math inline">\(n\)</span></em>, where <span class="math inline">\(\sigma^{2}_{\hat{\beta}_{2}} = \frac{1}{n}\frac{\sigma^{2}_{v}}{\sigma^{4}_{x}} = \frac{1}{n}\frac{\Var[(x_{i} - \mu_{x})u_{i}]}{[\Var(x_{i})]^{2}}\)</span>. However, this test statistic is <strong>not feasible</strong> because we do not know <span class="math inline">\(\mu_{x}\)</span>, <span class="math inline">\(u_{i}\)</span>, <span class="math inline">\(\Var(x_{i})\)</span> and <span class="math inline">\(\Var[(x_{i} - \mu_{x})u_{i}]\)</span>. In the large-sample framework, there is a relatively easy solution to deal with this: replace the unknown quantities by <strong>consistent estimators</strong>. If we do this, we obtain the <strong>heteroskedasticity-robust standard error</strong>: <span id="eq-heterost"><span class="math display">\[
+s_{\hat{\beta_{2}}} = \sqrt{\frac{1}{n} \frac{\frac{1}{n-2}\sum_{i=1}^{n} [(x_{i} - \overline{x})e_{i}]^{2}}{[\frac{1}{n}\sum_{i=1}^{n}(x_{i} - \overline{x})^{2}]^{2}}},
+\tag{3}\]</span></span> and a corresponding <strong>heteroskedasticity-robust test statistic</strong> based on (<a href="#eq-heterot" class="quarto-xref">2</a>) where we replace <span class="math inline">\(\sigma_{\hat{\beta}_{2}}\)</span> by (<a href="#eq-heterost" class="quarto-xref">3</a>). Note however, that the distribution of this test statistic remains normal under the null. Replacing unknown quantities by consistent estimators does not change the distribution of our test statistic. Important to keep in mind is the following: this test statistic is more general in the sense that it also applies when the error term is non-normal and heteroskedastic, but it requires a large enough sample size <span class="math inline">\(n\)</span>. **Small note: there exist methods in which we can make our standard errors robust against heteroskedasticity even when sample size <span class="math inline">\(n\)</span> is relatively small, but this is outside the scope of this course.*</p>
+</section>
+<section id="weighted-least-squares" class="level3">
+<h3 class="anchored" data-anchor-id="weighted-least-squares">Weighted least squares</h3>
+<p>Let us once again consider the simple linear regression model, but this time we make explicit that all assumptions hold except homoskedasticity: <span id="eq-simplinhet"><span class="math display">\[
+y_{i} = \beta_{1} + \beta_{2} x_{i} + u_{i}, \qquad u_{i} \overset{i.i.d.}{\sim} N(0,\sigma^{2}_{i}), \qquad (i = 1, \ldots, n).
+\tag{4}\]</span></span> Suppose we know that the variance is a function of <span class="math inline">\(x_{i}\)</span>, i.e., <span class="math inline">\(\sigma^{2}_{i} = \Var(u_{i} | x_{i}) = \sigma^{2}f(x_{i})\)</span>, with <em>unknown</em> <span class="math inline">\(\sigma^{2}\)</span> and <em>known</em> function <span class="math inline">\(f\)</span> (for example, <span class="math inline">\(f(x) = x\)</span> or <span class="math inline">\(f(x) = x^{2}\)</span>). Since <span class="math inline">\(f(x_{i})\)</span> is known, we can multiply the model in (<a href="#eq-simplinhet" class="quarto-xref">4</a>) by <span class="math inline">\(1/\sqrt{f(x_{i})}\)</span> to obtain <span class="math display">\[
+\frac{y_{i}}{\sqrt{f(x_{i})}} = \beta_{1}\frac{1}{\sqrt{f(x_{i})}} + \beta_{2} \frac{x_{i}}{\sqrt{f(x_{i})}} + \frac{u_{i}}{\sqrt{f(x_{i})}}, \qquad \frac{u_{i}}{\sqrt{f(x_{i})}} \overset{i.i.d.}{\sim} N(0,\sigma^{2}), \qquad (i = 1, \ldots, n),
+\]</span> and notice how the new error <span class="math inline">\(u_{i}/\sqrt{f(x_{i})}\)</span> is now <em>homoskedastic</em>. We can rewrite this model as <span id="eq-simplinhomo"><span class="math display">\[
+\tilde{y}_{i} = \beta_{1}\tilde{x}_{i,1} + \beta_{2}\tilde{x}_{i,2} + \tilde{u}_{i},
+\tag{5}\]</span></span> with <span class="math inline">\(\tilde{u}_{i} \overset{i.i.d.}{\sim} N(0,\sigma^{2})\)</span>. Note that this newly obtained model (<a href="#eq-simplinhomo" class="quarto-xref">5</a>) now satifies all the assumption and thus least squares is again the best linear unbiased estimator. We call least squares applied to (<a href="#eq-simplinhomo" class="quarto-xref">5</a>) <strong>weighted least squares</strong>, because our objective is to minimize <span class="math display">\[
+\begin{aligned}
+&amp;\sum_{i=1} \left( \tilde{y}_{i} - \beta_{1}\tilde{x}_{i,1} + \beta_{2}\tilde{x}_{i,2}  \right)^{2} \\
+= &amp;\sum_{i=1} \left( \frac{y_{i}}{\sqrt{f(x_{i})}} - \beta_{1}\frac{1}{\sqrt{f(x_{i})}} + \beta_{2} \frac{x_{i}}{\sqrt{f(x_{i})}}  \right)^{2} \\
+= &amp;\sum_{i=1} \frac{1}{f(x_{i})} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2},
+\end{aligned}
+\]</span> i.e., <em>a weighted sum of squared deviations</em>, with larger weight <span class="math inline">\(1/f(x_{i}) = \sigma^{2}/\Var(u_{i} | x_{i})\)</span> for observations with smaller <span class="math inline">\(\Var(u_{i}|x_{i})\)</span>. Make sure you convince yourself that this is indeed the desirable situation (!).</p>
+<p>This is not the end of the story yet. Unfortunately, when we have heteroskedasticity we do not have an unknown <span class="math inline">\(\sigma^{2}\)</span> and a <em>known</em> <span class="math inline">\(f(x_{i})\)</span>. The introduction of weight least-squares so far, shows what we could do in one of the best case scenarios. However, we can use these insights to formulate a <strong>feasible</strong> weighted least-squares estimator. Let us make the less strict assumption that <span class="math inline">\(f\)</span> is unknown, but that we know its functional form, e.g.&nbsp;<span class="math inline">\(f(x_{i}) = \alpha_{1} + \alpha_{2}x_{i}\)</span>, where <span class="math inline">\(\alpha_{1}\)</span> and <span class="math inline">\(\alpha_{2}\)</span> are unknown. Note that we could them proceed as follows:</p>
+<ol type="1">
+<li><p>Perform least squares on <span class="math inline">\(y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}\)</span> and obtain the residuals <span class="math inline">\(e_{i}\)</span>.</p></li>
+<li><p>Use <span class="math inline">\(e_{i}^{2}\)</span> to estimate the variance <span class="math inline">\(\sigma^{2}_{i} = \Var(u_{i} | x_{i})\)</span>. For example, we can use least squares on the Breusch-Pagan test regression model <span class="math display">\[
+e_{i}^{2} = \alpha_{1} + \alpha_{2}x_{i} + \varepsilon_{i}, \qquad (i = 1, \ldots, n),
+\]</span> and estimate <span class="math display">\[
+\hat{\sigma}^{2}_{i} = \hat{\alpha}_{1} + \hat{\alpha}_{2} x_{i},
+\]</span> where we should check <span class="math inline">\(\hat{\sigma}_{i}^{2} &gt; 0\)</span> for all <span class="math inline">\(i = 1, \ldots, n\)</span>.</p></li>
+<li><p>We can perform weighted least-squares estimation to minimize <span class="math display">\[
+\sum_{i=1}^{n} \frac{1}{\hat{\sigma}_{i}^{2}} (y_{i} - \beta_{1} - \beta_{2}x_{i})^{2}.
+\]</span></p></li>
+</ol>
+<p>Thus, we require multiple steps with the goal to get an estimator that becomes closer to the best linear unbiased estimator. Note that we write ‘closer to’, because we still rely on an assumption here (a known functional form). If we completely misspecify the form of heteroskedasticity, these steps might not bring us closer. In practice, one can try out various forms of heteroskedasticity using the Breusch-Pagan test and choose the specification that fits best.</p>
+</section>
+<section id="comparing-the-procedures" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-the-procedures">Comparing the procedures</h3>
+<p>A choice between the heteroskedasticity-robust standard errors and weighted least squares requires weighing the advantages and disadvantages of each:</p>
+<ul>
+<li>WLS is asymptotically more efficient than LS.</li>
+<li>WLS requires knowing the functional form of the conditional variance function, which is rarely the case in practice.</li>
+<li>If the assumed functional form is incorrect, then WLS standard errors are invalid. Heteroskedasticity-robust standard errors do not need this assumption.</li>
+<li>Heteroskedasticity-robust standard errors produce asymptotically valid inferences.</li>
+</ul>
+<p>However, it is also important to note:</p>
+<ul>
+<li>WLS and heteroskedasticity-robust standard errors do <strong>not</strong> exclude each other. You can use both at the same time.</li>
+<li>WLS can be a <em>step in the right direction</em> in the sense that <span class="math inline">\(u_{i}/\hat{\sigma}_{i}\)</span> is ‘closer’ to homoskedasticity than <span class="math inline">\(u_{i}\)</span>.</li>
+</ul>
+</section>
+</section>
+<section id="prediction-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-intervals">Prediction intervals</h2>
+<p>We have now covered heteroskedasticity in detail, but another assumption that is often violated is normality. Let us consider the example of prediction intervals to see how an empirical researcher should proceed when such assumptions do not hold. For large <span class="math inline">\(n\)</span>, a prediction interval based on the simple linear regression model can be represented as <span id="eq-pred"><span class="math display">\[
+[\hat{E}(y_{i} | x_{i} = x) + c_{\alpha/2} \times \sqrt{\Var(u_{i})}, \quad \hat{E}(y_{i} | x_{i} = x) + c_{1-\alpha/2} \times \sqrt{\Var(u_{i})}],
+\tag{6}\]</span></span> where <span class="math inline">\(\hat{E}(y_{i} | x_{i} = x) = \hat{\beta}_{1} + \hat{\beta}_{2}x\)</span> (for some chosen value <span class="math inline">\(x\)</span>) and <span class="math inline">\(c_{\alpha/2}\)</span>, <span class="math inline">\(c_{1-\alpha/2}\)</span> are the critical values. Using our test procedures from last week, we can test for normality and homoskedasticity. How should we proceed if we reject normality? Note that the assumption of normality is only important here for the critical values. We could obtain more accurate critical values by</p>
+<ul>
+<li>Estimating a (known) non-normal distribution for the standardized residuals and compute the respective percentiles.</li>
+<li>Using the empirical distribution of the standardized residuals and compute the empirical <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> percentiles.</li>
+</ul>
+<p>Note that you need to have an idea about the shape of the distribution to choose another non-normal distribution in the first case, while you simple order the standardized residuals in the second case. For both, you end up taking the appropriate percentiles. If we choose <span class="math inline">\(\alpha = 0.05\)</span>, you take the <span class="math inline">\(2.5\%\)</span> and <span class="math inline">\(97.5\%\)</span> percentiles.</p>
+<p>What should we do if these is heteroskedasticity? This situation we have seen multiple times now. Note that in (<a href="#eq-pred" class="quarto-xref">6</a>), we should replace <span class="math inline">\(\Var(u_{i})\)</span> by <span class="math inline">\(\Var(u_{i} | x_{i})\)</span>. An estimator for this conditional variance can once again be obtained using the Breusch-Pagan test. What the effects will be on a prediction interval, will be covered in the weekly exercises.</p>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">Copyright</h2><div class="quarto-appendix-contents"><div>Sean Telg, 2026. All Rights Reserved</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

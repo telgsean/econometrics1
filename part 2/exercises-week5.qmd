@@ -96,7 +96,7 @@ round(beta2_hat_samplestat, 5)
 ```
 
 ## Exercise 2
-*(6.17 in ME)* Download the data file ME-data-6-01.xlsx. This file contains two data sets: $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$. For both of these data sets, run the regression
+*(6.17 in ME)* Download the data file ME-data-6-01.xlsx (available on Canvas). This file contains two data sets: $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$. For both of these data sets, run the regression
 $$
 y_{i} = \beta_{1} + \beta_{2}x_{i} + u_{i}, \qquad (i = 1, \ldots, n),
 $$
@@ -152,7 +152,7 @@ b. How about strict exogeneity in this model?
 
 ## Exercise 5
 
-Consider the dataset *CigarettesB*. Let's estimate a linear regression model and assess whether the model adheres to some of the main assumptions.
+Consider the dataset *CigarettesB* (available on Canvas). Let's estimate a linear regression model and assess whether the model adheres to some of the main assumptions.
 
 a. Display the data in a scatter plot and comment on what you see.
 
